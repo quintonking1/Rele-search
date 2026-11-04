@@ -1,0 +1,84 @@
+{
+  "agent": "baseline",
+  "timestamp": "2026-11-04T18:42:30.765945+00:00",
+  "tag": "seed",
+  "question": "Can people use Tessera on mobile without a connection?",
+  "as_of": "2026-06-30",
+  "k": 8,
+  "include_dates": true,
+  "models": {
+    "embedding": "gemini-embedding-2",
+    "embedding_dim": 768,
+    "generation": "gemini-3.6-flash",
+    "temperature": 0.0
+  },
+  "retrieved": [
+    {
+      "rank": 1,
+      "id": "R10-01",
+      "source_type": "changelog",
+      "date": "2026-05-19",
+      "score": 0.840992
+    },
+    {
+      "rank": 2,
+      "id": "C035",
+      "source_type": "complaint",
+      "date": "2026-03-30",
+      "score": 0.824238
+    },
+    {
+      "rank": 3,
+      "id": "R10-02",
+      "source_type": "changelog",
+      "date": "2026-05-19",
+      "score": 0.740247
+    },
+    {
+      "rank": 4,
+      "id": "C048",
+      "source_type": "complaint",
+      "date": "2026-04-29",
+      "score": 0.726632
+    },
+    {
+      "rank": 5,
+      "id": "C069",
+      "source_type": "complaint",
+      "date": "2026-06-29",
+      "score": 0.715744
+    },
+    {
+      "rank": 6,
+      "id": "R05-02",
+      "source_type": "changelog",
+      "date": "2026-03-03",
+      "score": 0.700276
+    },
+    {
+      "rank": 7,
+      "id": "C058",
+      "source_type": "complaint",
+      "date": "2026-05-29",
+      "score": 0.698132
+    },
+    {
+      "rank": 8,
+      "id": "R11-01",
+      "source_type": "changelog",
+      "date": "2026-06-02",
+      "score": 0.693928
+    }
+  ],
+  "prompt": {
+    "system": "You are a research assistant for the product team at Tessera, an all-in-one workspace app.\nAnswer the researcher's question using ONLY the retrieved records provided. Records are customer complaints and changelog items.\nCite the record IDs that support every claim in square brackets, for example [C054] or [R12-01].\nIf the records do not contain enough information to answer, say so.",
+    "user": "Retrieved records:\n\nid: R10-01\nsource_type: changelog\ndate: 2026-05-19\nproduct_area: mobile\ntitle: Offline pages on iOS and Android\ntext: Work offline on mobile\n\nTessera now works without a connection on iOS and Android. Until now, opening a page on mobile required a network connection, which made Tessera hard to rely on during flights, commutes, or anywhere with weak signal.\n\n**How it works**\n- Tap **\u22ef \u2192 Available offline** on any page to download it to your device, along with its images and attachments\n- Recently opened pages (up to your last 50) are also cached automatically\n- Offline pages can be read and edited without a connection\n- Changes sync automatically when you're back online, and an indicator at the top of each page shows its sync status\n\n**Good to know**\nIf someone else edits the same block while you're offline, Tessera keeps both versions and asks you which to keep when you reconnect. Databases can be made available offline too, though views with more than 5,000 rows will only download the first 5,000. Offline pages are stored encrypted on your device and are removed when you sign out.\n\n---\n\nid: C035\nsource_type: complaint\ndate: 2026-03-30\nproduct_area: mobile\ntitle: Can't open anything on a plane\ntext: I prepared my talk notes in Tessera and then couldn't open them on the flight because there was no connection. The app just shows a spinner.\n\n---\n\nid: R10-02\nsource_type: changelog\ndate: 2026-05-19\nproduct_area: mobile\ntitle: Recent pages home screen widget\ntext: Work offline on mobile\n\nA new home screen widget shows your most recently edited pages, so you can jump back into your work without opening the app first.\n\nTo add it, long-press your home screen, tap **+** (iOS) or **Widgets** (Android), and search for Tessera. The widget comes in two sizes: a small version with your three most recent pages, and a medium version with five pages and the time each was last edited.\n\nTap any page in the widget to open it directly. The widget refreshes every 15 minutes and whenever you close the Tessera app. Widgets show only page titles and icons, so no page content appears on your home screen.\n\n---\n\nid: C048\nsource_type: complaint\ndate: 2026-04-29\nproduct_area: mobile\ntitle: Need offline access on my commute\ntext: My train goes through a long stretch with no signal. I would like to read and edit my to-do pages without a connection and have them sync later.\n\n---\n\nid: C069\nsource_type: complaint\ndate: 2026-06-29\nproduct_area: mobile\ntitle: App takes ages to open\ntext: Every time I tap the Tessera icon I stare at a loading screen for several seconds before my page appears. I usually just open the website instead.\n\n---\n\nid: R05-02\nsource_type: changelog\ndate: 2026-03-03\nproduct_area: mail\ntitle: New mail arrives faster on Android\ntext: Mail, now in threads\n\nFixed an issue on Android where new emails could take up to 15 minutes to appear in Tessera Mail when the app was in the background. This was caused by the app's background sync being paused by battery optimization settings on some devices.\n\nTessera Mail now uses push notifications from our servers to trigger a sync, so new messages arrive within a few seconds on most devices. If you still see delays, check that Tessera is set to **Unrestricted** under your phone's battery settings. This release does not change how messages are grouped or displayed.\n\n---\n\nid: C058\nsource_type: complaint\ndate: 2026-05-29\nproduct_area: sharing and permissions\ntitle: No support for hardware security keys\ntext: Our security policy requires hardware keys for two-factor sign in. Tessera only supports authenticator apps, so we can't roll it out to the finance team.\n\n---\n\nid: R11-01\nsource_type: changelog\ndate: 2026-06-02\nproduct_area: calendar\ntitle: Booking links in Tessera Calendar\ntext: Share your availability\n\nYou can now share your availability with anyone using **booking links** in Tessera Calendar. Send a link, and the person on the other end picks a time that works without any back and forth.\n\n**How it works**\n1. In Tessera Calendar, click **Share availability \u2192 New booking link**\n2. Choose a meeting length, the hours you're available, and how much buffer to leave between meetings\n3. Copy the link and send it by email, chat, or add it to your signature\n\nWhen someone books a time, the event is added to your calendar with a video link, and both of you get a confirmation email. Booking links check every calendar you've connected to Tessera, so you won't be double booked.\n\n**Good to know**\nPeople booking a time do not need a Tessera account. You can create multiple booking links for different meeting types and turn any of them off at any time.\n\n---\n\nQuestion: Can people use Tessera on mobile without a connection?"
+  },
+  "answer": "Yes, as of May 19, 2026, Tessera supports offline use on both iOS and Android [R10-01]. \n\nKey details of offline functionality on mobile include:\n* **Downloading pages:** You can download specific pages along with their images and attachments by tapping **\u22ef \u2192 Available offline** [R10-01].\n* **Automatic caching:** Up to your last 50 recently opened pages are automatically cached for offline access [R10-01].\n* **Reading & editing:** Offline pages can be read and edited without an internet connection, and changes sync automatically once you are back online [R10-01].\n* **Sync status:** An indicator at the top of each page shows its current sync status [R10-01].\n* **Conflict resolution:** If someone else edits the same block while you are offline, Tessera preserves both versions and asks you which one to keep upon reconnecting [R10-01].\n* **Databases:** Databases can be made available offline, though views exceeding 5,000 rows will only download the first 5,000 rows [R10-01].\n* **Security:** Offline pages are encrypted on your device and are removed if you sign out [R10-01].\n\nPrior to this release, users could not open pages on mobile without a network connection, leading to customer complaints regarding flight and commute usage [C035, C048, R10-01].",
+  "cited_ids": [
+    "C035",
+    "C048",
+    "R10-01"
+  ],
+  "cited_not_retrieved": []
+}

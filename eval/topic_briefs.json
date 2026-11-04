@@ -1,0 +1,120 @@
+{
+  "_about": "One brief per group, input to eval/prompts/02_questions.md. Each describes a topic at the level a product researcher would know it. Briefs must not contain complaint wording, fixes, features, release names, or dates. Final group list is set when labels are written; add or rename briefs to match.",
+  "briefs": [
+    {
+      "group": "sidebar",
+      "product_area": "editor/pages",
+      "brief": "The left-hand sidebar: how people find, organize, and get around the pages in their workspace."
+    },
+    {
+      "group": "code blocks and pages",
+      "product_area": "editor/pages",
+      "brief": "Everyday page editing: writing and formatting content, code snippets, and copying or reusing existing pages."
+    },
+    {
+      "group": "relations",
+      "product_area": "databases",
+      "brief": "Connecting databases to each other, such as linking projects to tasks, and summarizing linked information."
+    },
+    {
+      "group": "large databases",
+      "product_area": "databases",
+      "brief": "Working with databases that hold many rows, across the different ways of viewing them."
+    },
+    {
+      "group": "mobile",
+      "product_area": "mobile",
+      "brief": "Using Tessera on phones and tablets: how people rely on the apps day to day and in different situations."
+    },
+    {
+      "group": "calendar",
+      "product_area": "calendar",
+      "brief": "Tessera Calendar: scheduling, events, and how calendar time relates to the rest of people's work."
+    },
+    {
+      "group": "mail",
+      "product_area": "mail",
+      "brief": "Tessera Mail: reading, organizing, and keeping up with email inside the workspace."
+    },
+    {
+      "group": "ai trust",
+      "product_area": "AI",
+      "brief": "How much people trust and rely on the answers Tessera AI gives them."
+    },
+    {
+      "group": "ai usage and languages",
+      "product_area": "AI",
+      "brief": "How widely Tessera AI is adopted across a workspace, by people working in different languages, and how admins oversee it."
+    },
+    {
+      "group": "guests and permissions",
+      "product_area": "sharing and permissions",
+      "brief": "Sharing pages with teammates and outside guests, and keeping track of who can see what."
+    },
+    {
+      "group": "recurring templates",
+      "product_area": "databases",
+      "brief": "Documents that teams produce repeatedly on a regular rhythm."
+    },
+    {
+      "group": "search",
+      "product_area": "search",
+      "brief": "Finding information in a workspace with search: what people look for and how they narrow results."
+    },
+    {
+      "group": "slack",
+      "product_area": "integrations",
+      "brief": "The Slack integration: how Tessera activity reaches people in Slack."
+    },
+    {
+      "group": "checkout and billing",
+      "product_area": "billing and plans",
+      "brief": "Paying for Tessera: choosing and changing plans, seats, payment, and invoices."
+    },
+    {
+      "group": "slash menu",
+      "product_area": "editor/pages",
+      "brief": "Adding new blocks to a page and discovering what kinds of content the editor offers."
+    },
+    {
+      "group": "github",
+      "product_area": "integrations",
+      "brief": "How engineering teams use Tessera alongside GitHub to plan and track their work."
+    },
+    {
+      "group": "accessibility",
+      "product_area": "databases",
+      "brief": "Using Tessera with assistive technology and without a mouse."
+    },
+    {
+      "group": "api v1",
+      "product_area": "API",
+      "brief": "Developers building integrations on the Tessera API for reading and writing pages."
+    },
+    {
+      "group": "webhooks",
+      "product_area": "API",
+      "brief": "Developers keeping external systems in sync with changes to Tessera databases."
+    },
+    {
+      "group": "ai autofill",
+      "product_area": "databases",
+      "brief": "Keeping database properties filled in and consistent as rows accumulate."
+    },
+    {
+      "group": "desktop apps",
+      "product_area": "editor/pages",
+      "brief": "Using the Tessera desktop apps on Mac and Windows: reliability and how they run over a long workday."
+    },
+    {
+      "group": "security and sign-in",
+      "product_area": "sharing and permissions",
+      "brief": "How organizations control sign-in to Tessera and meet their security policies."
+    },
+    {
+      "group": "microsoft teams",
+      "product_area": "integrations",
+      "brief": "How Tessera fits into companies whose daily communication runs outside Slack."
+    }
+  ]
+}

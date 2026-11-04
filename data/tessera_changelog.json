@@ -1,0 +1,1302 @@
+{
+  "product": "Tessera",
+  "product_description": "A fictional all-in-one workspace for notes, docs, databases, calendar, and mail, modeled on tools like Notion.",
+  "enums": {
+    "change_type": [
+      "new feature",
+      "improvement",
+      "bug fix",
+      "performance",
+      "security",
+      "deprecation",
+      "breaking change"
+    ],
+    "product_area": [
+      "editor/pages",
+      "databases",
+      "AI",
+      "search",
+      "sharing and permissions",
+      "calendar",
+      "mail",
+      "API",
+      "integrations",
+      "mobile",
+      "billing and plans"
+    ],
+    "platforms": [
+      "web",
+      "Mac",
+      "Windows",
+      "iOS",
+      "Android",
+      "API"
+    ],
+    "plan_availability": [
+      "Free",
+      "Plus",
+      "Business",
+      "Enterprise"
+    ],
+    "audience": [
+      "end user",
+      "workspace admin",
+      "developer"
+    ]
+  },
+  "releases": [
+    {
+      "release_id": "R01",
+      "version": "3.0",
+      "release_date": "2026-01-13",
+      "release_title": "A cleaner home for your workspace",
+      "release_summary": "Tessera 3.0 is our biggest visual update in two years. The sidebar has been rebuilt around teamspaces, code blocks support a dozen more languages, and duplicated pages finally keep their look.",
+      "items": [
+        {
+          "item_id": "R01-01",
+          "release_id": "R01",
+          "title": "Redesigned sidebar",
+          "description": "The sidebar has been rebuilt from the ground up. As workspaces grew, a single flat list of pages became hard to scan, so we reorganized it around how teams actually work.\n\n**What's new**\n- Pages are now grouped by **teamspace**, with each teamspace collapsible on its own\n- A dedicated **Favorites** section sits at the top, so the pages you open most are always one click away\n- **Private** pages live in their own area below your teamspaces\n- Drag a page from one teamspace to another directly in the sidebar to move it\n\n**What's changed**\nThe old flat page list has been retired. Existing pages were sorted into teamspaces automatically based on where they were shared. Pages that were not shared with any teamspace now appear under Private.\n\n**Good to know**\nWorkspace owners can reorder teamspaces for everyone in **Settings → Teamspaces**. Individual members can still collapse or hide teamspaces they don't use.",
+          "change_type": "improvement",
+          "product_area": "editor/pages",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R01-02",
+          "release_id": "R01",
+          "title": "12 new code block languages",
+          "description": "Code blocks now support syntax highlighting for 12 additional languages: Zig, Elixir, Terraform (HCL), Solidity, Nim, OCaml, Julia, Dart, Erlang, Haskell, PowerShell, and Nix.\n\nTo set a language, click the dropdown in the top left corner of any code block and start typing its name. Tessera will also try to detect the language automatically when you paste code, though you can always override it.\n\nHighlighting works in the editor, in exported PDFs, and in pages published to the web. Existing code blocks that were previously set to Plain Text are unchanged, so you may want to update older snippets by hand.",
+          "change_type": "improvement",
+          "product_area": "editor/pages",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user",
+            "developer"
+          ]
+        },
+        {
+          "item_id": "R01-03",
+          "release_id": "R01",
+          "title": "Duplicated pages keep their cover images",
+          "description": "Fixed an issue where duplicating a page would drop its cover image and page icon. The duplicate now copies the cover, icon, and cover position along with the page content.\n\nThis also applies to duplicating pages from templates and to duplicating database rows that are open as full pages. If you duplicated pages in the past few months and noticed they were missing covers, those copies will not be repaired automatically. You can re-add the cover by opening the original page, clicking **Change cover**, and copying the image link.",
+          "change_type": "bug fix",
+          "product_area": "editor/pages",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R02",
+      "version": "3.0.1",
+      "release_date": "2026-01-27",
+      "release_title": "Sidebar fixes and polish",
+      "release_summary": "A patch release that smooths out the new sidebar and fixes a crash in the Windows app.",
+      "items": [
+        {
+          "item_id": "R02-01",
+          "release_id": "R02",
+          "title": "Sidebar remembers collapsed sections",
+          "description": "Since 3.0, some of you noticed that sections you collapsed in the sidebar would expand again every time you reloaded Tessera. The sidebar now remembers which teamspaces and sections you collapsed, and keeps them that way across sessions and devices.\n\nWe also fixed two smaller sidebar issues:\n- Dragging a page onto a collapsed teamspace now expands it after a short pause, so you can drop the page in the right spot\n- The Favorites section no longer flickers when a favorited page is renamed by someone else\n\nThe sidebar layout itself has not changed in this release.",
+          "change_type": "bug fix",
+          "product_area": "editor/pages",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R02-02",
+          "release_id": "R02",
+          "title": "Windows app no longer crashes on large pastes",
+          "description": "Fixed a crash in the Windows desktop app that occurred when pasting large tables (roughly 500 rows or more) copied from Excel or Google Sheets.\n\nLarge pastes are now processed in the background, and a progress indicator appears in the bottom corner of the page while the table is created. You can keep editing other parts of the page while this happens. If a paste takes longer than 30 seconds, Tessera will offer to import it as a new database instead, which handles very large tables more efficiently.",
+          "change_type": "bug fix",
+          "product_area": "editor/pages",
+          "platforms": [
+            "Windows"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R03",
+      "version": "3.1",
+      "release_date": "2026-02-10",
+      "release_title": "Relations without the guesswork",
+      "release_summary": "Connecting databases is now a guided, step-by-step flow. Large databases load significantly faster, and board view drag and drop on iOS is fixed.",
+      "items": [
+        {
+          "item_id": "R03-01",
+          "release_id": "R03",
+          "title": "Guided relation builder",
+          "description": "Relations are one of the most powerful parts of Tessera databases, and also one of the hardest to set up. Until now, creating a relation meant choosing a property type, finding the target database, deciding whether to show it on both sides, and configuring a rollup separately. The new **relation builder** brings all of that into one guided flow.\n\n**How it works**\n1. Choose the database you want to connect. Tessera suggests databases you've used recently and ones that share similar property names.\n2. Preview how the link will appear on both sides, including the property name each database will see.\n3. Optionally add a rollup in the same flow, such as counting linked tasks or summing a number property.\n\nOpen it from any database with **+ Add property → Relation**.\n\n**Good to know**\nExisting relations are not affected. You can open any existing relation in the builder to edit it with the new preview.",
+          "change_type": "new feature",
+          "product_area": "databases",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R03-02",
+          "release_id": "R03",
+          "title": "Faster loading for large databases",
+          "description": "Databases with more than 10,000 rows now load up to 3x faster on first open. We changed how Tessera fetches rows so that only the rows visible on screen are loaded at first, and the rest stream in as you scroll.\n\nFiltering and sorting large table views is also noticeably snappier, since those operations now run on our servers instead of in your browser. In our testing, applying a filter to a 50,000 row database went from about 4 seconds to under 1 second.\n\nThese improvements apply to table, board, and list views. Gallery and timeline views will get the same treatment in a future release.",
+          "change_type": "performance",
+          "product_area": "databases",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R03-03",
+          "release_id": "R03",
+          "title": "Board view drag and drop on iOS",
+          "description": "Fixed a bug on iOS where dragging a card between board columns would sometimes snap it back to its original column, especially on boards with many cards or when the column was scrolled.\n\nCards now move reliably, and a light haptic tap confirms when a card has been dropped into a new column. We also made the drop target for each column larger, so it's easier to place a card when the board is zoomed out. This fix requires version 3.1 of the Tessera iOS app.",
+          "change_type": "bug fix",
+          "product_area": "mobile",
+          "platforms": [
+            "iOS"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R04",
+      "version": "3.1.1",
+      "release_date": "2026-02-24",
+      "release_title": "Fixes and polish",
+      "release_summary": "A patch release with a security improvement for SSO workspaces and a fix for all-day events across timezones.",
+      "items": [
+        {
+          "item_id": "R04-01",
+          "release_id": "R04",
+          "title": "Shorter session expiry for SSO workspaces",
+          "description": "Workspaces using SAML single sign-on now expire idle sessions after **12 hours** by default. Previously, sessions in SSO workspaces stayed active for up to 30 days, which made it harder for security teams to enforce their identity provider's policies.\n\nAdmins can adjust the timeout anywhere between 1 and 72 hours in **Settings → Security → Session length**. The setting applies to the web app, desktop apps, and mobile apps.\n\nWhen a session expires, members are redirected to your identity provider to sign in again. Any unsaved changes are kept locally and sync once they've signed back in, so no work is lost.",
+          "change_type": "security",
+          "product_area": "sharing and permissions",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Enterprise"
+          ],
+          "audience": [
+            "workspace admin"
+          ]
+        },
+        {
+          "item_id": "R04-02",
+          "release_id": "R04",
+          "title": "All-day events no longer shift across timezones",
+          "description": "Fixed an issue where all-day events created in one timezone would appear on the previous day for teammates in another timezone. For example, an all-day event on March 5 created in London could show up on March 4 for someone in San Francisco.\n\nAll-day events are now stored as dates without a time, so they appear on the same day for everyone regardless of location. Existing all-day events have been corrected automatically. Events with a specific start and end time are unaffected and continue to adjust to each viewer's local timezone.",
+          "change_type": "bug fix",
+          "product_area": "calendar",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R05",
+      "version": "3.1.2",
+      "release_date": "2026-03-03",
+      "release_title": "Mail, now in threads",
+      "release_summary": "Tessera Mail now groups replies into threaded conversations, and a sync delay on Android has been fixed.",
+      "items": [
+        {
+          "item_id": "R05-01",
+          "release_id": "R05",
+          "title": "Threaded conversations in Tessera Mail",
+          "description": "Tessera Mail now groups related messages into **threaded conversations**. Replies, forwards, and follow-ups that belong together appear as a single item in your inbox, with the newest message at the bottom.\n\n**What's new**\n- Open a thread to see every message in order, with earlier messages collapsed so long threads stay readable\n- Reply to a specific message inside a thread, and Tessera keeps track of where your reply belongs\n- Archive, snooze, or label an entire thread at once\n- A count next to each thread shows how many messages it contains\n\n**Good to know**\nThreading is turned on for everyone by default. If you prefer to see every message separately, switch to **Message view** in **Settings → Mail → Reading**. Threads are built from email headers, so messages from some older mail clients may not group perfectly.",
+          "change_type": "new feature",
+          "product_area": "mail",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R05-02",
+          "release_id": "R05",
+          "title": "New mail arrives faster on Android",
+          "description": "Fixed an issue on Android where new emails could take up to 15 minutes to appear in Tessera Mail when the app was in the background. This was caused by the app's background sync being paused by battery optimization settings on some devices.\n\nTessera Mail now uses push notifications from our servers to trigger a sync, so new messages arrive within a few seconds on most devices. If you still see delays, check that Tessera is set to **Unrestricted** under your phone's battery settings. This release does not change how messages are grouped or displayed.",
+          "change_type": "bug fix",
+          "product_area": "mail",
+          "platforms": [
+            "Android"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R06",
+      "version": "3.2",
+      "release_date": "2026-03-17",
+      "release_title": "Tessera AI, now with sources",
+      "release_summary": "AI answers now cite the pages they draw from, Tessera AI speaks six more languages, and admins get a new guest access audit.",
+      "items": [
+        {
+          "item_id": "R06-01",
+          "release_id": "R06",
+          "title": "AI answers cite their sources",
+          "description": "When you ask Tessera AI a question about your workspace, every answer now includes **inline citations** that link to the exact pages, database rows, and comments it used.\n\n**How it works**\n- Numbered citations appear right after the sentence they support\n- Hover a citation to preview the source without leaving the chat\n- Click it to open the source page, scrolled to the relevant passage\n- A **Sources** list at the bottom of each answer shows everything Tessera AI looked at, including pages it read but didn't cite\n\n**Good to know**\nTessera AI only cites pages you have permission to view. If an answer draws on general knowledge rather than your workspace, it will say so instead of showing a citation. Citations are available in the AI chat panel, in Q&A on any page, and in AI summaries.",
+          "change_type": "new feature",
+          "product_area": "AI",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R06-02",
+          "release_id": "R06",
+          "title": "Tessera AI in six more languages",
+          "description": "Tessera AI now responds natively in six more languages: Korean, Polish, Turkish, Vietnamese, Indonesian, and Dutch. That brings the total number of supported languages to 20.\n\nTessera AI matches the language of your question automatically. You can also set a preferred response language in **Settings → AI**, which is useful if your workspace content is in one language and you'd like answers in another.\n\nWriting actions like **Improve writing**, **Fix spelling and grammar**, and **Translate** also work in these languages. Answer quality may vary slightly for highly technical content in newly supported languages while we continue to improve them.",
+          "change_type": "improvement",
+          "product_area": "AI",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R06-03",
+          "release_id": "R06",
+          "title": "Guest access audit",
+          "description": "Admins can now see every guest in the workspace in one place. Previously, finding out who had guest access meant opening each page's share menu one at a time.\n\nThe new **Guest access** page in **Settings → People → Guests** shows:\n- Every guest in the workspace and the email domain they belong to\n- Each page or teamspace they can reach, with their permission level (view, comment, or edit)\n- When they last visited the workspace\n- Who invited them\n\n**Taking action**\nSelect one or more guests to remove their access in bulk, or change their permission level across every page at once. You can also export the full list as a CSV for security reviews. Guests are notified by email when their access is removed.",
+          "change_type": "new feature",
+          "product_area": "sharing and permissions",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows"
+          ],
+          "plan_availability": [
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "workspace admin"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R07",
+      "version": "3.2.1",
+      "release_date": "2026-03-31",
+      "release_title": "Repeating templates and AI insights",
+      "release_summary": "Database templates can now repeat on a schedule, and admins get a clear view of how their workspace uses Tessera AI.",
+      "items": [
+        {
+          "item_id": "R07-01",
+          "release_id": "R07",
+          "title": "Repeating database templates",
+          "description": "Database templates can now create new rows **on a schedule**. If your team adds the same weekly sync notes, monthly report, or daily standup page over and over, Tessera can now do it for you.\n\n**How it works**\n1. Open a database template and click **Repeat**\n2. Choose how often: daily, weekly on specific days, monthly, or yearly\n3. Pick the time the new row should be created, and in which timezone\n\nEach new row is created with the template's content and property values filled in. Date properties can be set to the date the row was created, so a weekly meeting page is automatically dated correctly.\n\n**Good to know**\nRepeating templates are available on Plus, Business, and Enterprise plans. You can pause or edit a schedule at any time without affecting rows that were already created.",
+          "change_type": "new feature",
+          "product_area": "databases",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R07-02",
+          "release_id": "R07",
+          "title": "AI usage dashboard for admins",
+          "description": "Workspace admins can now see how their workspace uses Tessera AI in a new **AI usage** dashboard under **Settings → AI**.\n\nThe dashboard shows:\n- Total AI requests over the last 7, 30, or 90 days\n- Which features are used most, such as Q&A, summaries, and writing actions\n- Usage by teamspace and by member\n- How close the workspace is to its monthly AI allowance, if one applies\n\nAdmins can also set usage alerts that send an email when the workspace reaches 50%, 75%, or 90% of its allowance. Individual members can see their own usage in **Settings → My account**. The content of AI requests is never shown on the dashboard.",
+          "change_type": "improvement",
+          "product_area": "AI",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows"
+          ],
+          "plan_availability": [
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "workspace admin"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R08",
+      "version": "3.3",
+      "release_date": "2026-04-21",
+      "release_title": "Search that actually finds it",
+      "release_summary": "Search has been rebuilt to index database content, comments, and attachments, with new filters. Slack notifications can now be bundled into a digest.",
+      "items": [
+        {
+          "item_id": "R08-01",
+          "release_id": "R08",
+          "title": "Rebuilt search with filters",
+          "description": "Search has been rebuilt from the ground up. Until now, search only looked at page titles and the text of regular pages, which meant content inside databases, comments, and attachments was easy to lose.\n\n**What search covers now**\n- Text inside database rows, including text, select, and person properties\n- Comments and discussion threads\n- The text of attached PDFs and Word documents\n- Page titles and body text, as before\n\n**New filters**\nNarrow results by teamspace, page author, date edited, or content type (page, database row, comment, or file). Filters can be combined, and your last-used filters are remembered.\n\n**Better results**\nResults are now ranked by a mix of relevance and recent activity, and each result shows a highlighted snippet of where your search term appears. Press **Enter** on any result to jump straight to that spot on the page.",
+          "change_type": "improvement",
+          "product_area": "search",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R08-02",
+          "release_id": "R08",
+          "title": "Open search with Cmd/Ctrl + P",
+          "description": "You can now open search with **Cmd + P** on Mac or **Ctrl + P** on Windows, in addition to the existing **Cmd/Ctrl + K** shortcut. Many of you use Cmd + P to jump between files in code editors and asked for the same muscle memory to work in Tessera.\n\nBoth shortcuts open the same search window with the same results. In the desktop apps, Cmd/Ctrl + P previously opened the print dialog. Printing is still available from **⋯ → Print** in the top right of any page, or with **Cmd/Ctrl + Shift + P**. You can change or turn off either search shortcut in **Settings → Keyboard shortcuts**.",
+          "change_type": "improvement",
+          "product_area": "search",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R08-03",
+          "release_id": "R08",
+          "title": "Slack notification digests",
+          "description": "Instead of sending a separate Slack message for every comment, mention, and page update, Tessera can now bundle them into an **hourly or daily digest**.\n\n**How it works**\n- Choose a cadence in **Settings → Connections → Slack**: instant, hourly, or daily\n- Daily digests arrive at 9am in your local timezone by default, and you can pick a different time\n- Each digest groups updates by page, so you can see everything that happened on one page together\n- Direct mentions and assignments can still be sent instantly, even when digests are on\n\n**For admins**\nWorkspace admins can set a default cadence for new members. Existing members keep their current settings until they change them. Slack channels connected to a database receive digests on the same schedule as the person who connected them.",
+          "change_type": "new feature",
+          "product_area": "integrations",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows"
+          ],
+          "plan_availability": [
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user",
+            "workspace admin"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R09",
+      "version": "3.3.1",
+      "release_date": "2026-05-05",
+      "release_title": "Know before you move",
+      "release_summary": "Moving a page now shows how its permissions will change before you confirm, and search filters on mobile stay put.",
+      "items": [
+        {
+          "item_id": "R09-01",
+          "release_id": "R09",
+          "title": "Permissions preview when moving pages",
+          "description": "When you move a page into a different teamspace or under a different parent page, its permissions can change. Pages inherit access from wherever they live, so moving a private draft into a shared teamspace could make it visible to dozens of people.\n\nTessera now shows a **permissions preview** before any move that would change who can see a page:\n- A summary of who will gain access and who will lose it\n- A list of any guests or public links that will be affected\n- An option to **keep current permissions**, which moves the page but locks its access to what it was before\n\nThe preview appears whether you move a page by dragging it in the sidebar, using **Move to**, or changing its parent in a database. Moves that don't change access happen instantly, just like before.",
+          "change_type": "new feature",
+          "product_area": "sharing and permissions",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user",
+            "workspace admin"
+          ]
+        },
+        {
+          "item_id": "R09-02",
+          "release_id": "R09",
+          "title": "Search filters stay applied on mobile",
+          "description": "Fixed an issue in the iOS and Android apps where search filters would reset whenever you opened a result and came back to the search screen. Your selected teamspace, author, date, and content type filters now stay applied until you clear them.\n\nWe also fixed a related issue where the content type filter would sometimes show database rows even when only pages were selected. Search coverage and ranking on mobile are unchanged in this release.",
+          "change_type": "bug fix",
+          "product_area": "search",
+          "platforms": [
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R10",
+      "version": "3.4",
+      "release_date": "2026-05-19",
+      "release_title": "Work offline on mobile",
+      "release_summary": "Pages you mark for offline use are now available on iOS and Android without a connection. This release also adds a home screen widget and deprecates the v1 page endpoints in the API.",
+      "items": [
+        {
+          "item_id": "R10-01",
+          "release_id": "R10",
+          "title": "Offline pages on iOS and Android",
+          "description": "Tessera now works without a connection on iOS and Android. Until now, opening a page on mobile required a network connection, which made Tessera hard to rely on during flights, commutes, or anywhere with weak signal.\n\n**How it works**\n- Tap **⋯ → Available offline** on any page to download it to your device, along with its images and attachments\n- Recently opened pages (up to your last 50) are also cached automatically\n- Offline pages can be read and edited without a connection\n- Changes sync automatically when you're back online, and an indicator at the top of each page shows its sync status\n\n**Good to know**\nIf someone else edits the same block while you're offline, Tessera keeps both versions and asks you which to keep when you reconnect. Databases can be made available offline too, though views with more than 5,000 rows will only download the first 5,000. Offline pages are stored encrypted on your device and are removed when you sign out.",
+          "change_type": "new feature",
+          "product_area": "mobile",
+          "platforms": [
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R10-02",
+          "release_id": "R10",
+          "title": "Recent pages home screen widget",
+          "description": "A new home screen widget shows your most recently edited pages, so you can jump back into your work without opening the app first.\n\nTo add it, long-press your home screen, tap **+** (iOS) or **Widgets** (Android), and search for Tessera. The widget comes in two sizes: a small version with your three most recent pages, and a medium version with five pages and the time each was last edited.\n\nTap any page in the widget to open it directly. The widget refreshes every 15 minutes and whenever you close the Tessera app. Widgets show only page titles and icons, so no page content appears on your home screen.",
+          "change_type": "new feature",
+          "product_area": "mobile",
+          "platforms": [
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R10-03",
+          "release_id": "R10",
+          "title": "Dark mode icons render correctly",
+          "description": "Fixed an issue where some page icons appeared as dark outlines on a dark background in the iOS and Android apps when dark mode was on, making them nearly invisible.\n\nIcons now adapt to light and dark mode automatically, matching how they look on the web and desktop apps. Custom icons you uploaded yourself are unaffected and display exactly as uploaded. If you use a custom icon with a transparent background, we recommend checking how it looks in dark mode.",
+          "change_type": "bug fix",
+          "product_area": "mobile",
+          "platforms": [
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R10-04",
+          "release_id": "R10",
+          "title": "API v1 page endpoints deprecated",
+          "description": "The v1 `/pages` and `/blocks` endpoints are now **deprecated** and will be **removed on September 30, 2026**. They will continue to work normally until then.\n\n**Why we're making this change**\nThe v2 endpoints, released last year, support nested block creation, cursor-based pagination, and rich text annotations that v1 can't represent. Maintaining both versions has slowed down new API features.\n\n**What you need to do**\n- Update requests from `/v1/pages` and `/v1/blocks` to their `/v2/` equivalents\n- Switch from offset pagination to cursors, using the `next_cursor` field in each response\n- Review the migration guide in the developer docs, which covers every field that changed\n\nStarting today, responses from v1 endpoints include a `Deprecation` header with the removal date. Integration owners will also receive email reminders 60 and 14 days before removal.",
+          "change_type": "deprecation",
+          "product_area": "API",
+          "platforms": [
+            "API"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "developer"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R11",
+      "version": "3.4.1",
+      "release_date": "2026-06-02",
+      "release_title": "Share your availability",
+      "release_summary": "Tessera Calendar can now share booking links with people outside your workspace, and the plan comparison page answers common questions.",
+      "items": [
+        {
+          "item_id": "R11-01",
+          "release_id": "R11",
+          "title": "Booking links in Tessera Calendar",
+          "description": "You can now share your availability with anyone using **booking links** in Tessera Calendar. Send a link, and the person on the other end picks a time that works without any back and forth.\n\n**How it works**\n1. In Tessera Calendar, click **Share availability → New booking link**\n2. Choose a meeting length, the hours you're available, and how much buffer to leave between meetings\n3. Copy the link and send it by email, chat, or add it to your signature\n\nWhen someone books a time, the event is added to your calendar with a video link, and both of you get a confirmation email. Booking links check every calendar you've connected to Tessera, so you won't be double booked.\n\n**Good to know**\nPeople booking a time do not need a Tessera account. You can create multiple booking links for different meeting types and turn any of them off at any time.",
+          "change_type": "new feature",
+          "product_area": "calendar",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R11-02",
+          "release_id": "R11",
+          "title": "FAQ on the plan comparison page",
+          "description": "The plan comparison page now includes a **Frequently asked questions** section below the plan table. It covers the questions we hear most from people deciding whether to upgrade:\n- What happens to my content if I downgrade later\n- How guests and members are counted toward seats\n- Whether AI is included in each plan\n- How education and nonprofit discounts work\n\nWe also added short tooltips to a handful of features in the plan table, such as teamspace permissions and page history, explaining what they do. The upgrade flow itself has not changed in this release, and pricing is the same.",
+          "change_type": "improvement",
+          "product_area": "billing and plans",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business"
+          ],
+          "audience": [
+            "end user"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R12",
+      "version": "3.5",
+      "release_date": "2026-06-16",
+      "release_title": "A simpler way to upgrade",
+      "release_summary": "Upgrading your plan now takes a single page, the slash menu has been reorganized, and database dates can appear on your calendar.",
+      "items": [
+        {
+          "item_id": "R12-01",
+          "release_id": "R12",
+          "title": "Redesigned checkout",
+          "description": "Upgrading to a paid plan is now a **single-page checkout**. The previous flow spread plan selection, seat count, billing details, and payment across four separate screens, and it was easy to lose track of what you'd be charged.\n\n**What's new**\n- Plan comparison, seat count, and payment details all live on one screen\n- The total price updates live as you change plans or seats, including tax where it applies\n- Switch between annual and monthly billing at any point without starting over\n- Pay with a card, Apple Pay, or Google Pay\n- A summary at the top shows exactly what you'll be charged today and on each renewal date\n\n**Good to know**\nThe new checkout is available on web, desktop, and mobile. Enterprise plans are still purchased through our sales team. If you started an upgrade in the old flow, you'll be taken to the new checkout with your selections already filled in.",
+          "change_type": "improvement",
+          "product_area": "billing and plans",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business"
+          ],
+          "audience": [
+            "end user",
+            "workspace admin"
+          ]
+        },
+        {
+          "item_id": "R12-02",
+          "release_id": "R12",
+          "title": "Reorganized slash menu",
+          "description": "The `/` menu has been reorganized. With more than 60 block types available, the old single list had become long and hard to browse, especially for people new to Tessera.\n\n**What's new**\n- Blocks are grouped into categories: **Basic**, **Media**, **Database**, **Embeds**, and **AI**\n- Your most used blocks appear at the top in a **Suggested** section\n- Each block shows a short visual preview and a one-line description, so you know what you're adding before you add it\n- Keyboard shortcuts for each block are listed next to its name\n\n**Good to know**\nTyping after the `/` still filters the full list instantly, so if you already know what you want, nothing has changed for you. Turn off previews in **Settings → Editor** if you prefer a more compact menu.",
+          "change_type": "improvement",
+          "product_area": "editor/pages",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R12-03",
+          "release_id": "R12",
+          "title": "Database dates on your calendar",
+          "description": "Any database with a date property can now be shown on Tessera Calendar. Tasks, deadlines, content launches, and project milestones appear alongside your meetings, so you can see your whole week in one place.\n\n**How it works**\n- In Tessera Calendar, click **+ Add calendar → Tessera database** and choose a database\n- Pick which date property to use and, optionally, a filter such as tasks assigned to you\n- Database items appear as all-day or timed events depending on how the date is set\n\nDragging an item to a different day on the calendar updates the date in the database, and changes made in the database show up on the calendar right away. Each database gets its own color, which you can change at any time. Items you don't have permission to view in the database are never shown on your calendar.",
+          "change_type": "new feature",
+          "product_area": "calendar",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R13",
+      "version": "3.5.1",
+      "release_date": "2026-07-07",
+      "release_title": "Fixes and polish",
+      "release_summary": "A patch release fixing invoice currency formatting and a relation builder crash.",
+      "items": [
+        {
+          "item_id": "R13-01",
+          "release_id": "R13",
+          "title": "Invoice PDFs show the correct currency",
+          "description": "Fixed an issue where invoice PDFs for workspaces billed in euros or pounds displayed amounts with a US dollar symbol. The amounts charged were always correct; only the currency symbol on the PDF was wrong.\n\nAll affected invoices have been regenerated with the correct currency and are available in **Settings → Billing → Invoices**. If you already submitted one of the incorrect invoices for an expense report or accounting system, you can download the corrected version from the same place. Invoice emails sent from today onward include the correct currency as well. This fix does not change the checkout flow or pricing.",
+          "change_type": "bug fix",
+          "product_area": "billing and plans",
+          "platforms": [
+            "web"
+          ],
+          "plan_availability": [
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "workspace admin"
+          ]
+        },
+        {
+          "item_id": "R13-02",
+          "release_id": "R13",
+          "title": "Relation builder no longer crashes on archived databases",
+          "description": "Fixed a crash that occurred when opening the relation builder in a workspace that contained archived databases. The builder now loads normally, and archived databases are hidden from the list of databases you can connect to.\n\nIf you need to relate to an archived database, restore it from **Settings → Archive** first. Relations that already point to an archived database continue to work and display their linked items as before. No other changes were made to the relation builder in this release.",
+          "change_type": "bug fix",
+          "product_area": "databases",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R14",
+      "version": "3.5.2",
+      "release_date": "2026-07-21",
+      "release_title": "Faster on mobile",
+      "release_summary": "The Tessera mobile apps now open up to twice as fast, and Android tablets get a layout built for larger screens.",
+      "items": [
+        {
+          "item_id": "R14-01",
+          "release_id": "R14",
+          "title": "Mobile apps open up to 2x faster",
+          "description": "The Tessera iOS and Android apps now open up to **2x faster**. On a typical phone, the time from tapping the app icon to seeing your last page dropped from about 3 seconds to about 1.4 seconds.\n\n**What we changed**\n- The app now shows your last open page from the local cache immediately, then refreshes it in the background\n- The sidebar and search index load after the page is visible, instead of before\n- We removed several startup steps that ran on every launch but were only needed occasionally\n\n**Good to know**\nPages that aren't in your cache will still need a moment to load from the network. Making key pages available offline (**⋯ → Available offline**) is the best way to make sure they always open instantly. These improvements require version 3.5.2 of the mobile app.",
+          "change_type": "performance",
+          "product_area": "mobile",
+          "platforms": [
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R14-02",
+          "release_id": "R14",
+          "title": "Android tablet layout",
+          "description": "Tessera on Android tablets now has a layout designed for larger screens. Previously, tablets showed a stretched version of the phone layout.\n\n**What's new**\n- The sidebar stays open next to your page in landscape orientation\n- Databases show more columns at once, and board view displays columns side by side\n- Split screen and multi-window are supported, so you can use Tessera alongside another app\n- Keyboard shortcuts work when a physical keyboard is connected, matching the desktop app\n\nThe new layout applies to devices with screens 8 inches or larger. Foldable phones switch to the tablet layout automatically when unfolded.",
+          "change_type": "improvement",
+          "product_area": "mobile",
+          "platforms": [
+            "Android"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R15",
+      "version": "3.5.3",
+      "release_date": "2026-08-04",
+      "release_title": "Your issues, in sync",
+      "release_summary": "GitHub issues can now sync both ways with Tessera databases, and daily Slack digests arrive at the right time again.",
+      "items": [
+        {
+          "item_id": "R15-01",
+          "release_id": "R15",
+          "title": "Two-way GitHub issue sync",
+          "description": "Tessera databases can now **sync two ways with GitHub issues**. Many engineering teams track work in GitHub while planning and writing specs in Tessera, which meant updating the same task in two places.\n\n**How it works**\n1. Create a new database and choose **Sync with GitHub** as the source\n2. Connect a repository and choose which issues to include, such as issues with a certain label or milestone\n3. Map GitHub fields like status, assignee, and labels to database properties\n\nChanges made in either place sync within a few seconds. Closing an issue in GitHub updates its status in Tessera, and changing an assignee in Tessera updates it in GitHub. You can add your own properties to the database, such as priority or estimate, that live only in Tessera.\n\n**Good to know**\nEach synced database can connect to one repository. Pull requests can be linked to synced issues but are not synced as rows.",
+          "change_type": "new feature",
+          "product_area": "integrations",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows"
+          ],
+          "plan_availability": [
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user",
+            "developer"
+          ]
+        },
+        {
+          "item_id": "R15-02",
+          "release_id": "R15",
+          "title": "Daily Slack digests respect your timezone",
+          "description": "Fixed an issue where daily Slack digests were sent at 9am UTC for some members instead of 9am in their local timezone. This affected members whose Slack profile did not have a timezone set.\n\nTessera now uses the timezone from your Tessera account when Slack doesn't provide one. If your digests have been arriving at an odd hour, they should now arrive at the time you chose. You can confirm your timezone in **Settings → My account → Language and region**. How updates are grouped in digests is unchanged.",
+          "change_type": "bug fix",
+          "product_area": "integrations",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows"
+          ],
+          "plan_availability": [
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R16",
+      "version": "3.6",
+      "release_date": "2026-08-18",
+      "release_title": "Your sidebar, your way",
+      "release_summary": "A compact sidebar layout brings back the classic flat page list as an option, Tessera Mail can label incoming email automatically, and upgrade prompts in Business workspaces are limited to admins.",
+      "items": [
+        {
+          "item_id": "R16-01",
+          "release_id": "R16",
+          "title": "Compact sidebar layout",
+          "description": "Based on your feedback since 3.0, you can now switch to a **compact sidebar** that shows all of your pages in a single flat list, similar to the layout before the redesign.\n\n**What's included**\n- All pages appear in one alphabetical or manually ordered list, without teamspace headers\n- Favorites remain pinned at the top\n- A small colored dot next to each page shows which teamspace it belongs to\n- Drag and drop still works for reordering pages and moving them under other pages\n\n**Good to know**\nTeamspace grouping remains the default for new members. Switching layouts only changes how the sidebar looks for you. It does not move pages or change any permissions. Toggle between layouts in **Settings → Appearance → Sidebar**.",
+          "change_type": "improvement",
+          "product_area": "editor/pages",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R16-02",
+          "release_id": "R16",
+          "title": "Auto-labels in Tessera Mail",
+          "description": "Tessera Mail can now sort incoming email into labels automatically using Tessera AI. Newsletters, receipts, notifications, and messages from your team can each go to their own label, so your inbox only shows what needs your attention.\n\n**How it works**\n- Turn on auto-labels in **Settings → Mail → Auto-labels** to start with suggested labels like Newsletters, Receipts, and Team\n- Create your own by describing what belongs in them in plain language, such as emails from recruiters or invoices from vendors\n- Choose whether each label skips the inbox or just gets tagged\n\nAuto-labels apply to new messages as they arrive. You can apply a label to past messages with **Apply to existing mail**. Correcting a label on any message helps Tessera AI sort similar messages better in the future. Email content used for sorting is never used to train AI models.",
+          "change_type": "new feature",
+          "product_area": "mail",
+          "platforms": [
+            "web",
+            "Mac",
+            "iOS"
+          ],
+          "plan_availability": [
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R16-03",
+          "release_id": "R16",
+          "title": "Upgrade prompts limited to admins in Business workspaces",
+          "description": "Members of Business workspaces will no longer see upgrade prompts in the sidebar, in the page menu, or when they try to use a feature from a higher plan. Many members can't make purchasing decisions for their workspace, so these prompts were more distracting than helpful.\n\n**What's changed**\n- Upgrade prompts now appear only to workspace owners and billing admins\n- When a member tries a feature from a higher plan, they see a short note explaining that it's not included and an option to **Ask an admin**\n- Admins receive these requests in a single weekly summary email, grouped by feature\n\nThis change applies to Business workspaces only. Free and Plus workspaces continue to show upgrade options to everyone. The checkout itself is unchanged.",
+          "change_type": "improvement",
+          "product_area": "billing and plans",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows"
+          ],
+          "plan_availability": [
+            "Business"
+          ],
+          "audience": [
+            "end user",
+            "workspace admin"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R17",
+      "version": "3.6.1",
+      "release_date": "2026-09-01",
+      "release_title": "Accessibility improvements",
+      "release_summary": "Databases are now fully navigable by keyboard and screen reader, and a new high-contrast theme is available across Tessera.",
+      "items": [
+        {
+          "item_id": "R17-01",
+          "release_id": "R17",
+          "title": "Keyboard and screen reader support in databases",
+          "description": "Database views are now fully usable with a keyboard and screen reader. Until now, table and board views relied heavily on mouse interactions, and many cells and controls had no labels for assistive technology.\n\n**Keyboard navigation**\n- Move between cells with the arrow keys and press **Enter** to edit\n- Press **Space** on a board card to pick it up, use the arrow keys to move it, and press **Space** again to drop it\n- Open filters, sorts, and view settings with the shortcuts listed under **? → Keyboard shortcuts**\n\n**Screen readers**\n- Every cell announces its column name, row, and value\n- Changes made by collaborators are announced politely without interrupting what you're doing\n- Tested with VoiceOver, NVDA, JAWS, and TalkBack\n\nWe worked with members of our accessibility advisory group to test these changes. Timeline and gallery views will receive the same improvements later this year.",
+          "change_type": "improvement",
+          "product_area": "databases",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R17-02",
+          "release_id": "R17",
+          "title": "High-contrast theme",
+          "description": "A new **high-contrast theme** is available alongside the light and dark themes. It increases the contrast of text, borders, and icons throughout Tessera, and makes focus outlines thicker and easier to spot when navigating with a keyboard.\n\nTurn it on in **Settings → Appearance → Theme**. High contrast is available in a light and a dark variant, and you can set Tessera to follow your operating system's contrast setting automatically.\n\nPage colors and highlight colors you've applied to text are adjusted to stay readable in high contrast mode, though they may look slightly different from the standard themes. Your content itself is not changed.",
+          "change_type": "new feature",
+          "product_area": "editor/pages",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R18",
+      "version": "3.6.2",
+      "release_date": "2026-09-15",
+      "release_title": "Easier plan changes",
+      "release_summary": "Downgrading and removing seats now happen in the same checkout as upgrades, and Apple Pay works for more European cards.",
+      "items": [
+        {
+          "item_id": "R18-01",
+          "release_id": "R18",
+          "title": "Downgrades and seat changes in checkout",
+          "description": "Changing your plan is now as simple as upgrading. Since the new checkout launched in June, upgrades have happened on a single page, but downgrading or removing seats still meant contacting support or finding a setting buried in **Settings → Billing**. Now every plan change happens in the same place.\n\n**What's new**\n- Open **Settings → Billing → Change plan** to upgrade, downgrade, or adjust seats from the same single-page checkout\n- Before you confirm a downgrade, Tessera shows which features you'll lose and which pages or teamspaces will be affected\n- Credit for unused time is calculated automatically and shown before you confirm\n- Removing seats lets you pick which members to convert to guests or remove\n\n**Good to know**\nDowngrades take effect at the end of your current billing period, so you keep your current plan's features until then. You can cancel a scheduled downgrade at any time before it takes effect.",
+          "change_type": "improvement",
+          "product_area": "billing and plans",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Plus",
+            "Business"
+          ],
+          "audience": [
+            "end user",
+            "workspace admin"
+          ]
+        },
+        {
+          "item_id": "R18-02",
+          "release_id": "R18",
+          "title": "Apple Pay works with more European cards",
+          "description": "Fixed an issue where Apple Pay payments failed for some cards issued in the European Union, showing a generic payment error. These cards required an extra authentication step that the checkout was not handling correctly.\n\nApple Pay now completes the additional verification automatically, and if your bank needs you to confirm the payment, you'll see its prompt directly in the checkout. No charges were made for any of the failed attempts. This fix does not change how plan changes work in the checkout.",
+          "change_type": "bug fix",
+          "product_area": "billing and plans",
+          "platforms": [
+            "web",
+            "Mac",
+            "iOS"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business"
+          ],
+          "audience": [
+            "end user"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R19",
+      "version": "3.7",
+      "release_date": "2026-09-29",
+      "release_title": "API v2 is here to stay",
+      "release_summary": "The v1 page endpoints have been removed, developers can now subscribe to webhooks for database changes, and Tessera AI is faster in large workspaces.",
+      "items": [
+        {
+          "item_id": "R19-01",
+          "release_id": "R19",
+          "title": "API v1 page endpoints removed",
+          "description": "As announced in 3.4, the v1 `/pages` and `/blocks` endpoints have been **removed**. Requests to these endpoints now return `410 Gone` with a link to the migration guide.\n\n**What this means for you**\n- Integrations that still call `/v1/pages` or `/v1/blocks` will stop working until they are updated to v2\n- All other v1 endpoints, including `/v1/users` and `/v1/search`, remain available for now and are not affected by this change\n- Integrations listed in the Tessera integration gallery have all been updated\n\n**What to do**\nIf an integration you rely on has stopped working, check with its developer first. If you built the integration yourself, follow the migration guide in the developer docs. Most integrations need changes to request paths and pagination only. Workspace admins can see which integrations made v1 requests in the last 30 days in **Settings → Connections**.",
+          "change_type": "breaking change",
+          "product_area": "API",
+          "platforms": [
+            "API"
+          ],
+          "plan_availability": [
+            "Free",
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "developer",
+            "workspace admin"
+          ]
+        },
+        {
+          "item_id": "R19-02",
+          "release_id": "R19",
+          "title": "Database webhooks",
+          "description": "You can now subscribe to **webhooks** that fire whenever rows are created, updated, or deleted in a database. Until now, integrations had to poll the API repeatedly to find out what had changed.\n\n**How it works**\n- Register a webhook URL for any integration in the developer portal\n- Choose which databases and which events to subscribe to\n- Tessera sends a `POST` request to your URL within a few seconds of each change\n\nEach payload includes the database and row IDs, the properties that changed with their old and new values, the user who made the change, and a timestamp. Requests are signed so you can verify they came from Tessera.\n\n**Good to know**\nFailed deliveries are retried with exponential backoff for up to 24 hours. Webhooks are available on Plus, Business, and Enterprise plans, with up to 20 subscriptions per integration.",
+          "change_type": "new feature",
+          "product_area": "API",
+          "platforms": [
+            "API"
+          ],
+          "plan_availability": [
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "developer"
+          ]
+        },
+        {
+          "item_id": "R19-03",
+          "release_id": "R19",
+          "title": "Faster AI answers on large workspaces",
+          "description": "Tessera AI now responds up to **40% faster** in workspaces with more than 50,000 pages. In large workspaces, finding the right pages to answer a question was the slowest part of every request, so we rebuilt how Tessera AI searches your workspace before it starts writing.\n\nYou'll notice the biggest difference in Q&A and in summaries that pull from many pages. Answers now begin streaming in roughly a second for most questions. Answer content, citations, and the pages Tessera AI can access are unchanged. Smaller workspaces will see a modest improvement as well.",
+          "change_type": "performance",
+          "product_area": "AI",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        }
+      ]
+    },
+    {
+      "release_id": "R20",
+      "version": "3.7.1",
+      "release_date": "2026-10-13",
+      "release_title": "Let AI fill it in",
+      "release_summary": "Tessera AI can now fill in database properties automatically, and a webhook delivery issue has been fixed.",
+      "items": [
+        {
+          "item_id": "R20-01",
+          "release_id": "R20",
+          "title": "AI autofill for database properties",
+          "description": "Tessera AI can now **fill in database properties automatically**. Tagging, categorizing, and summarizing rows by hand takes time, especially in databases that collect feedback, requests, or research notes.\n\n**How it works**\n1. Click the header of any text, select, or multi-select property and choose **AI autofill**\n2. Describe what the property should contain, such as the main theme of this feedback or a one-sentence summary\n3. Choose whether autofill runs on new rows only, or on existing rows too\n\nTessera AI reads each row's content and fills in the property. When a row's content changes, the property updates automatically. You can edit any value by hand, and Tessera AI won't overwrite your edits unless you ask it to.\n\n**Good to know**\nAutofill counts toward your workspace's AI usage, which admins can monitor in **Settings → AI**. Autofill only reads content from the row itself and pages linked to it that you have access to.",
+          "change_type": "new feature",
+          "product_area": "AI",
+          "platforms": [
+            "web",
+            "Mac",
+            "Windows",
+            "iOS",
+            "Android"
+          ],
+          "plan_availability": [
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "end user"
+          ]
+        },
+        {
+          "item_id": "R20-02",
+          "release_id": "R20",
+          "title": "Webhook events delivered once",
+          "description": "Fixed an issue where some webhook events were delivered more than once when a database row was edited by several people within a few seconds. Each change now produces exactly one delivery.\n\nEvery webhook payload now also includes an `event_id` field. If your integration ever receives the same `event_id` twice, for example after a retry, you can safely ignore the duplicate. We recommend adding this check even though duplicate deliveries should now be rare.",
+          "change_type": "bug fix",
+          "product_area": "API",
+          "platforms": [
+            "API"
+          ],
+          "plan_availability": [
+            "Plus",
+            "Business",
+            "Enterprise"
+          ],
+          "audience": [
+            "developer"
+          ]
+        }
+      ]
+    }
+  ]
+}

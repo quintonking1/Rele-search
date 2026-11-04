@@ -1,0 +1,88 @@
+{
+  "agent": "baseline",
+  "timestamp": "2026-11-04T18:42:39.921949+00:00",
+  "tag": "seed",
+  "question": "What do users think of the sidebar?",
+  "as_of": "2026-09-01",
+  "k": 8,
+  "include_dates": true,
+  "models": {
+    "embedding": "gemini-embedding-2",
+    "embedding_dim": 768,
+    "generation": "gemini-3.6-flash",
+    "temperature": 0.0
+  },
+  "retrieved": [
+    {
+      "rank": 1,
+      "id": "C061",
+      "source_type": "complaint",
+      "date": "2026-06-08",
+      "score": 0.762321
+    },
+    {
+      "rank": 2,
+      "id": "R16-01",
+      "source_type": "changelog",
+      "date": "2026-08-18",
+      "score": 0.749707
+    },
+    {
+      "rank": 3,
+      "id": "R01-01",
+      "source_type": "changelog",
+      "date": "2026-01-13",
+      "score": 0.737606
+    },
+    {
+      "rank": 4,
+      "id": "C008",
+      "source_type": "complaint",
+      "date": "2026-01-15",
+      "score": 0.73708
+    },
+    {
+      "rank": 5,
+      "id": "R02-01",
+      "source_type": "changelog",
+      "date": "2026-01-27",
+      "score": 0.730913
+    },
+    {
+      "rank": 6,
+      "id": "C014",
+      "source_type": "complaint",
+      "date": "2026-02-03",
+      "score": 0.691605
+    },
+    {
+      "rank": 7,
+      "id": "C071",
+      "source_type": "complaint",
+      "date": "2026-07-02",
+      "score": 0.681534
+    },
+    {
+      "rank": 8,
+      "id": "R16-03",
+      "source_type": "changelog",
+      "date": "2026-08-18",
+      "score": 0.672538
+    }
+  ],
+  "prompt": {
+    "system": "You are a research assistant for the product team at Tessera, an all-in-one workspace app.\nAnswer the researcher's question using ONLY the retrieved records provided. Records are customer complaints and changelog items.\nCite the record IDs that support every claim in square brackets, for example [C054] or [R12-01].\nIf the records do not contain enough information to answer, say so.",
+    "user": "Retrieved records:\n\nid: C061\nsource_type: complaint\ndate: 2026-06-08\nproduct_area: editor/pages\ntitle: Teamspace grouping wastes space in the sidebar\ntext: Half my sidebar is teamspace headers. I just want a simple list of pages like before.\n\n---\n\nid: R16-01\nsource_type: changelog\ndate: 2026-08-18\nproduct_area: editor/pages\ntitle: Compact sidebar layout\ntext: Your sidebar, your way\n\nBased on your feedback since 3.0, you can now switch to a **compact sidebar** that shows all of your pages in a single flat list, similar to the layout before the redesign.\n\n**What's included**\n- All pages appear in one alphabetical or manually ordered list, without teamspace headers\n- Favorites remain pinned at the top\n- A small colored dot next to each page shows which teamspace it belongs to\n- Drag and drop still works for reordering pages and moving them under other pages\n\n**Good to know**\nTeamspace grouping remains the default for new members. Switching layouts only changes how the sidebar looks for you. It does not move pages or change any permissions. Toggle between layouts in **Settings \u2192 Appearance \u2192 Sidebar**.\n\n---\n\nid: R01-01\nsource_type: changelog\ndate: 2026-01-13\nproduct_area: editor/pages\ntitle: Redesigned sidebar\ntext: A cleaner home for your workspace\n\nThe sidebar has been rebuilt from the ground up. As workspaces grew, a single flat list of pages became hard to scan, so we reorganized it around how teams actually work.\n\n**What's new**\n- Pages are now grouped by **teamspace**, with each teamspace collapsible on its own\n- A dedicated **Favorites** section sits at the top, so the pages you open most are always one click away\n- **Private** pages live in their own area below your teamspaces\n- Drag a page from one teamspace to another directly in the sidebar to move it\n\n**What's changed**\nThe old flat page list has been retired. Existing pages were sorted into teamspaces automatically based on where they were shared. Pages that were not shared with any teamspace now appear under Private.\n\n**Good to know**\nWorkspace owners can reorder teamspaces for everyone in **Settings \u2192 Teamspaces**. Individual members can still collapse or hide teamspaces they don't use.\n\n---\n\nid: C008\nsource_type: complaint\ndate: 2026-01-15\nproduct_area: editor/pages\ntitle: Sidebar sections keep expanding after reload\ntext: Since the new sidebar came out, I collapse the teamspaces I never use and they all pop open again the next time I load Tessera. With 14 teamspaces this makes the sidebar useless.\n\n---\n\nid: R02-01\nsource_type: changelog\ndate: 2026-01-27\nproduct_area: editor/pages\ntitle: Sidebar remembers collapsed sections\ntext: Sidebar fixes and polish\n\nSince 3.0, some of you noticed that sections you collapsed in the sidebar would expand again every time you reloaded Tessera. The sidebar now remembers which teamspaces and sections you collapsed, and keeps them that way across sessions and devices.\n\nWe also fixed two smaller sidebar issues:\n- Dragging a page onto a collapsed teamspace now expands it after a short pause, so you can drop the page in the right spot\n- The Favorites section no longer flickers when a favorited page is renamed by someone else\n\nThe sidebar layout itself has not changed in this release.\n\n---\n\nid: C014\nsource_type: complaint\ndate: 2026-02-03\nproduct_area: editor/pages\ntitle: Bring back the old flat page list\ntext: The teamspace grouping in 3.0 might work for big companies, but I'm a team of three. I liked seeing all my pages in one list. Please give us the option to go back.\n\n---\n\nid: C071\nsource_type: complaint\ndate: 2026-07-02\nproduct_area: mobile\ntitle: Tablet app is just a stretched phone app\ntext: On my Android tablet the app looks like a blown-up phone screen. The sidebar disappears when I open a page and split screen doesn't work.\n\n---\n\nid: R16-03\nsource_type: changelog\ndate: 2026-08-18\nproduct_area: billing and plans\ntitle: Upgrade prompts limited to admins in Business workspaces\ntext: Your sidebar, your way\n\nMembers of Business workspaces will no longer see upgrade prompts in the sidebar, in the page menu, or when they try to use a feature from a higher plan. Many members can't make purchasing decisions for their workspace, so these prompts were more distracting than helpful.\n\n**What's changed**\n- Upgrade prompts now appear only to workspace owners and billing admins\n- When a member tries a feature from a higher plan, they see a short note explaining that it's not included and an option to **Ask an admin**\n- Admins receive these requests in a single weekly summary email, grouped by feature\n\nThis change applies to Business workspaces only. Free and Plus workspaces continue to show upgrade options to everyone. The checkout itself is unchanged.\n\n---\n\nQuestion: What do users think of the sidebar?"
+  },
+  "answer": "Based on the retrieved records, user feedback regarding the sidebar highlights several key complaints and concerns:\n\n* **Teamspace Grouping vs. Flat List:** Users expressed frustration with the teamspace-grouped sidebar introduced in version 3.0, complaining that teamspace headers wasted sidebar space [C061]. Smaller teams noted that teamspace grouping felt unnecessary for them and requested an option to return to a simple, flat list of all pages [C014, C061] (feedback which later led to the addition of the compact sidebar setting [R16-01]).\n* **Collapsed Sections Re-opening:** Users reported a bug where collapsed teamspaces and sections would expand again every time Tessera reloaded, making the sidebar frustrating and unusable for those managing many teamspaces [C008, R02-01].\n* **Distracting Upgrade Prompts:** Members in Business workspaces found upgrade prompts displayed in the sidebar distracting and unhelpful, as regular members lack authority to make purchasing decisions [R16-03].\n* **Tablet Interface:** A user complained about the tablet app experience, specifically noting that the sidebar disappears whenever a page is opened [C071].",
+  "cited_ids": [
+    "C008",
+    "C014",
+    "C061",
+    "C071",
+    "R02-01",
+    "R16-01",
+    "R16-03"
+  ],
+  "cited_not_retrieved": []
+}

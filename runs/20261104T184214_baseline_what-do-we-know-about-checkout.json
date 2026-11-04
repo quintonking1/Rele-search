@@ -1,0 +1,86 @@
+{
+  "agent": "baseline",
+  "timestamp": "2026-11-04T18:42:14.849845+00:00",
+  "tag": "seed",
+  "question": "What do we know about checkout?",
+  "as_of": "2026-07-15",
+  "k": 8,
+  "include_dates": true,
+  "models": {
+    "embedding": "gemini-embedding-2",
+    "embedding_dim": 768,
+    "generation": "gemini-3.6-flash",
+    "temperature": 0.0
+  },
+  "retrieved": [
+    {
+      "rank": 1,
+      "id": "R12-01",
+      "source_type": "changelog",
+      "date": "2026-06-16",
+      "score": 0.729257
+    },
+    {
+      "rank": 2,
+      "id": "C070",
+      "source_type": "complaint",
+      "date": "2026-07-01",
+      "score": 0.714861
+    },
+    {
+      "rank": 3,
+      "id": "C073",
+      "source_type": "complaint",
+      "date": "2026-07-13",
+      "score": 0.690424
+    },
+    {
+      "rank": 4,
+      "id": "C022",
+      "source_type": "complaint",
+      "date": "2026-02-23",
+      "score": 0.660862
+    },
+    {
+      "rank": 5,
+      "id": "C054",
+      "source_type": "complaint",
+      "date": "2026-05-14",
+      "score": 0.657025
+    },
+    {
+      "rank": 6,
+      "id": "R11-02",
+      "source_type": "changelog",
+      "date": "2026-06-02",
+      "score": 0.64788
+    },
+    {
+      "rank": 7,
+      "id": "C060",
+      "source_type": "complaint",
+      "date": "2026-06-05",
+      "score": 0.640011
+    },
+    {
+      "rank": 8,
+      "id": "R06-03",
+      "source_type": "changelog",
+      "date": "2026-03-17",
+      "score": 0.623903
+    }
+  ],
+  "prompt": {
+    "system": "You are a research assistant for the product team at Tessera, an all-in-one workspace app.\nAnswer the researcher's question using ONLY the retrieved records provided. Records are customer complaints and changelog items.\nCite the record IDs that support every claim in square brackets, for example [C054] or [R12-01].\nIf the records do not contain enough information to answer, say so.",
+    "user": "Retrieved records:\n\nid: R12-01\nsource_type: changelog\ndate: 2026-06-16\nproduct_area: billing and plans\ntitle: Redesigned checkout\ntext: A simpler way to upgrade\n\nUpgrading to a paid plan is now a **single-page checkout**. The previous flow spread plan selection, seat count, billing details, and payment across four separate screens, and it was easy to lose track of what you'd be charged.\n\n**What's new**\n- Plan comparison, seat count, and payment details all live on one screen\n- The total price updates live as you change plans or seats, including tax where it applies\n- Switch between annual and monthly billing at any point without starting over\n- Pay with a card, Apple Pay, or Google Pay\n- A summary at the top shows exactly what you'll be charged today and on each renewal date\n\n**Good to know**\nThe new checkout is available on web, desktop, and mobile. Enterprise plans are still purchased through our sales team. If you started an upgrade in the old flow, you'll be taken to the new checkout with your selections already filled in.\n\n---\n\nid: C070\nsource_type: complaint\ndate: 2026-07-01\nproduct_area: billing and plans\ntitle: No PayPal option at checkout\ntext: The new checkout is much clearer, but I pay for all my software through PayPal and there is no option for it. Card, Apple Pay, and Google Pay only.\n\n---\n\nid: C073\nsource_type: complaint\ndate: 2026-07-13\nproduct_area: billing and plans\ntitle: Enterprise can't add seats ourselves\ntext: Everyone else gets the new one-page checkout but on Enterprise we still have to go through our account manager to add even two seats. It takes a week.\n\n---\n\nid: C022\nsource_type: complaint\ndate: 2026-02-23\nproduct_area: AI\ntitle: AI answers don't say where they came from\ntext: Tessera AI gave me a confident answer about our refund policy but there is no way to see which page it used. I can't send that to a customer without checking, and I can't check.\n\n---\n\nid: C054\nsource_type: complaint\ndate: 2026-05-14\nproduct_area: billing and plans\ntitle: Upgrade flow is four screens and I lost track of the total\ntext: I went through plan, seats, billing details, and payment on four different screens. By the end I wasn't sure what I was actually going to be charged, so I closed the tab.\n\n---\n\nid: R11-02\nsource_type: changelog\ndate: 2026-06-02\nproduct_area: billing and plans\ntitle: FAQ on the plan comparison page\ntext: Share your availability\n\nThe plan comparison page now includes a **Frequently asked questions** section below the plan table. It covers the questions we hear most from people deciding whether to upgrade:\n- What happens to my content if I downgrade later\n- How guests and members are counted toward seats\n- Whether AI is included in each plan\n- How education and nonprofit discounts work\n\nWe also added short tooltips to a handful of features in the plan table, such as teamspace permissions and page history, explaining what they do. The upgrade flow itself has not changed in this release, and pricing is the same.\n\n---\n\nid: C060\nsource_type: complaint\ndate: 2026-06-05\nproduct_area: mobile\ntitle: Offline mode only downloads part of our inventory database\ntext: I made our 12,000-row inventory database available offline for warehouse checks. Offline, about half the items are just missing.\n\n---\n\nid: R06-03\nsource_type: changelog\ndate: 2026-03-17\nproduct_area: sharing and permissions\ntitle: Guest access audit\ntext: Tessera AI, now with sources\n\nAdmins can now see every guest in the workspace in one place. Previously, finding out who had guest access meant opening each page's share menu one at a time.\n\nThe new **Guest access** page in **Settings \u2192 People \u2192 Guests** shows:\n- Every guest in the workspace and the email domain they belong to\n- Each page or teamspace they can reach, with their permission level (view, comment, or edit)\n- When they last visited the workspace\n- Who invited them\n\n**Taking action**\nSelect one or more guests to remove their access in bulk, or change their permission level across every page at once. You can also export the full list as a CSV for security reviews. Guests are notified by email when their access is removed.\n\n---\n\nQuestion: What do we know about checkout?"
+  },
+  "answer": "Based on the provided records, here is what is known about the checkout and upgrade flow in Tessera:\n\n### Previous Checkout Flow & Issues\n* **Four-Screen Process:** Upgrades were previously spread across four separate screens covering plan selection, seat count, billing details, and payment details [R12-01, C054].\n* **Customer Confusion:** Customers complained that the multi-screen process made it easy to lose track of what they would be charged, sometimes causing them to abandon the upgrade entirely [C054, R12-01].\n* **Pre-June 2026 Status:** As of early June 2026, the upgrade flow remained unchanged when an FAQ section was added to the plan comparison page [R11-02].\n\n---\n\n### Redesigned Checkout (Released June 16, 2026)\nTessera launched a redesigned **single-page checkout** across web, desktop, and mobile [R12-01]. Key features of the new checkout include:\n* **All-in-One Screen:** Plan comparison, seat count, and payment details are consolidated onto one page [R12-01].\n* **Live Pricing Updates:** The total price updates live as users change plans or seats, including applicable taxes [R12-01].\n* **Flexible Billing Toggles:** Users can switch between annual and monthly billing at any point without restarting [R12-01].\n* **Clear Renewal Summaries:** A summary at the top explicitly displays what will be charged today and on each renewal date [R12-01].\n* **Payment Options:** Payment can be made via credit card, Apple Pay, or Google Pay [R12-01, C070].\n* **Seamless Migration:** Users who started an upgrade in the old flow are automatically taken to the new checkout with their selections pre-filled [R12-01].\n\n---\n\n### Limitations & Customer Feedback on the New Checkout\n* **No PayPal Support:** Customers note that while the new checkout is much clearer, they are frustrated that PayPal is not offered as a payment option alongside cards, Apple Pay, and Google Pay [C070].\n* **Enterprise Plan Restrictions:** Enterprise plans cannot use the self-serve checkout and must be purchased through the sales team [R12-01]. Enterprise customers have complained that they cannot add seats themselves using the one-page checkout and must go through an account manager, which can take up to a week [C073].",
+  "cited_ids": [
+    "C054",
+    "C070",
+    "C073",
+    "R11-02",
+    "R12-01"
+  ],
+  "cited_not_retrieved": []
+}

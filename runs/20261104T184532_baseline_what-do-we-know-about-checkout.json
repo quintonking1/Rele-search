@@ -1,0 +1,86 @@
+{
+  "agent": "baseline",
+  "timestamp": "2026-11-04T18:45:32.150576+00:00",
+  "tag": "seed",
+  "question": "What do we know about checkout?",
+  "as_of": "2026-07-15",
+  "k": 8,
+  "include_dates": false,
+  "models": {
+    "embedding": "gemini-embedding-2",
+    "embedding_dim": 768,
+    "generation": "gemini-3.6-flash",
+    "temperature": 0.0
+  },
+  "retrieved": [
+    {
+      "rank": 1,
+      "id": "R12-01",
+      "source_type": "changelog",
+      "date": "2026-06-16",
+      "score": 0.729257
+    },
+    {
+      "rank": 2,
+      "id": "C070",
+      "source_type": "complaint",
+      "date": "2026-07-01",
+      "score": 0.714861
+    },
+    {
+      "rank": 3,
+      "id": "C073",
+      "source_type": "complaint",
+      "date": "2026-07-13",
+      "score": 0.690424
+    },
+    {
+      "rank": 4,
+      "id": "C022",
+      "source_type": "complaint",
+      "date": "2026-02-23",
+      "score": 0.660862
+    },
+    {
+      "rank": 5,
+      "id": "C054",
+      "source_type": "complaint",
+      "date": "2026-05-14",
+      "score": 0.657025
+    },
+    {
+      "rank": 6,
+      "id": "R11-02",
+      "source_type": "changelog",
+      "date": "2026-06-02",
+      "score": 0.64788
+    },
+    {
+      "rank": 7,
+      "id": "C060",
+      "source_type": "complaint",
+      "date": "2026-06-05",
+      "score": 0.640011
+    },
+    {
+      "rank": 8,
+      "id": "R06-03",
+      "source_type": "changelog",
+      "date": "2026-03-17",
+      "score": 0.623903
+    }
+  ],
+  "prompt": {
+    "system": "You are a research assistant for the product team at Tessera, an all-in-one workspace app.\nAnswer the researcher's question using ONLY the retrieved records provided. Records are customer complaints and changelog items.\nCite the record IDs that support every claim in square brackets, for example [C054] or [R12-01].\nIf the records do not contain enough information to answer, say so.",
+    "user": "Retrieved records:\n\nid: R12-01\nsource_type: changelog\nproduct_area: billing and plans\ntitle: Redesigned checkout\ntext: A simpler way to upgrade\n\nUpgrading to a paid plan is now a **single-page checkout**. The previous flow spread plan selection, seat count, billing details, and payment across four separate screens, and it was easy to lose track of what you'd be charged.\n\n**What's new**\n- Plan comparison, seat count, and payment details all live on one screen\n- The total price updates live as you change plans or seats, including tax where it applies\n- Switch between annual and monthly billing at any point without starting over\n- Pay with a card, Apple Pay, or Google Pay\n- A summary at the top shows exactly what you'll be charged today and on each renewal date\n\n**Good to know**\nThe new checkout is available on web, desktop, and mobile. Enterprise plans are still purchased through our sales team. If you started an upgrade in the old flow, you'll be taken to the new checkout with your selections already filled in.\n\n---\n\nid: C070\nsource_type: complaint\nproduct_area: billing and plans\ntitle: No PayPal option at checkout\ntext: The new checkout is much clearer, but I pay for all my software through PayPal and there is no option for it. Card, Apple Pay, and Google Pay only.\n\n---\n\nid: C073\nsource_type: complaint\nproduct_area: billing and plans\ntitle: Enterprise can't add seats ourselves\ntext: Everyone else gets the new one-page checkout but on Enterprise we still have to go through our account manager to add even two seats. It takes a week.\n\n---\n\nid: C022\nsource_type: complaint\nproduct_area: AI\ntitle: AI answers don't say where they came from\ntext: Tessera AI gave me a confident answer about our refund policy but there is no way to see which page it used. I can't send that to a customer without checking, and I can't check.\n\n---\n\nid: C054\nsource_type: complaint\nproduct_area: billing and plans\ntitle: Upgrade flow is four screens and I lost track of the total\ntext: I went through plan, seats, billing details, and payment on four different screens. By the end I wasn't sure what I was actually going to be charged, so I closed the tab.\n\n---\n\nid: R11-02\nsource_type: changelog\nproduct_area: billing and plans\ntitle: FAQ on the plan comparison page\ntext: Share your availability\n\nThe plan comparison page now includes a **Frequently asked questions** section below the plan table. It covers the questions we hear most from people deciding whether to upgrade:\n- What happens to my content if I downgrade later\n- How guests and members are counted toward seats\n- Whether AI is included in each plan\n- How education and nonprofit discounts work\n\nWe also added short tooltips to a handful of features in the plan table, such as teamspace permissions and page history, explaining what they do. The upgrade flow itself has not changed in this release, and pricing is the same.\n\n---\n\nid: C060\nsource_type: complaint\nproduct_area: mobile\ntitle: Offline mode only downloads part of our inventory database\ntext: I made our 12,000-row inventory database available offline for warehouse checks. Offline, about half the items are just missing.\n\n---\n\nid: R06-03\nsource_type: changelog\nproduct_area: sharing and permissions\ntitle: Guest access audit\ntext: Tessera AI, now with sources\n\nAdmins can now see every guest in the workspace in one place. Previously, finding out who had guest access meant opening each page's share menu one at a time.\n\nThe new **Guest access** page in **Settings \u2192 People \u2192 Guests** shows:\n- Every guest in the workspace and the email domain they belong to\n- Each page or teamspace they can reach, with their permission level (view, comment, or edit)\n- When they last visited the workspace\n- Who invited them\n\n**Taking action**\nSelect one or more guests to remove their access in bulk, or change their permission level across every page at once. You can also export the full list as a CSV for security reviews. Guests are notified by email when their access is removed.\n\n---\n\nQuestion: What do we know about checkout?"
+  },
+  "answer": "Based on the retrieved records, here is what we know about the checkout process:\n\n### Checkout Redesign & Features\n* **Single-Page Checkout:** Upgrading to a paid plan was redesigned into a single-page checkout available across web, desktop, and mobile [R12-01].\n* **Unified Information:** Plan comparison, seat count, and payment details all live on one screen [R12-01].\n* **Live Updates & Flexible Billing:** Total pricing updates live as users change plans or seats (including tax where applicable), and users can switch between monthly and annual billing at any time without starting over [R12-01].\n* **Clear Summary:** A summary at the top displays exact charges due today and on renewal dates [R12-01]. \n* **Transition from Old Flow:** If a user started an upgrade in the old flow, they are directed to the new single-page checkout with their selections pre-filled [R12-01].\n\n### Payment Methods\n* **Supported Options:** Checkout accepts cards, Apple Pay, and Google Pay [R12-01].\n* **Customer Feedback:** Users note the new checkout is much clearer, but there are complaints about the lack of a PayPal option [C070].\n\n### Enterprise Limitations\n* **Sales Team Required:** Enterprise plans cannot be purchased or upgraded via the self-serve checkout and must go through the sales team [R12-01].\n* **Customer Feedback:** Enterprise customers have complained that they cannot add seats themselves via the new one-page checkout, requiring them to go through an account manager, which can take a week [C073].\n\n### Previous Upgrade Flow & History\n* **Old 4-Screen Flow:** The previous upgrade flow required users to navigate four separate screens (plan selection, seat count, billing details, and payment) [R12-01]. This caused users to lose track of their total cost, leading some to abandon the process entirely [C054].\n* **Earlier Updates:** In a prior release (R11-02), Tessera added an FAQ section to the plan comparison page, but the upgrade flow itself remained unchanged until the single-page redesign [R11-02].",
+  "cited_ids": [
+    "C054",
+    "C070",
+    "C073",
+    "R11-02",
+    "R12-01"
+  ],
+  "cited_not_retrieved": []
+}

@@ -1,0 +1,962 @@
+[
+  {
+    "complaint_id": "C001",
+    "group": "code blocks and pages",
+    "history": [
+      {
+        "item": "R01-02",
+        "date": "2026-01-13",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R01-02 adds syntax highlighting for Elixir and Haskell, both languages requested."
+  },
+  {
+    "complaint_id": "C002",
+    "group": "code blocks and pages",
+    "history": [
+      {
+        "item": "R01-03",
+        "date": "2026-01-13",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R01-03: 'The duplicate now copies the cover, icon, and cover position'; README neutral role does not apply to this narrow complaint."
+  },
+  {
+    "complaint_id": "C003",
+    "group": "relations",
+    "history": [
+      {
+        "item": "R03-01",
+        "date": "2026-02-10",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R03-01 brings property type, target database, and rollup into one guided flow, the exact separate steps described."
+  },
+  {
+    "complaint_id": "C004",
+    "group": "code blocks and pages",
+    "history": [
+      {
+        "item": "R01-02",
+        "date": "2026-01-13",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R01-02 adds Terraform (HCL) and highlighting 'works in exported PDFs'; older blocks set to Plain Text must be switched by hand."
+  },
+  {
+    "complaint_id": "C005",
+    "group": "code blocks and pages",
+    "history": [
+      {
+        "item": "R01-03",
+        "date": "2026-01-13",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R01-03: the fix 'also applies to duplicating pages from templates', so the icon and banner now carry over."
+  },
+  {
+    "complaint_id": "C006",
+    "group": "desktop apps",
+    "history": [
+      {
+        "item": "R02-02",
+        "date": "2026-01-27",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R02-02 fixes the Windows crash on pastes of roughly 500+ rows from Excel; the complaint pastes about 800."
+  },
+  {
+    "complaint_id": "C007",
+    "group": "large databases",
+    "history": [
+      {
+        "item": "R03-02",
+        "date": "2026-02-10",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R03-02 makes 10,000+ row databases load up to 3x faster and moves filtering to the server for table views; decoy role applies only to the relations finding."
+  },
+  {
+    "complaint_id": "C008",
+    "group": "sidebar",
+    "history": [
+      {
+        "item": "R02-01",
+        "date": "2026-01-27",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R02-01: 'The sidebar now remembers which teamspaces and sections you collapsed'."
+  },
+  {
+    "complaint_id": "C009",
+    "group": "mobile",
+    "history": [
+      {
+        "item": "R03-03",
+        "date": "2026-02-10",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R03-03 fixes iOS board cards snapping back, 'especially ... when the column was scrolled'."
+  },
+  {
+    "complaint_id": "C010",
+    "group": "mail",
+    "history": [
+      {
+        "item": "R05-01",
+        "date": "2026-03-03",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R05-01 groups replies, forwards, and follow-ups into one threaded conversation."
+  },
+  {
+    "complaint_id": "C011",
+    "group": "relations",
+    "history": [
+      {
+        "item": "R03-01",
+        "date": "2026-02-10",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R03-01 lets you 'Preview how the link will appear on both sides, including the property name each database will see'."
+  },
+  {
+    "complaint_id": "C012",
+    "group": "calendar",
+    "history": [
+      {
+        "item": "R04-02",
+        "date": "2026-02-24",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R04-02 fixes all-day events showing a day early across timezones, with the same London and San Francisco case."
+  },
+  {
+    "complaint_id": "C013",
+    "group": "large databases",
+    "history": [
+      {
+        "item": "R03-02",
+        "date": "2026-02-10",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R03-02 covers board views and makes filtering large views server-side; the 18,000-card board is above the 10,000-row threshold."
+  },
+  {
+    "complaint_id": "C014",
+    "group": "sidebar",
+    "history": [
+      {
+        "item": "R16-01",
+        "date": "2026-08-18",
+        "resolution": "partial"
+      }
+    ],
+    "notes": "R16-01 adds an optional compact flat list; the README and team mark it partial because teamspace grouping stays the default."
+  },
+  {
+    "complaint_id": "C015",
+    "group": "security and sign-in",
+    "history": [
+      {
+        "item": "R04-01",
+        "date": "2026-02-24",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R04-01 expires idle SSO sessions after 12 hours by default on Enterprise, matching the 12-hour policy."
+  },
+  {
+    "complaint_id": "C016",
+    "group": "code blocks and pages",
+    "history": [],
+    "notes": "Filed after R01-03, which says past copies 'will not be repaired automatically'; no later bulk repair."
+  },
+  {
+    "complaint_id": "C017",
+    "group": "guests and permissions",
+    "history": [
+      {
+        "item": "R06-03",
+        "date": "2026-03-17",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R06-03 lists every guest and each page they can reach, with CSV export for security reviews."
+  },
+  {
+    "complaint_id": "C018",
+    "group": "mail",
+    "history": [
+      {
+        "item": "R05-02",
+        "date": "2026-03-03",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R05-02 fixes Android mail arriving up to 15 minutes late; new mail arrives within seconds."
+  },
+  {
+    "complaint_id": "C019",
+    "group": "search",
+    "history": [
+      {
+        "item": "R08-01",
+        "date": "2026-04-21",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R08-01 search now covers 'Text inside database rows'."
+  },
+  {
+    "complaint_id": "C020",
+    "group": "mail",
+    "history": [
+      {
+        "item": "R05-01",
+        "date": "2026-03-03",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R05-01: 'Archive, snooze, or label an entire thread at once', on all platforms including Mac."
+  },
+  {
+    "complaint_id": "C021",
+    "group": "large databases",
+    "history": [],
+    "notes": "Filed after R03-02, which excludes gallery views ('will get the same treatment in a future release'); no later release covers gallery speed."
+  },
+  {
+    "complaint_id": "C022",
+    "group": "ai trust",
+    "history": [
+      {
+        "item": "R06-01",
+        "date": "2026-03-17",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R06-01 adds inline citations linking to the exact pages used; available on the complainant's Business plan."
+  },
+  {
+    "complaint_id": "C023",
+    "group": "desktop apps",
+    "history": [],
+    "notes": "Filed after R02-02, which fixed Windows only; no later release fixes the Mac paste crash."
+  },
+  {
+    "complaint_id": "C024",
+    "group": "ai usage and languages",
+    "history": [
+      {
+        "item": "R06-02",
+        "date": "2026-03-17",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R06-02 adds Korean and says Improve writing works in the new languages; decoy role applies only to the trust finding."
+  },
+  {
+    "complaint_id": "C025",
+    "group": "relations",
+    "history": [],
+    "notes": "No release adds relations across workspaces; R13-02 only fixes a crash."
+  },
+  {
+    "complaint_id": "C026",
+    "group": "search",
+    "history": [
+      {
+        "item": "R08-02",
+        "date": "2026-04-21",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R08-02 makes Cmd+P open search on Mac, as requested."
+  },
+  {
+    "complaint_id": "C027",
+    "group": "ai trust",
+    "history": [
+      {
+        "item": "R06-01",
+        "date": "2026-03-17",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R06-01: citations are available 'in AI summaries', linking back to source pages."
+  },
+  {
+    "complaint_id": "C028",
+    "group": "calendar",
+    "history": [],
+    "notes": "No release adds editing a single occurrence of a recurring event."
+  },
+  {
+    "complaint_id": "C029",
+    "group": "recurring templates",
+    "history": [
+      {
+        "item": "R07-01",
+        "date": "2026-03-31",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R07-01 creates rows from a database template on a schedule, such as weekly sync notes; Plus plan supported."
+  },
+  {
+    "complaint_id": "C030",
+    "group": "code blocks and pages",
+    "history": [],
+    "notes": "No release extends page history; R11-02 only adds a tooltip about page history."
+  },
+  {
+    "complaint_id": "C031",
+    "group": "slack",
+    "history": [
+      {
+        "item": "R08-03",
+        "date": "2026-04-21",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R08-03 bundles per-comment Slack messages into hourly or daily digests."
+  },
+  {
+    "complaint_id": "C032",
+    "group": "ai usage and languages",
+    "history": [
+      {
+        "item": "R07-02",
+        "date": "2026-03-31",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R07-02 adds an admin AI usage dashboard with usage by teamspace and allowance tracking; Business plan supported."
+  },
+  {
+    "complaint_id": "C033",
+    "group": "microsoft teams",
+    "history": [],
+    "notes": "No release adds a Microsoft Teams integration."
+  },
+  {
+    "complaint_id": "C034",
+    "group": "search",
+    "history": [
+      {
+        "item": "R08-01",
+        "date": "2026-04-21",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R08-01 search now covers 'Comments and discussion threads' and 'The text of attached PDFs'."
+  },
+  {
+    "complaint_id": "C035",
+    "group": "mobile",
+    "history": [
+      {
+        "item": "R10-01",
+        "date": "2026-05-19",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R10-01 makes pages available offline on iOS, citing flights."
+  },
+  {
+    "complaint_id": "C036",
+    "group": "mail",
+    "history": [],
+    "notes": "Filed after R05-01, which warns 'messages from some older mail clients may not group perfectly'; no later fix."
+  },
+  {
+    "complaint_id": "C037",
+    "group": "mobile",
+    "history": [
+      {
+        "item": "R10-02",
+        "date": "2026-05-19",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R10-02 adds a recent pages home screen widget on iOS and Android."
+  },
+  {
+    "complaint_id": "C038",
+    "group": "ai usage and languages",
+    "history": [],
+    "notes": "Filed after R06-02; Thai is not among the added languages and no later release adds it."
+  },
+  {
+    "complaint_id": "C039",
+    "group": "search",
+    "history": [
+      {
+        "item": "R08-01",
+        "date": "2026-04-21",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R08-01 adds filters by teamspace and page author, exactly what was asked."
+  },
+  {
+    "complaint_id": "C040",
+    "group": "guests and permissions",
+    "history": [],
+    "notes": "No release adds public web links to the guest audit; R09-01 shows public links only when moving a page."
+  },
+  {
+    "complaint_id": "C041",
+    "group": "mail",
+    "history": [],
+    "notes": "R05-02 fixed Android only and predates the complaint; no iOS fix in any later release."
+  },
+  {
+    "complaint_id": "C042",
+    "group": "guests and permissions",
+    "history": [
+      {
+        "item": "R09-01",
+        "date": "2026-05-05",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R09-01 shows a permissions preview before a move into a shared teamspace changes who can see a page."
+  },
+  {
+    "complaint_id": "C043",
+    "group": "mobile",
+    "history": [
+      {
+        "item": "R10-03",
+        "date": "2026-05-19",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R10-03 fixes built-in icons rendering as dark outlines in dark mode on Android; decoy role applies only to the offline finding."
+  },
+  {
+    "complaint_id": "C044",
+    "group": "ai usage and languages",
+    "history": [],
+    "notes": "No release makes AI available on Free; R06-01 and later AI items list Plus and above."
+  },
+  {
+    "complaint_id": "C045",
+    "group": "search",
+    "history": [],
+    "notes": "REVIEW: filed two days after R08-02, which already lets you print with Cmd/Ctrl+Shift+P and change the shortcut; no later release, so current by rule 3."
+  },
+  {
+    "complaint_id": "C046",
+    "group": "search",
+    "history": [
+      {
+        "item": "R09-02",
+        "date": "2026-05-05",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R09-02 keeps search filters applied when returning from a result on iOS and Android."
+  },
+  {
+    "complaint_id": "C047",
+    "group": "recurring templates",
+    "history": [],
+    "notes": "No release lets repeating templates skip dates."
+  },
+  {
+    "complaint_id": "C048",
+    "group": "mobile",
+    "history": [
+      {
+        "item": "R10-01",
+        "date": "2026-05-19",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R10-01 adds offline read and edit on Android with automatic sync, citing commutes."
+  },
+  {
+    "complaint_id": "C049",
+    "group": "search",
+    "history": [
+      {
+        "item": "R09-02",
+        "date": "2026-05-05",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R09-02 also fixes the content type filter showing database rows when only pages are selected."
+  },
+  {
+    "complaint_id": "C050",
+    "group": "desktop apps",
+    "history": [],
+    "notes": "No release addresses Windows app memory use."
+  },
+  {
+    "complaint_id": "C051",
+    "group": "calendar",
+    "history": [
+      {
+        "item": "R11-01",
+        "date": "2026-06-02",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R11-01 adds booking links where external people pick a free slot; Plus plan supported."
+  },
+  {
+    "complaint_id": "C052",
+    "group": "search",
+    "history": [],
+    "notes": "Filed after R08-01, which indexes PDFs and Word documents only; no release indexes Excel attachments."
+  },
+  {
+    "complaint_id": "C053",
+    "group": "checkout and billing",
+    "history": [
+      {
+        "item": "R11-02",
+        "date": "2026-06-02",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R11-02 FAQ answers what happens to content on downgrade and how guests count toward seats; decoy role applies only to the checkout finding."
+  },
+  {
+    "complaint_id": "C054",
+    "group": "checkout and billing",
+    "history": [
+      {
+        "item": "R12-01",
+        "date": "2026-06-16",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R12-01 replaces the four-screen flow with a single-page checkout showing the total live."
+  },
+  {
+    "complaint_id": "C055",
+    "group": "slash menu",
+    "history": [
+      {
+        "item": "R12-02",
+        "date": "2026-06-16",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R12-02 groups blocks into categories with a description for each."
+  },
+  {
+    "complaint_id": "C056",
+    "group": "ai trust",
+    "history": [],
+    "notes": "Citations already existed (R06-01); no release addresses citation accuracy, and R19-03 says citations are unchanged."
+  },
+  {
+    "complaint_id": "C057",
+    "group": "calendar",
+    "history": [
+      {
+        "item": "R12-03",
+        "date": "2026-06-16",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R12-03 shows database date properties on Tessera Calendar."
+  },
+  {
+    "complaint_id": "C058",
+    "group": "security and sign-in",
+    "history": [],
+    "notes": "No release adds hardware security key support."
+  },
+  {
+    "complaint_id": "C059",
+    "group": "checkout and billing",
+    "history": [
+      {
+        "item": "R12-01",
+        "date": "2026-06-16",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R12-01 checkout supports Apple Pay and is available on mobile and on Free upgrades."
+  },
+  {
+    "complaint_id": "C060",
+    "group": "mobile",
+    "history": [],
+    "notes": "Filed after R10-01, whose offline databases download only the first 5,000 rows; no later release raises the cap."
+  },
+  {
+    "complaint_id": "C061",
+    "group": "sidebar",
+    "history": [
+      {
+        "item": "R16-01",
+        "date": "2026-08-18",
+        "resolution": "partial"
+      }
+    ],
+    "notes": "R16-01 adds an optional flat list without teamspace headers; the README and team mark it partial because grouping stays the default."
+  },
+  {
+    "complaint_id": "C062",
+    "group": "checkout and billing",
+    "history": [
+      {
+        "item": "R13-01",
+        "date": "2026-07-07",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R13-01 fixes the dollar symbol on euro invoices and regenerates past invoices; decoy role applies only to the checkout finding."
+  },
+  {
+    "complaint_id": "C063",
+    "group": "mobile",
+    "history": [],
+    "notes": "R10-03 states custom uploaded icons are unaffected; no later fix."
+  },
+  {
+    "complaint_id": "C064",
+    "group": "slack",
+    "history": [],
+    "notes": "No release adds a weekly Slack digest; R15-02 only fixes timezones."
+  },
+  {
+    "complaint_id": "C065",
+    "group": "relations",
+    "history": [
+      {
+        "item": "R13-02",
+        "date": "2026-07-07",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R13-02 fixes the relation builder crash in workspaces with archived databases."
+  },
+  {
+    "complaint_id": "C066",
+    "group": "github",
+    "history": [
+      {
+        "item": "R15-01",
+        "date": "2026-08-04",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R15-01 syncs GitHub issues and Tessera rows two ways, so status changes are made once."
+  },
+  {
+    "complaint_id": "C067",
+    "group": "checkout and billing",
+    "history": [
+      {
+        "item": "R13-01",
+        "date": "2026-07-07",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R13-01 fixes the dollar symbol on pound invoices and regenerates affected invoices."
+  },
+  {
+    "complaint_id": "C068",
+    "group": "calendar",
+    "history": [],
+    "notes": "Filed after R11-01, which is Plus and above; no release brings booking links to Free."
+  },
+  {
+    "complaint_id": "C069",
+    "group": "mobile",
+    "history": [
+      {
+        "item": "R14-01",
+        "date": "2026-07-21",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R14-01 makes the Android app open up to 2x faster from the local cache."
+  },
+  {
+    "complaint_id": "C070",
+    "group": "checkout and billing",
+    "history": [],
+    "notes": "Filed after R12-01; no later release adds PayPal."
+  },
+  {
+    "complaint_id": "C071",
+    "group": "mobile",
+    "history": [
+      {
+        "item": "R14-02",
+        "date": "2026-07-21",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R14-02 adds an Android tablet layout with the sidebar kept open and split screen support; applies to 8-inch-plus screens, size not stated in the complaint."
+  },
+  {
+    "complaint_id": "C072",
+    "group": "checkout and billing",
+    "history": [
+      {
+        "item": "R16-03",
+        "date": "2026-08-18",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R16-03 limits upgrade prompts to admins in Business workspaces; the complainant is a Business member."
+  },
+  {
+    "complaint_id": "C073",
+    "group": "checkout and billing",
+    "history": [],
+    "notes": "No release opens self-serve checkout to Enterprise; R18-01 lists Plus and Business only."
+  },
+  {
+    "complaint_id": "C074",
+    "group": "slack",
+    "history": [
+      {
+        "item": "R15-02",
+        "date": "2026-08-04",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R15-02 uses the Tessera account timezone when Slack has none, the exact case described."
+  },
+  {
+    "complaint_id": "C075",
+    "group": "checkout and billing",
+    "history": [
+      {
+        "item": "R18-02",
+        "date": "2026-09-15",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R18-02 fixes Apple Pay failing with a generic error for EU-issued cards on iOS."
+  },
+  {
+    "complaint_id": "C076",
+    "group": "calendar",
+    "history": [],
+    "notes": "No release adds round-robin booking links."
+  },
+  {
+    "complaint_id": "C077",
+    "group": "mail",
+    "history": [
+      {
+        "item": "R16-02",
+        "date": "2026-08-18",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R16-02 auto-labels sort newsletters and receipts out of the inbox; web and Plus supported."
+  },
+  {
+    "complaint_id": "C078",
+    "group": "code blocks and pages",
+    "history": [],
+    "notes": "No release changes Markdown export of toggles."
+  },
+  {
+    "complaint_id": "C079",
+    "group": "mobile",
+    "history": [],
+    "notes": "Filed after R14-01, which says uncached pages 'will still need a moment to load'; no later fix."
+  },
+  {
+    "complaint_id": "C080",
+    "group": "checkout and billing",
+    "history": [
+      {
+        "item": "R18-01",
+        "date": "2026-09-15",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R18-01 lets admins remove seats in the single-page checkout without contacting support; Business supported."
+  },
+  {
+    "complaint_id": "C081",
+    "group": "checkout and billing",
+    "history": [],
+    "notes": "No release adds VAT numbers to invoices."
+  },
+  {
+    "complaint_id": "C082",
+    "group": "accessibility",
+    "history": [
+      {
+        "item": "R17-01",
+        "date": "2026-09-01",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R17-01 labels every cell and adds arrow-key navigation in table views, tested with NVDA."
+  },
+  {
+    "complaint_id": "C083",
+    "group": "mobile",
+    "history": [],
+    "notes": "No release adds stylus handwriting."
+  },
+  {
+    "complaint_id": "C084",
+    "group": "github",
+    "history": [],
+    "notes": "R15-01 (before the complaint) says pull requests are not synced as rows; no later release changes that."
+  },
+  {
+    "complaint_id": "C085",
+    "group": "mail",
+    "history": [],
+    "notes": "R16-02 ships on web, Mac, and iOS only; no release brings auto-labels to Android."
+  },
+  {
+    "complaint_id": "C086",
+    "group": "accessibility",
+    "history": [
+      {
+        "item": "R17-02",
+        "date": "2026-09-01",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R17-02 adds a high-contrast theme that raises text and border contrast; README neutral role does not apply to this complaint."
+  },
+  {
+    "complaint_id": "C087",
+    "group": "webhooks",
+    "history": [
+      {
+        "item": "R19-02",
+        "date": "2026-09-29",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R19-02 adds database webhooks so integrations no longer poll; Business supported."
+  },
+  {
+    "complaint_id": "C088",
+    "group": "checkout and billing",
+    "history": [
+      {
+        "item": "R18-01",
+        "date": "2026-09-15",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R18-01 puts downgrades in Settings, Billing, Change plan; Plus supported."
+  },
+  {
+    "complaint_id": "C089",
+    "group": "checkout and billing",
+    "history": [],
+    "notes": "Filed after R16-03, which applies to Business only ('Free and Plus workspaces continue to show upgrade options'); no later change."
+  },
+  {
+    "complaint_id": "C090",
+    "group": "github",
+    "history": [],
+    "notes": "No release lets one synced database connect to several repositories."
+  },
+  {
+    "complaint_id": "C091",
+    "group": "accessibility",
+    "history": [],
+    "notes": "Filed after R17-01, which defers timeline and gallery views to later; no later release covers them."
+  },
+  {
+    "complaint_id": "C092",
+    "group": "ai trust",
+    "history": [
+      {
+        "item": "R19-03",
+        "date": "2026-09-29",
+        "resolution": "full"
+      }
+    ],
+    "notes": "REVIEW: group choice. R19-03 makes answers start in about a second on 50,000+ page workspaces (this one has 120,000). Placed in ai trust so the R19-03 decoy pair can test both halves."
+  },
+  {
+    "complaint_id": "C093",
+    "group": "accessibility",
+    "history": [],
+    "notes": "Filed after R17-02, which says highlight colors are adjusted in high contrast; no later fix."
+  },
+  {
+    "complaint_id": "C094",
+    "group": "ai autofill",
+    "history": [
+      {
+        "item": "R20-01",
+        "date": "2026-10-13",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R20-01 AI autofill fills select properties such as the theme of each feedback row; Business supported."
+  },
+  {
+    "complaint_id": "C095",
+    "group": "api v1",
+    "history": [],
+    "notes": "REVIEW: a breakage caused by R19-01 removing v1 endpoints the day before; nothing restores them, so it stays current until the customer migrates."
+  },
+  {
+    "complaint_id": "C096",
+    "group": "webhooks",
+    "history": [],
+    "notes": "R19-02 webhooks cover database rows only; no release adds page webhooks."
+  },
+  {
+    "complaint_id": "C097",
+    "group": "webhooks",
+    "history": [
+      {
+        "item": "R20-02",
+        "date": "2026-10-13",
+        "resolution": "full"
+      }
+    ],
+    "notes": "R20-02: 'Each change now produces exactly one delivery' for rows edited by several people at once."
+  },
+  {
+    "complaint_id": "C098",
+    "group": "webhooks",
+    "history": [],
+    "notes": "R19-02 caps integrations at 20 subscriptions; no release raises it."
+  },
+  {
+    "complaint_id": "C099",
+    "group": "ai autofill",
+    "history": [],
+    "notes": "Filed after R20-01, which supports text, select, and multi-select only; no later release adds dates or numbers."
+  },
+  {
+    "complaint_id": "C100",
+    "group": "ai autofill",
+    "history": [],
+    "notes": "No release after the complaint adds cost warnings for autofill."
+  }
+]

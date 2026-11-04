@@ -1,0 +1,83 @@
+{
+  "agent": "baseline",
+  "timestamp": "2026-11-04T18:42:45.253622+00:00",
+  "tag": "seed",
+  "question": "What pain do developers have detecting database changes?",
+  "as_of": "2026-10-20",
+  "k": 8,
+  "include_dates": true,
+  "models": {
+    "embedding": "gemini-embedding-2",
+    "embedding_dim": 768,
+    "generation": "gemini-3.6-flash",
+    "temperature": 0.0
+  },
+  "retrieved": [
+    {
+      "rank": 1,
+      "id": "C087",
+      "source_type": "complaint",
+      "date": "2026-08-27",
+      "score": 0.748851
+    },
+    {
+      "rank": 2,
+      "id": "R19-02",
+      "source_type": "changelog",
+      "date": "2026-09-29",
+      "score": 0.711318
+    },
+    {
+      "rank": 3,
+      "id": "C011",
+      "source_type": "complaint",
+      "date": "2026-01-28",
+      "score": 0.697541
+    },
+    {
+      "rank": 4,
+      "id": "C096",
+      "source_type": "complaint",
+      "date": "2026-10-02",
+      "score": 0.695499
+    },
+    {
+      "rank": 5,
+      "id": "C066",
+      "source_type": "complaint",
+      "date": "2026-06-22",
+      "score": 0.694951
+    },
+    {
+      "rank": 6,
+      "id": "C090",
+      "source_type": "complaint",
+      "date": "2026-09-03",
+      "score": 0.678076
+    },
+    {
+      "rank": 7,
+      "id": "R03-02",
+      "source_type": "changelog",
+      "date": "2026-02-10",
+      "score": 0.677454
+    },
+    {
+      "rank": 8,
+      "id": "C003",
+      "source_type": "complaint",
+      "date": "2025-12-15",
+      "score": 0.676038
+    }
+  ],
+  "prompt": {
+    "system": "You are a research assistant for the product team at Tessera, an all-in-one workspace app.\nAnswer the researcher's question using ONLY the retrieved records provided. Records are customer complaints and changelog items.\nCite the record IDs that support every claim in square brackets, for example [C054] or [R12-01].\nIf the records do not contain enough information to answer, say so.",
+    "user": "Retrieved records:\n\nid: C087\nsource_type: complaint\ndate: 2026-08-27\nproduct_area: API\ntitle: We have to poll the API every minute to catch changes\ntext: Our integration needs to know when rows change in a database. Right now we poll every minute, which is slow and burns through our rate limit. Any plans for webhooks?\n\n---\n\nid: R19-02\nsource_type: changelog\ndate: 2026-09-29\nproduct_area: API\ntitle: Database webhooks\ntext: API v2 is here to stay\n\nYou can now subscribe to **webhooks** that fire whenever rows are created, updated, or deleted in a database. Until now, integrations had to poll the API repeatedly to find out what had changed.\n\n**How it works**\n- Register a webhook URL for any integration in the developer portal\n- Choose which databases and which events to subscribe to\n- Tessera sends a `POST` request to your URL within a few seconds of each change\n\nEach payload includes the database and row IDs, the properties that changed with their old and new values, the user who made the change, and a timestamp. Requests are signed so you can verify they came from Tessera.\n\n**Good to know**\nFailed deliveries are retried with exponential backoff for up to 24 hours. Webhooks are available on Plus, Business, and Enterprise plans, with up to 20 subscriptions per integration.\n\n---\n\nid: C011\nsource_type: complaint\ndate: 2026-01-28\nproduct_area: databases\ntitle: Can't tell how a relation will look on the other database\ntext: When I add a relation I have no idea what the property will be called in the other database until I go look. A preview before I confirm would save me a lot of cleanup.\n\n---\n\nid: C096\nsource_type: complaint\ndate: 2026-10-02\nproduct_area: API\ntitle: Webhooks only cover databases, not regular pages\ntext: We want to trigger a review workflow when someone edits a policy page, but webhooks only fire for database rows.\n\n---\n\nid: C066\nsource_type: complaint\ndate: 2026-06-22\nproduct_area: integrations\ntitle: Updating the same task in GitHub and Tessera is a pain\ntext: We plan in Tessera and track issues in GitHub. Every status change has to be made twice, and they are always out of sync.\n\n---\n\nid: C090\nsource_type: complaint\ndate: 2026-09-03\nproduct_area: integrations\ntitle: One repository per synced database doesn't work for us\ntext: Our product is split across five repositories. I want one Tessera database showing issues from all of them, but each synced database only connects to one repo.\n\n---\n\nid: R03-02\nsource_type: changelog\ndate: 2026-02-10\nproduct_area: databases\ntitle: Faster loading for large databases\ntext: Relations without the guesswork\n\nDatabases with more than 10,000 rows now load up to 3x faster on first open. We changed how Tessera fetches rows so that only the rows visible on screen are loaded at first, and the rest stream in as you scroll.\n\nFiltering and sorting large table views is also noticeably snappier, since those operations now run on our servers instead of in your browser. In our testing, applying a filter to a 50,000 row database went from about 4 seconds to under 1 second.\n\nThese improvements apply to table, board, and list views. Gallery and timeline views will get the same treatment in a future release.\n\n---\n\nid: C003\nsource_type: complaint\ndate: 2025-12-15\nproduct_area: databases\ntitle: Setting up relations is confusing\ntext: I tried to link my Projects and Tasks databases and ended up with three half-configured relation properties. Picking the property type, finding the right database, and adding a rollup are all separate steps and I never know if I did it right.\n\n---\n\nQuestion: What pain do developers have detecting database changes?"
+  },
+  "answer": "Based on the retrieved records, developers detecting database changes experienced the following pain points:\n\n* **Repeated API Polling:** Prior to the introduction of database webhooks, integrations had to repeatedly poll the API to check if any rows had changed [C087, R19-02].\n* **Slowness and Rate Limits:** Polling (e.g., every minute) was slow and quickly burned through developers' API rate limits [C087].",
+  "cited_ids": [
+    "C087",
+    "R19-02"
+  ],
+  "cited_not_retrieved": []
+}

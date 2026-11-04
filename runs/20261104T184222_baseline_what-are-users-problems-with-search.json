@@ -1,0 +1,89 @@
+{
+  "agent": "baseline",
+  "timestamp": "2026-11-04T18:42:22.812545+00:00",
+  "tag": "seed",
+  "question": "What are users' problems with search?",
+  "as_of": "2026-05-15",
+  "k": 8,
+  "include_dates": true,
+  "models": {
+    "embedding": "gemini-embedding-2",
+    "embedding_dim": 768,
+    "generation": "gemini-3.6-flash",
+    "temperature": 0.0
+  },
+  "retrieved": [
+    {
+      "rank": 1,
+      "id": "C039",
+      "source_type": "complaint",
+      "date": "2026-04-08",
+      "score": 0.766197
+    },
+    {
+      "rank": 2,
+      "id": "C034",
+      "source_type": "complaint",
+      "date": "2026-03-26",
+      "score": 0.753325
+    },
+    {
+      "rank": 3,
+      "id": "C019",
+      "source_type": "complaint",
+      "date": "2026-02-18",
+      "score": 0.710065
+    },
+    {
+      "rank": 4,
+      "id": "C046",
+      "source_type": "complaint",
+      "date": "2026-04-27",
+      "score": 0.707303
+    },
+    {
+      "rank": 5,
+      "id": "C052",
+      "source_type": "complaint",
+      "date": "2026-05-08",
+      "score": 0.703312
+    },
+    {
+      "rank": 6,
+      "id": "R08-01",
+      "source_type": "changelog",
+      "date": "2026-04-21",
+      "score": 0.696918
+    },
+    {
+      "rank": 7,
+      "id": "C049",
+      "source_type": "complaint",
+      "date": "2026-05-01",
+      "score": 0.69463
+    },
+    {
+      "rank": 8,
+      "id": "C045",
+      "source_type": "complaint",
+      "date": "2026-04-23",
+      "score": 0.67053
+    }
+  ],
+  "prompt": {
+    "system": "You are a research assistant for the product team at Tessera, an all-in-one workspace app.\nAnswer the researcher's question using ONLY the retrieved records provided. Records are customer complaints and changelog items.\nCite the record IDs that support every claim in square brackets, for example [C054] or [R12-01].\nIf the records do not contain enough information to answer, say so.",
+    "user": "Retrieved records:\n\nid: C039\nsource_type: complaint\ndate: 2026-04-08\nproduct_area: search\ntitle: Search results are a jumble with no filters\ntext: Searching our wiki returns hundreds of results with no way to narrow by teamspace or by who wrote the page. I gave up and asked a coworker instead.\n\n---\n\nid: C034\nsource_type: complaint\ndate: 2026-03-26\nproduct_area: search\ntitle: Search ignores comments and attached PDFs\ntext: Most of our decisions happen in comment threads, and our contracts are attached as PDFs. Search finds neither, so I end up scrolling through pages by hand.\n\n---\n\nid: C019\nsource_type: complaint\ndate: 2026-02-18\nproduct_area: search\ntitle: Search can't find text inside database rows\ntext: I know there is a row in our Vendors database that mentions 'net 60', but searching for it returns nothing. Search only seems to find page titles.\n\n---\n\nid: C046\nsource_type: complaint\ndate: 2026-04-27\nproduct_area: search\ntitle: Search filters reset every time I open a result\ntext: I set the teamspace and date filters, tap a result, go back, and the filters are gone. I have to set them again for every result I check.\n\n---\n\nid: C052\nsource_type: complaint\ndate: 2026-05-08\nproduct_area: search\ntitle: Search doesn't look inside attached Excel files\ntext: The new search finds text inside our PDFs, which is great, but most of our price lists are attached Excel files and none of that shows up.\n\n---\n\nid: R08-01\nsource_type: changelog\ndate: 2026-04-21\nproduct_area: search\ntitle: Rebuilt search with filters\ntext: Search that actually finds it\n\nSearch has been rebuilt from the ground up. Until now, search only looked at page titles and the text of regular pages, which meant content inside databases, comments, and attachments was easy to lose.\n\n**What search covers now**\n- Text inside database rows, including text, select, and person properties\n- Comments and discussion threads\n- The text of attached PDFs and Word documents\n- Page titles and body text, as before\n\n**New filters**\nNarrow results by teamspace, page author, date edited, or content type (page, database row, comment, or file). Filters can be combined, and your last-used filters are remembered.\n\n**Better results**\nResults are now ranked by a mix of relevance and recent activity, and each result shows a highlighted snippet of where your search term appears. Press **Enter** on any result to jump straight to that spot on the page.\n\n---\n\nid: C049\nsource_type: complaint\ndate: 2026-05-01\nproduct_area: search\ntitle: Pages-only filter still shows database rows\ntext: I filter search to Pages only and database rows still show up in the results on my Android phone.\n\n---\n\nid: C045\nsource_type: complaint\ndate: 2026-04-23\nproduct_area: search\ntitle: Ctrl+P doesn't print anymore\ntext: I print meeting agendas several times a day and Ctrl+P now opens search instead. Please put it back or let me choose.\n\n---\n\nQuestion: What are users' problems with search?"
+  },
+  "answer": "Based on the provided records, users have reported the following problems with search:\n\n### Content Indexing Limitations\n* **Missing database content:** Search previously failed to locate text inside database rows, searching only page titles [C019, R08-01].\n* **Missing comments and PDF attachments:** Users complained that search ignored comment threads and attached PDFs [C034, R08-01].\n* **Missing Excel attachment support:** Even after PDF search was introduced, search still does not index text inside attached Excel files [C052].\n\n### Filtering Issues\n* **Lack of filters:** Users originally lacked options to filter or narrow down search results by author or teamspace [C039].\n* **Filter reset bug:** After filters were added, active search filters (such as teamspace and date) automatically reset every time a user opens a result and returns to the search page [C046].\n* **Faulty \"Pages-only\" filter:** Filtering by \"Pages-only\" on Android devices still incorrectly displays database rows in the results [C049].\n\n### Keyboard Shortcut Conflicts\n* **Print shortcut override:** The `Ctrl+P` shortcut opens search instead of triggering the print dialog, causing friction for users trying to print documents [C045].",
+  "cited_ids": [
+    "C019",
+    "C034",
+    "C039",
+    "C045",
+    "C046",
+    "C049",
+    "C052",
+    "R08-01"
+  ],
+  "cited_not_retrieved": []
+}
