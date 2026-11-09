@@ -61,7 +61,7 @@ def main() -> int:
     errors = []
 
     if [l["complaint_id"] for l in labels] != sorted(complaints):
-        errors.append("labels must be exactly C001..C100 in order")
+        errors.append("labels must cover every complaint, in id order")
     for l in labels:
         cid, c = l["complaint_id"], complaints.get(l["complaint_id"])
         if not c:

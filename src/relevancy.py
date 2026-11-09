@@ -145,6 +145,7 @@ def run_relevancy(cfg: Config, records: list[dict], method: str, client=None) ->
             "candidates_per_release": cfg.relevancy_candidates if method in ("llm", "hybrid") else None,
             "relevancy_model": cfg.relevancy_model if method in ("llm", "hybrid") else None,
             "embedding_model": cfg.embedding_model,
+            "complaints_checked": len(complaints),
         }
     )
     outdated: set[str] = set()

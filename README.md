@@ -11,7 +11,7 @@ Product teams collect research (complaints, interviews, findings) while the prod
 | Piece | State |
 | --- | --- |
 | Baseline RAG agent | Built. Ingest, retrieve, rank, answer, log. Seed questions run with and without dates in the prompt. |
-| Complaint labels | Drafted and passing all checks, **awaiting review** (`eval/labels/DRAFT_SUMMARY.md`). 58 fully fixed, 2 partially fixed, 40 never fixed. |
+| Complaint labels | Drafted and passing all checks, **awaiting review** (`eval/labels/DRAFT_SUMMARY.md`). 58 fully fixed, 2 partially fixed, 55 never fixed (includes 15 near misses added 2026-11-09). |
 | Topic briefs | Drafted for 23 groups, awaiting review |
 | Questions | Not generated yet. Blocked on the open decisions below. |
 | Eval harness, split, scoring | Not started |
@@ -23,7 +23,7 @@ Product teams collect research (complaints, interviews, findings) while the prod
 2. **Items that fix no complaint.** R01-01, R10-04, and R19-01 have no complaint expressing their target finding, so they cannot get before and after pairs. Drop them from coverage, or add complaints for them.
 3. **Labels marked REVIEW:** C045, C092, C095.
 4. **Small groups.** api v1, microsoft teams, and slash menu hold one complaint each. Consider merging some before the split.
-5. **Near misses never reach the relevancy check.** The check only compares a release against complaints dated before it, and 32 of the 33 near-miss complaints are dated after the release they resemble (only C073 predates its release). So far the near misses test answering and retrieval, but not the relevancy check. Fix by adding or redating near-miss complaints to come before their release.
+5. **Re-embed after adding complaints.** C101 to C115 are new near misses, each dated before a release in the same area that does not fix it (before this, only C073 tested the relevancy check, since the other near misses come after their release). `data/store.json` does not have vectors for them yet: run `python -m src ingest`, commit the new store, then re-run `python -m src update` for every method.
 6. **Partial status.** The full agent has two statuses (current, outdated). The scoring table counts a partial complaint reported as current as a stale answer, which affects C014 and C061.
 7. **Agent run logs** stay in `runs/` at the root, since agent code may not reference `eval/`. `eval/runs/` is for the harness only. The eval plan's file layout should list `runs/`.
 
@@ -41,7 +41,7 @@ src/                     agent code (must never read eval/)
   store.py               JSON vector store with as_of filter
   retry.py               retries for rate limits and overload
 data/
-  tessera_complaints.json   100 complaints, 2025-12-04 to 2026-10-21
+  tessera_complaints.json   115 complaints, 2025-12-04 to 2026-10-21 (C101 to C115 are added near misses)
   tessera_changelog.json    20 releases, 49 items, 2026-01-13 to 2026-10-13
   store.json                embedded store (committed so both of us use identical vectors)
   status/<method>.json      full agent status log per relevancy method (events + every check)
@@ -148,7 +148,7 @@ The 0.80 threshold is the 98th percentile of release-to-earlier-complaint simila
 .venv/bin/python -m eval.score_relevancy --show-errors   # compare methods against the labels
 ```
 
-**First relevancy scores** (all 100 complaints, no split yet, labels still a draft):
+**First relevancy scores** (original 100 complaints, before C101 to C115 were added; no split yet, labels still a draft):
 
 | Method | Correct | Wrong release | Missed | False flag | Precision | Recall |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -157,7 +157,7 @@ The 0.80 threshold is the 98th percentile of release-to-earlier-complaint simila
 | llm | not run yet | | | | | |
 | hybrid | not run yet | | | | | |
 
-Similarity's precision is inflated by open decision 5: the near misses that should trip it up are dated after their releases, so the check never sees them.
+Similarity's precision here is inflated: the near misses in C001 to C100 are dated after their releases, so the check never sees them. C101 to C115 fix that; re-run after re-embedding (open decision 5). Six of them should be stopped by the hybrid's platform and plan gates (C101, C103, C106, C107, C111, C112), and nine need judgment.
 
 ## Evaluation
 
@@ -179,4 +179,4 @@ Full spec in `docs/eval_plan.md`.
 
 ## Data
 
-Both datasets are synthetic and describe **Tessera**, a fictional Notion-like workspace. They share the same product area and platform enums, so they live in one store (149 records). `eval/tessera_changelog_README.md` documents the schema and each changelog item's role: invalidator, partial, decoy, or neutral.
+Both datasets are synthetic and describe **Tessera**, a fictional Notion-like workspace. They share the same product area and platform enums, so they live in one store (164 records). `eval/tessera_changelog_README.md` documents the schema and each changelog item's role: invalidator, partial, decoy, or neutral.

@@ -8,7 +8,7 @@ Draft of `complaint_labels.json` from `eval/prompts/01_complaint_labels.md`, 202
 | --- | --- |
 | Fully fixed | 58 |
 | Partially fixed | 2 (C014, C061, both by R16-01) |
-| Never fixed (empty history) | 40 |
+| Never fixed (empty history) | 55 (40 original, plus C101 to C115) |
 
 No complaint has more than one fix, so there are no partial-then-full chains.
 
@@ -64,3 +64,27 @@ Three groups were added beyond the suggested list, with briefs in `eval/topic_br
 - **microsoft teams:** C033
 
 Groups with a single complaint (api v1, microsoft teams, slash menu) are small for the split. Consider merging them, such as api v1 into webhooks as "api".
+
+## Added near misses (2026-11-09)
+
+C101 to C115 were added so the relevancy check meets near misses. Before this, all but one near miss (C073) was dated after the release it resembles, and the check only compares a release with complaints dated before it. Each new complaint is dated before a release in the same area that does not fix it, and no later release fixes it either, so every history is empty.
+
+| Complaint | Near miss for | Why the release does not fix it | Stopped by hybrid gate? |
+| --- | --- | --- | --- |
+| C101 | R02-02 | Windows only; complaint is Mac | platform |
+| C102 | R03-02 | Gallery view excluded | no |
+| C103 | R05-02 | Android only; complaint is iOS | platform |
+| C104 | R06-02 | Hebrew not among the new languages | no |
+| C105 | R08-01 | PowerPoint not indexed (PDF and Word only) | no |
+| C106 | R10-01 | Offline on iOS and Android only; complaint is Mac | platform |
+| C107 | R11-01 | Booking links are Plus and above; complaint is Free | plan |
+| C108 | R12-01 | No invoice or bank transfer payment | no |
+| C109 | R13-01 | Currency fix only; no invoice language | no |
+| C110 | R14-01 | Launch speed only; complaint is scrolling | no |
+| C111 | R16-01 | Compact sidebar on web, Mac, Windows; complaint is iOS | platform |
+| C112 | R16-03 | Business only; complaint is Plus | plan |
+| C113 | R17-01 | Gallery view deferred | no |
+| C114 | R19-02 | Webhooks cover rows, not comments | no |
+| C115 | R20-01 | Autofill covers text and select properties, not person | no |
+
+`data/store.json` must be re-embedded (`python -m src ingest`) before these appear in retrieval or the relevancy check.

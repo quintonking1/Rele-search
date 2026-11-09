@@ -87,6 +87,11 @@ def main() -> None:
         raise SystemExit("No status logs in data/status/. Run: python -m src update --method <method>")
 
     results = [score(m, labels, groups) for m in methods]
+    for r in results:
+        checked = r["meta"].get("complaints_checked")
+        if checked != len(labels):
+            print(f"WARNING {r['method']}: status log covers {checked or 'an older set of'} complaints, labels cover "
+                  f"{len(labels)}. Re-run `python -m src ingest` then `python -m src update --method {r['method']}`.")
     cols = ["correct", "wrong release", "missed", "false flag", "partial", "correctly current"]
     print(f"{'method':<11}" + "".join(f"{c:>18}" for c in cols) + f"{'precision':>11}{'recall':>8}")
     for r in results:

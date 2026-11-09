@@ -12,7 +12,7 @@ Product teams pile up research (complaints, interviews, findings), but the produ
 
 ## Current phase: full agent (first version)
 
-The baseline is built. The full agent's first version lives in `src/relevancy.py`, `src/status.py`, and `src/agent.py` (see the README). Baseline files (`src/baseline.py`, `data/store.json`) must stay unchanged so the comparison stays clean; the full agent imports from them but never modifies them.
+The baseline is built. The full agent's first version lives in `src/relevancy.py`, `src/status.py`, and `src/agent.py` (see the README). Baseline code (`src/baseline.py`) must stay unchanged so the comparison stays clean; the full agent imports from it but never modifies it. `data/store.json` changes only through `python -m src ingest`, and both agents use the same store.
 
 ## Baseline
 
@@ -37,11 +37,11 @@ Both datasets are synthetic and describe **Tessera**, a fictional Notion-like wo
 
 | File | Contents |
 | --- | --- |
-| `data/tessera_complaints.json` | 100 customer complaints, 2025-12-04 to 2026-10-21 |
+| `data/tessera_complaints.json` | 115 customer complaints, 2025-12-04 to 2026-10-21. C101 to C115 are near misses dated before a release in the same area that does not fix them |
 | `data/tessera_changelog.json` | 20 releases, 49 items, 2026-01-13 to 2026-10-13 |
 | `eval/tessera_changelog_README.md` | Schema, plus the role of each changelog item (invalidator, partial, decoy, neutral) and its target finding |
 
-- One complaint = one chunk. One changelog item = one chunk (release title + item title + description). 149 chunks total.
+- One complaint = one chunk. One changelog item = one chunk (release title + item title + description). 164 chunks total.
 - Both datasets share the same `product_area` and `platforms` enums.
 - The README's role table is input for building the answer key. The agent must never read it.
 
