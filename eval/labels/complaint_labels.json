@@ -958,5 +958,95 @@
     "group": "ai autofill",
     "history": [],
     "notes": "No release after the complaint adds cost warnings for autofill."
+  },
+  {
+    "complaint_id": "C101",
+    "group": "desktop apps",
+    "history": [],
+    "notes": "Near miss for R02-02, which fixes large pastes on Windows only. No release fixes the Mac crash. Platform gate should catch it."
+  },
+  {
+    "complaint_id": "C102",
+    "group": "large databases",
+    "history": [],
+    "notes": "Near miss for R03-02, which speeds up table, board, and list views and leaves gallery for a future release. No later release covers gallery speed."
+  },
+  {
+    "complaint_id": "C103",
+    "group": "mail",
+    "history": [],
+    "notes": "Near miss for R05-02, which fixes background sync on Android only. No iOS fix in any release. Platform gate should catch it."
+  },
+  {
+    "complaint_id": "C104",
+    "group": "ai usage and languages",
+    "history": [],
+    "notes": "Near miss for R06-02, which adds Korean, Polish, Turkish, Vietnamese, Indonesian, and Dutch. Hebrew is not included in any release."
+  },
+  {
+    "complaint_id": "C105",
+    "group": "search",
+    "history": [],
+    "notes": "Near miss for R08-01, which indexes attached PDFs and Word documents only. No release indexes PowerPoint."
+  },
+  {
+    "complaint_id": "C106",
+    "group": "desktop apps",
+    "history": [],
+    "notes": "Near miss for R10-01, which adds offline pages on iOS and Android only. No release adds offline mode to the desktop apps. Platform gate should catch it."
+  },
+  {
+    "complaint_id": "C107",
+    "group": "calendar",
+    "history": [],
+    "notes": "Near miss for R11-01, whose booking links are Plus, Business, and Enterprise only. Nothing brings them to Free. Plan gate should catch it."
+  },
+  {
+    "complaint_id": "C108",
+    "group": "checkout and billing",
+    "history": [],
+    "notes": "Near miss for R12-01, whose new checkout takes card, Apple Pay, and Google Pay only. No release adds invoice or bank transfer payment."
+  },
+  {
+    "complaint_id": "C109",
+    "group": "checkout and billing",
+    "history": [],
+    "notes": "Near miss for R13-01, which fixes the currency symbol on invoice PDFs only. No release adds invoice languages."
+  },
+  {
+    "complaint_id": "C110",
+    "group": "mobile",
+    "history": [],
+    "notes": "Near miss for R14-01, which speeds up app launch only. No release improves database scrolling on mobile."
+  },
+  {
+    "complaint_id": "C111",
+    "group": "sidebar",
+    "history": [],
+    "notes": "Near miss for R16-01, whose compact flat sidebar is on web, Mac, and Windows only. No mobile equivalent. Platform gate should catch it."
+  },
+  {
+    "complaint_id": "C112",
+    "group": "checkout and billing",
+    "history": [],
+    "notes": "Near miss for R16-03, which limits upgrade prompts to admins in Business workspaces only. Plus is unchanged. Plan gate should catch it."
+  },
+  {
+    "complaint_id": "C113",
+    "group": "accessibility",
+    "history": [],
+    "notes": "Near miss for R17-01, which covers table and board views and defers timeline and gallery to later. No later release covers gallery."
+  },
+  {
+    "complaint_id": "C114",
+    "group": "webhooks",
+    "history": [],
+    "notes": "Near miss for R19-02, whose webhooks fire on rows created, updated, or deleted. Comments are not covered by any release."
+  },
+  {
+    "complaint_id": "C115",
+    "group": "ai autofill",
+    "history": [],
+    "notes": "Near miss for R20-01, whose autofill supports text, select, and multi-select properties only. Person properties are not covered."
   }
 ]

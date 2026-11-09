@@ -10,9 +10,13 @@ Product teams pile up research (complaints, interviews, findings), but the produ
 
 **Research question:** how should the agent decide that a release affects a finding: by product area, by text similarity, or by a model's judgment? Topic matching alone is not enough, because a finding can share a product area with a release and still be true.
 
-## Current phase: baseline
+## Current phase: full agent (first version)
 
-We are building the **baseline** first: a plain shared RAG system with no staleness awareness. It is the control condition the full agent is compared against. The spec is `docs/baseline_rag_prd.md`; the eval spec is `docs/eval_plan.md`.
+The baseline is built. The full agent's first version lives in `src/relevancy.py`, `src/status.py`, and `src/agent.py` (see the README). Baseline code (`src/baseline.py`) must stay unchanged so the comparison stays clean; the full agent imports from it but never modifies it. `data/store.json` changes only through `python -m src ingest`, and both agents use the same store.
+
+## Baseline
+
+We built the **baseline** first: a plain shared RAG system with no staleness awareness. It is the control condition the full agent is compared against. The spec is `docs/baseline_rag_prd.md`; the eval spec is `docs/eval_plan.md`.
 
 **In scope (baseline)**
 - One shared store holding both complaints and changelog items
@@ -33,11 +37,11 @@ Both datasets are synthetic and describe **Tessera**, a fictional Notion-like wo
 
 | File | Contents |
 | --- | --- |
-| `data/tessera_complaints.json` | 100 customer complaints, 2025-12-04 to 2026-10-21 |
+| `data/tessera_complaints.json` | 115 customer complaints, 2025-12-04 to 2026-10-21. C101 to C115 are near misses dated before a release in the same area that does not fix them |
 | `data/tessera_changelog.json` | 20 releases, 49 items, 2026-01-13 to 2026-10-13 |
 | `eval/tessera_changelog_README.md` | Schema, plus the role of each changelog item (invalidator, partial, decoy, neutral) and its target finding |
 
-- One complaint = one chunk. One changelog item = one chunk (release title + item title + description). 149 chunks total.
+- One complaint = one chunk. One changelog item = one chunk (release title + item title + description). 164 chunks total.
 - Both datasets share the same `product_area` and `platforms` enums.
 - The README's role table is input for building the answer key. The agent must never read it.
 
@@ -52,7 +56,7 @@ Both datasets are synthetic and describe **Tessera**, a fictional Notion-like wo
 - **Logging:** one JSON record per run (question, `as_of`, retrieved IDs with scores and ranks, prompt, answer, model names, timestamp). The full agent must use the same log format.
 - **Secrets:** API keys come from environment variables. Never hard-code or commit them.
 
-Open decisions (ask before choosing): answer LLM, exact embedding model, whether to add an LLM reranker, whether dates appear in the answer prompt, and whether status gets a third "partial" value later.
+Open decisions (ask before choosing): answer LLM, exact embedding model, whether to add an LLM reranker, whether dates appear in the answer prompt, and whether status gets a third "partial" value later. The full agent currently uses two statuses (current, outdated).
 
 ## Evaluation
 

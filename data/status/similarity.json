@@ -1,0 +1,914 @@
+{
+ "meta": {
+  "method": "similarity",
+  "similarity_threshold": 0.8,
+  "candidates_per_release": null,
+  "relevancy_model": null,
+  "embedding_model": "gemini-embedding-2",
+  "created": "2026-11-09T18:43:16.769699+00:00"
+ },
+ "events": [
+  {
+   "complaint_id": "C001",
+   "status": "outdated",
+   "outdated_by": "R01-02",
+   "since": "2026-01-13",
+   "reason": "similarity 0.882 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C004",
+   "status": "outdated",
+   "outdated_by": "R01-02",
+   "since": "2026-01-13",
+   "reason": "similarity 0.812 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C002",
+   "status": "outdated",
+   "outdated_by": "R01-03",
+   "since": "2026-01-13",
+   "reason": "similarity 0.882 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C008",
+   "status": "outdated",
+   "outdated_by": "R02-01",
+   "since": "2026-01-27",
+   "reason": "similarity 0.889 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C006",
+   "status": "outdated",
+   "outdated_by": "R02-02",
+   "since": "2026-01-27",
+   "reason": "similarity 0.862 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C003",
+   "status": "outdated",
+   "outdated_by": "R03-01",
+   "since": "2026-02-10",
+   "reason": "similarity 0.851 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C011",
+   "status": "outdated",
+   "outdated_by": "R03-01",
+   "since": "2026-02-10",
+   "reason": "similarity 0.834 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C009",
+   "status": "outdated",
+   "outdated_by": "R03-03",
+   "since": "2026-02-10",
+   "reason": "similarity 0.834 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C015",
+   "status": "outdated",
+   "outdated_by": "R04-01",
+   "since": "2026-02-24",
+   "reason": "similarity 0.831 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C012",
+   "status": "outdated",
+   "outdated_by": "R04-02",
+   "since": "2026-02-24",
+   "reason": "similarity 0.859 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C010",
+   "status": "outdated",
+   "outdated_by": "R05-01",
+   "since": "2026-03-03",
+   "reason": "similarity 0.873 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C018",
+   "status": "outdated",
+   "outdated_by": "R05-02",
+   "since": "2026-03-03",
+   "reason": "similarity 0.868 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C022",
+   "status": "outdated",
+   "outdated_by": "R06-01",
+   "since": "2026-03-17",
+   "reason": "similarity 0.824 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C024",
+   "status": "outdated",
+   "outdated_by": "R06-02",
+   "since": "2026-03-17",
+   "reason": "similarity 0.821 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C017",
+   "status": "outdated",
+   "outdated_by": "R06-03",
+   "since": "2026-03-17",
+   "reason": "similarity 0.868 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C029",
+   "status": "outdated",
+   "outdated_by": "R07-01",
+   "since": "2026-03-31",
+   "reason": "similarity 0.845 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C032",
+   "status": "outdated",
+   "outdated_by": "R07-02",
+   "since": "2026-03-31",
+   "reason": "similarity 0.837 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C034",
+   "status": "outdated",
+   "outdated_by": "R08-01",
+   "since": "2026-04-21",
+   "reason": "similarity 0.802 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C026",
+   "status": "outdated",
+   "outdated_by": "R08-02",
+   "since": "2026-04-21",
+   "reason": "similarity 0.885 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C031",
+   "status": "outdated",
+   "outdated_by": "R08-03",
+   "since": "2026-04-21",
+   "reason": "similarity 0.821 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C046",
+   "status": "outdated",
+   "outdated_by": "R09-02",
+   "since": "2026-05-05",
+   "reason": "similarity 0.849 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C049",
+   "status": "outdated",
+   "outdated_by": "R09-02",
+   "since": "2026-05-05",
+   "reason": "similarity 0.834 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C035",
+   "status": "outdated",
+   "outdated_by": "R10-01",
+   "since": "2026-05-19",
+   "reason": "similarity 0.844 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C048",
+   "status": "outdated",
+   "outdated_by": "R10-01",
+   "since": "2026-05-19",
+   "reason": "similarity 0.816 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C037",
+   "status": "outdated",
+   "outdated_by": "R10-02",
+   "since": "2026-05-19",
+   "reason": "similarity 0.818 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C043",
+   "status": "outdated",
+   "outdated_by": "R10-03",
+   "since": "2026-05-19",
+   "reason": "similarity 0.837 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C051",
+   "status": "outdated",
+   "outdated_by": "R11-01",
+   "since": "2026-06-02",
+   "reason": "similarity 0.881 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C053",
+   "status": "outdated",
+   "outdated_by": "R11-02",
+   "since": "2026-06-02",
+   "reason": "similarity 0.871 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C054",
+   "status": "outdated",
+   "outdated_by": "R12-01",
+   "since": "2026-06-16",
+   "reason": "similarity 0.819 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C055",
+   "status": "outdated",
+   "outdated_by": "R12-02",
+   "since": "2026-06-16",
+   "reason": "similarity 0.806 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C057",
+   "status": "outdated",
+   "outdated_by": "R12-03",
+   "since": "2026-06-16",
+   "reason": "similarity 0.849 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C062",
+   "status": "outdated",
+   "outdated_by": "R13-01",
+   "since": "2026-07-07",
+   "reason": "similarity 0.845 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C067",
+   "status": "outdated",
+   "outdated_by": "R13-01",
+   "since": "2026-07-07",
+   "reason": "similarity 0.840 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C025",
+   "status": "outdated",
+   "outdated_by": "R13-02",
+   "since": "2026-07-07",
+   "reason": "similarity 0.842 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C065",
+   "status": "outdated",
+   "outdated_by": "R13-02",
+   "since": "2026-07-07",
+   "reason": "similarity 0.878 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C066",
+   "status": "outdated",
+   "outdated_by": "R15-01",
+   "since": "2026-08-04",
+   "reason": "similarity 0.850 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C074",
+   "status": "outdated",
+   "outdated_by": "R15-02",
+   "since": "2026-08-04",
+   "reason": "similarity 0.846 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C014",
+   "status": "outdated",
+   "outdated_by": "R16-01",
+   "since": "2026-08-18",
+   "reason": "similarity 0.866 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C061",
+   "status": "outdated",
+   "outdated_by": "R16-01",
+   "since": "2026-08-18",
+   "reason": "similarity 0.872 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C077",
+   "status": "outdated",
+   "outdated_by": "R16-02",
+   "since": "2026-08-18",
+   "reason": "similarity 0.805 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C072",
+   "status": "outdated",
+   "outdated_by": "R16-03",
+   "since": "2026-08-18",
+   "reason": "similarity 0.824 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C082",
+   "status": "outdated",
+   "outdated_by": "R17-01",
+   "since": "2026-09-01",
+   "reason": "similarity 0.822 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C086",
+   "status": "outdated",
+   "outdated_by": "R17-02",
+   "since": "2026-09-01",
+   "reason": "similarity 0.839 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C080",
+   "status": "outdated",
+   "outdated_by": "R18-01",
+   "since": "2026-09-15",
+   "reason": "similarity 0.810 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C059",
+   "status": "outdated",
+   "outdated_by": "R18-02",
+   "since": "2026-09-15",
+   "reason": "similarity 0.812 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C075",
+   "status": "outdated",
+   "outdated_by": "R18-02",
+   "since": "2026-09-15",
+   "reason": "similarity 0.849 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C087",
+   "status": "outdated",
+   "outdated_by": "R19-02",
+   "since": "2026-09-29",
+   "reason": "similarity 0.846 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C092",
+   "status": "outdated",
+   "outdated_by": "R19-03",
+   "since": "2026-09-29",
+   "reason": "similarity 0.862 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C094",
+   "status": "outdated",
+   "outdated_by": "R20-01",
+   "since": "2026-10-13",
+   "reason": "similarity 0.831 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C097",
+   "status": "outdated",
+   "outdated_by": "R20-02",
+   "since": "2026-10-13",
+   "reason": "similarity 0.866 >= 0.8",
+   "evidence": ""
+  }
+ ],
+ "checks": [
+  {
+   "release": "R01-02",
+   "release_date": "2026-01-13",
+   "complaint": "C001",
+   "id": "C001",
+   "fixes": true,
+   "score": 0.8817319869995117,
+   "reason": "similarity 0.882 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R01-02",
+   "release_date": "2026-01-13",
+   "complaint": "C004",
+   "id": "C004",
+   "fixes": true,
+   "score": 0.8115258812904358,
+   "reason": "similarity 0.812 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R01-03",
+   "release_date": "2026-01-13",
+   "complaint": "C002",
+   "id": "C002",
+   "fixes": true,
+   "score": 0.8816012740135193,
+   "reason": "similarity 0.882 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R02-01",
+   "release_date": "2026-01-27",
+   "complaint": "C008",
+   "id": "C008",
+   "fixes": true,
+   "score": 0.8885341286659241,
+   "reason": "similarity 0.889 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R02-02",
+   "release_date": "2026-01-27",
+   "complaint": "C006",
+   "id": "C006",
+   "fixes": true,
+   "score": 0.8616320490837097,
+   "reason": "similarity 0.862 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R03-01",
+   "release_date": "2026-02-10",
+   "complaint": "C003",
+   "id": "C003",
+   "fixes": true,
+   "score": 0.8508609533309937,
+   "reason": "similarity 0.851 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R03-01",
+   "release_date": "2026-02-10",
+   "complaint": "C011",
+   "id": "C011",
+   "fixes": true,
+   "score": 0.8340682983398438,
+   "reason": "similarity 0.834 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R03-03",
+   "release_date": "2026-02-10",
+   "complaint": "C009",
+   "id": "C009",
+   "fixes": true,
+   "score": 0.8343707323074341,
+   "reason": "similarity 0.834 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R04-01",
+   "release_date": "2026-02-24",
+   "complaint": "C015",
+   "id": "C015",
+   "fixes": true,
+   "score": 0.8306422233581543,
+   "reason": "similarity 0.831 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R04-02",
+   "release_date": "2026-02-24",
+   "complaint": "C012",
+   "id": "C012",
+   "fixes": true,
+   "score": 0.8590190410614014,
+   "reason": "similarity 0.859 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R05-01",
+   "release_date": "2026-03-03",
+   "complaint": "C010",
+   "id": "C010",
+   "fixes": true,
+   "score": 0.8727095127105713,
+   "reason": "similarity 0.873 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R05-02",
+   "release_date": "2026-03-03",
+   "complaint": "C018",
+   "id": "C018",
+   "fixes": true,
+   "score": 0.8682680130004883,
+   "reason": "similarity 0.868 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R06-01",
+   "release_date": "2026-03-17",
+   "complaint": "C022",
+   "id": "C022",
+   "fixes": true,
+   "score": 0.8237863779067993,
+   "reason": "similarity 0.824 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R06-02",
+   "release_date": "2026-03-17",
+   "complaint": "C024",
+   "id": "C024",
+   "fixes": true,
+   "score": 0.820781946182251,
+   "reason": "similarity 0.821 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R06-03",
+   "release_date": "2026-03-17",
+   "complaint": "C017",
+   "id": "C017",
+   "fixes": true,
+   "score": 0.8684935569763184,
+   "reason": "similarity 0.868 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R07-01",
+   "release_date": "2026-03-31",
+   "complaint": "C029",
+   "id": "C029",
+   "fixes": true,
+   "score": 0.8453289270401001,
+   "reason": "similarity 0.845 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R07-02",
+   "release_date": "2026-03-31",
+   "complaint": "C032",
+   "id": "C032",
+   "fixes": true,
+   "score": 0.8371616005897522,
+   "reason": "similarity 0.837 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R08-01",
+   "release_date": "2026-04-21",
+   "complaint": "C034",
+   "id": "C034",
+   "fixes": true,
+   "score": 0.8016325235366821,
+   "reason": "similarity 0.802 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R08-02",
+   "release_date": "2026-04-21",
+   "complaint": "C026",
+   "id": "C026",
+   "fixes": true,
+   "score": 0.885291576385498,
+   "reason": "similarity 0.885 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R08-03",
+   "release_date": "2026-04-21",
+   "complaint": "C031",
+   "id": "C031",
+   "fixes": true,
+   "score": 0.8210980892181396,
+   "reason": "similarity 0.821 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R09-02",
+   "release_date": "2026-05-05",
+   "complaint": "C046",
+   "id": "C046",
+   "fixes": true,
+   "score": 0.8486467599868774,
+   "reason": "similarity 0.849 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R09-02",
+   "release_date": "2026-05-05",
+   "complaint": "C049",
+   "id": "C049",
+   "fixes": true,
+   "score": 0.8335885405540466,
+   "reason": "similarity 0.834 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R10-01",
+   "release_date": "2026-05-19",
+   "complaint": "C035",
+   "id": "C035",
+   "fixes": true,
+   "score": 0.8441905975341797,
+   "reason": "similarity 0.844 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R10-01",
+   "release_date": "2026-05-19",
+   "complaint": "C048",
+   "id": "C048",
+   "fixes": true,
+   "score": 0.8161420822143555,
+   "reason": "similarity 0.816 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R10-02",
+   "release_date": "2026-05-19",
+   "complaint": "C037",
+   "id": "C037",
+   "fixes": true,
+   "score": 0.8183208703994751,
+   "reason": "similarity 0.818 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R10-03",
+   "release_date": "2026-05-19",
+   "complaint": "C043",
+   "id": "C043",
+   "fixes": true,
+   "score": 0.8365737199783325,
+   "reason": "similarity 0.837 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R11-01",
+   "release_date": "2026-06-02",
+   "complaint": "C051",
+   "id": "C051",
+   "fixes": true,
+   "score": 0.8805058002471924,
+   "reason": "similarity 0.881 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R11-02",
+   "release_date": "2026-06-02",
+   "complaint": "C053",
+   "id": "C053",
+   "fixes": true,
+   "score": 0.8711573481559753,
+   "reason": "similarity 0.871 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R12-01",
+   "release_date": "2026-06-16",
+   "complaint": "C054",
+   "id": "C054",
+   "fixes": true,
+   "score": 0.8193547129631042,
+   "reason": "similarity 0.819 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R12-02",
+   "release_date": "2026-06-16",
+   "complaint": "C055",
+   "id": "C055",
+   "fixes": true,
+   "score": 0.8059910535812378,
+   "reason": "similarity 0.806 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R12-03",
+   "release_date": "2026-06-16",
+   "complaint": "C057",
+   "id": "C057",
+   "fixes": true,
+   "score": 0.8494490385055542,
+   "reason": "similarity 0.849 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R13-01",
+   "release_date": "2026-07-07",
+   "complaint": "C062",
+   "id": "C062",
+   "fixes": true,
+   "score": 0.8451879620552063,
+   "reason": "similarity 0.845 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R13-01",
+   "release_date": "2026-07-07",
+   "complaint": "C067",
+   "id": "C067",
+   "fixes": true,
+   "score": 0.8400773406028748,
+   "reason": "similarity 0.840 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R13-02",
+   "release_date": "2026-07-07",
+   "complaint": "C025",
+   "id": "C025",
+   "fixes": true,
+   "score": 0.8421064615249634,
+   "reason": "similarity 0.842 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R13-02",
+   "release_date": "2026-07-07",
+   "complaint": "C065",
+   "id": "C065",
+   "fixes": true,
+   "score": 0.8775800466537476,
+   "reason": "similarity 0.878 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R15-01",
+   "release_date": "2026-08-04",
+   "complaint": "C066",
+   "id": "C066",
+   "fixes": true,
+   "score": 0.8504282236099243,
+   "reason": "similarity 0.850 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R15-02",
+   "release_date": "2026-08-04",
+   "complaint": "C074",
+   "id": "C074",
+   "fixes": true,
+   "score": 0.8457956314086914,
+   "reason": "similarity 0.846 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R16-01",
+   "release_date": "2026-08-18",
+   "complaint": "C014",
+   "id": "C014",
+   "fixes": true,
+   "score": 0.865913987159729,
+   "reason": "similarity 0.866 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R16-01",
+   "release_date": "2026-08-18",
+   "complaint": "C061",
+   "id": "C061",
+   "fixes": true,
+   "score": 0.8717691898345947,
+   "reason": "similarity 0.872 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R16-02",
+   "release_date": "2026-08-18",
+   "complaint": "C077",
+   "id": "C077",
+   "fixes": true,
+   "score": 0.8046863079071045,
+   "reason": "similarity 0.805 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R16-03",
+   "release_date": "2026-08-18",
+   "complaint": "C072",
+   "id": "C072",
+   "fixes": true,
+   "score": 0.8241754770278931,
+   "reason": "similarity 0.824 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R17-01",
+   "release_date": "2026-09-01",
+   "complaint": "C082",
+   "id": "C082",
+   "fixes": true,
+   "score": 0.8217746019363403,
+   "reason": "similarity 0.822 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R17-02",
+   "release_date": "2026-09-01",
+   "complaint": "C086",
+   "id": "C086",
+   "fixes": true,
+   "score": 0.8391953110694885,
+   "reason": "similarity 0.839 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R18-01",
+   "release_date": "2026-09-15",
+   "complaint": "C080",
+   "id": "C080",
+   "fixes": true,
+   "score": 0.8104255795478821,
+   "reason": "similarity 0.810 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R18-02",
+   "release_date": "2026-09-15",
+   "complaint": "C059",
+   "id": "C059",
+   "fixes": true,
+   "score": 0.8122125267982483,
+   "reason": "similarity 0.812 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R18-02",
+   "release_date": "2026-09-15",
+   "complaint": "C075",
+   "id": "C075",
+   "fixes": true,
+   "score": 0.8489145636558533,
+   "reason": "similarity 0.849 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R19-02",
+   "release_date": "2026-09-29",
+   "complaint": "C087",
+   "id": "C087",
+   "fixes": true,
+   "score": 0.8461542129516602,
+   "reason": "similarity 0.846 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R19-03",
+   "release_date": "2026-09-29",
+   "complaint": "C092",
+   "id": "C092",
+   "fixes": true,
+   "score": 0.8619409203529358,
+   "reason": "similarity 0.862 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R20-01",
+   "release_date": "2026-10-13",
+   "complaint": "C094",
+   "id": "C094",
+   "fixes": true,
+   "score": 0.8306884169578552,
+   "reason": "similarity 0.831 >= 0.8",
+   "evidence": ""
+  },
+  {
+   "release": "R20-02",
+   "release_date": "2026-10-13",
+   "complaint": "C097",
+   "id": "C097",
+   "fixes": true,
+   "score": 0.8659777641296387,
+   "reason": "similarity 0.866 >= 0.8",
+   "evidence": ""
+  }
+ ]
+}
