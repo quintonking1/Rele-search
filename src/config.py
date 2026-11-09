@@ -28,6 +28,11 @@ class Config:
     store_path: Path
     runs_dir: Path
     include_dates: bool
+    # Full agent (relevancy check). The baseline never reads these.
+    status_dir: Path
+    relevancy_model: str
+    similarity_threshold: float
+    relevancy_candidates: int
 
 
 def load_config() -> Config:
@@ -45,4 +50,8 @@ def load_config() -> Config:
         store_path=ROOT / os.getenv("STORE_PATH", "data/store.json"),
         runs_dir=ROOT / os.getenv("RUNS_DIR", "runs"),
         include_dates=_bool(os.getenv("INCLUDE_DATES_IN_PROMPT", "true")),
+        status_dir=ROOT / os.getenv("STATUS_DIR", "data/status"),
+        relevancy_model=os.getenv("RELEVANCY_MODEL") or generation_model,
+        similarity_threshold=float(os.getenv("SIMILARITY_THRESHOLD", "0.80")),
+        relevancy_candidates=int(os.getenv("RELEVANCY_CANDIDATES", "10")),
     )

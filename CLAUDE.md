@@ -10,9 +10,13 @@ Product teams pile up research (complaints, interviews, findings), but the produ
 
 **Research question:** how should the agent decide that a release affects a finding: by product area, by text similarity, or by a model's judgment? Topic matching alone is not enough, because a finding can share a product area with a release and still be true.
 
-## Current phase: baseline
+## Current phase: full agent (first version)
 
-We are building the **baseline** first: a plain shared RAG system with no staleness awareness. It is the control condition the full agent is compared against. The spec is `docs/baseline_rag_prd.md`; the eval spec is `docs/eval_plan.md`.
+The baseline is built. The full agent's first version lives in `src/relevancy.py`, `src/status.py`, and `src/agent.py` (see the README). Baseline files (`src/baseline.py`, `data/store.json`) must stay unchanged so the comparison stays clean; the full agent imports from them but never modifies them.
+
+## Baseline
+
+We built the **baseline** first: a plain shared RAG system with no staleness awareness. It is the control condition the full agent is compared against. The spec is `docs/baseline_rag_prd.md`; the eval spec is `docs/eval_plan.md`.
 
 **In scope (baseline)**
 - One shared store holding both complaints and changelog items
@@ -52,7 +56,7 @@ Both datasets are synthetic and describe **Tessera**, a fictional Notion-like wo
 - **Logging:** one JSON record per run (question, `as_of`, retrieved IDs with scores and ranks, prompt, answer, model names, timestamp). The full agent must use the same log format.
 - **Secrets:** API keys come from environment variables. Never hard-code or commit them.
 
-Open decisions (ask before choosing): answer LLM, exact embedding model, whether to add an LLM reranker, whether dates appear in the answer prompt, and whether status gets a third "partial" value later.
+Open decisions (ask before choosing): answer LLM, exact embedding model, whether to add an LLM reranker, whether dates appear in the answer prompt, and whether status gets a third "partial" value later. The full agent currently uses two statuses (current, outdated).
 
 ## Evaluation
 

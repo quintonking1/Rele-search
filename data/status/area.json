@@ -1,0 +1,1580 @@
+{
+ "meta": {
+  "method": "area",
+  "similarity_threshold": null,
+  "candidates_per_release": null,
+  "relevancy_model": null,
+  "embedding_model": "gemini-embedding-2",
+  "created": "2026-11-09T18:43:16.257096+00:00"
+ },
+ "events": [
+  {
+   "complaint_id": "C001",
+   "status": "outdated",
+   "outdated_by": "R01-01",
+   "since": "2026-01-13",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C002",
+   "status": "outdated",
+   "outdated_by": "R01-01",
+   "since": "2026-01-13",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C004",
+   "status": "outdated",
+   "outdated_by": "R01-01",
+   "since": "2026-01-13",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C005",
+   "status": "outdated",
+   "outdated_by": "R01-01",
+   "since": "2026-01-13",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C006",
+   "status": "outdated",
+   "outdated_by": "R01-01",
+   "since": "2026-01-13",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C008",
+   "status": "outdated",
+   "outdated_by": "R02-01",
+   "since": "2026-01-27",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C003",
+   "status": "outdated",
+   "outdated_by": "R03-01",
+   "since": "2026-02-10",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C007",
+   "status": "outdated",
+   "outdated_by": "R03-01",
+   "since": "2026-02-10",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C011",
+   "status": "outdated",
+   "outdated_by": "R03-01",
+   "since": "2026-02-10",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C013",
+   "status": "outdated",
+   "outdated_by": "R03-01",
+   "since": "2026-02-10",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C009",
+   "status": "outdated",
+   "outdated_by": "R03-03",
+   "since": "2026-02-10",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C015",
+   "status": "outdated",
+   "outdated_by": "R04-01",
+   "since": "2026-02-24",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C017",
+   "status": "outdated",
+   "outdated_by": "R04-01",
+   "since": "2026-02-24",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C012",
+   "status": "outdated",
+   "outdated_by": "R04-02",
+   "since": "2026-02-24",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C010",
+   "status": "outdated",
+   "outdated_by": "R05-01",
+   "since": "2026-03-03",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C018",
+   "status": "outdated",
+   "outdated_by": "R05-01",
+   "since": "2026-03-03",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C020",
+   "status": "outdated",
+   "outdated_by": "R05-01",
+   "since": "2026-03-03",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C022",
+   "status": "outdated",
+   "outdated_by": "R06-01",
+   "since": "2026-03-17",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C024",
+   "status": "outdated",
+   "outdated_by": "R06-01",
+   "since": "2026-03-17",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C027",
+   "status": "outdated",
+   "outdated_by": "R06-01",
+   "since": "2026-03-17",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C021",
+   "status": "outdated",
+   "outdated_by": "R07-01",
+   "since": "2026-03-31",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C025",
+   "status": "outdated",
+   "outdated_by": "R07-01",
+   "since": "2026-03-31",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C029",
+   "status": "outdated",
+   "outdated_by": "R07-01",
+   "since": "2026-03-31",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C032",
+   "status": "outdated",
+   "outdated_by": "R07-02",
+   "since": "2026-03-31",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C019",
+   "status": "outdated",
+   "outdated_by": "R08-01",
+   "since": "2026-04-21",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C026",
+   "status": "outdated",
+   "outdated_by": "R08-01",
+   "since": "2026-04-21",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C034",
+   "status": "outdated",
+   "outdated_by": "R08-01",
+   "since": "2026-04-21",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C039",
+   "status": "outdated",
+   "outdated_by": "R08-01",
+   "since": "2026-04-21",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C031",
+   "status": "outdated",
+   "outdated_by": "R08-03",
+   "since": "2026-04-21",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C033",
+   "status": "outdated",
+   "outdated_by": "R08-03",
+   "since": "2026-04-21",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C040",
+   "status": "outdated",
+   "outdated_by": "R09-01",
+   "since": "2026-05-05",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C042",
+   "status": "outdated",
+   "outdated_by": "R09-01",
+   "since": "2026-05-05",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C045",
+   "status": "outdated",
+   "outdated_by": "R09-02",
+   "since": "2026-05-05",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C046",
+   "status": "outdated",
+   "outdated_by": "R09-02",
+   "since": "2026-05-05",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C049",
+   "status": "outdated",
+   "outdated_by": "R09-02",
+   "since": "2026-05-05",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C035",
+   "status": "outdated",
+   "outdated_by": "R10-01",
+   "since": "2026-05-19",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C037",
+   "status": "outdated",
+   "outdated_by": "R10-01",
+   "since": "2026-05-19",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C043",
+   "status": "outdated",
+   "outdated_by": "R10-01",
+   "since": "2026-05-19",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C048",
+   "status": "outdated",
+   "outdated_by": "R10-01",
+   "since": "2026-05-19",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C028",
+   "status": "outdated",
+   "outdated_by": "R11-01",
+   "since": "2026-06-02",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C051",
+   "status": "outdated",
+   "outdated_by": "R11-01",
+   "since": "2026-06-02",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C057",
+   "status": "outdated",
+   "outdated_by": "R11-01",
+   "since": "2026-06-02",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C053",
+   "status": "outdated",
+   "outdated_by": "R11-02",
+   "since": "2026-06-02",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C054",
+   "status": "outdated",
+   "outdated_by": "R11-02",
+   "since": "2026-06-02",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C059",
+   "status": "outdated",
+   "outdated_by": "R12-01",
+   "since": "2026-06-16",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C062",
+   "status": "outdated",
+   "outdated_by": "R12-01",
+   "since": "2026-06-16",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C014",
+   "status": "outdated",
+   "outdated_by": "R12-02",
+   "since": "2026-06-16",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C016",
+   "status": "outdated",
+   "outdated_by": "R12-02",
+   "since": "2026-06-16",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C023",
+   "status": "outdated",
+   "outdated_by": "R12-02",
+   "since": "2026-06-16",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C030",
+   "status": "outdated",
+   "outdated_by": "R12-02",
+   "since": "2026-06-16",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C050",
+   "status": "outdated",
+   "outdated_by": "R12-02",
+   "since": "2026-06-16",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C055",
+   "status": "outdated",
+   "outdated_by": "R12-02",
+   "since": "2026-06-16",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C061",
+   "status": "outdated",
+   "outdated_by": "R12-02",
+   "since": "2026-06-16",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C067",
+   "status": "outdated",
+   "outdated_by": "R13-01",
+   "since": "2026-07-07",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C070",
+   "status": "outdated",
+   "outdated_by": "R13-01",
+   "since": "2026-07-07",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C047",
+   "status": "outdated",
+   "outdated_by": "R13-02",
+   "since": "2026-07-07",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C065",
+   "status": "outdated",
+   "outdated_by": "R13-02",
+   "since": "2026-07-07",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C060",
+   "status": "outdated",
+   "outdated_by": "R14-01",
+   "since": "2026-07-21",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C063",
+   "status": "outdated",
+   "outdated_by": "R14-01",
+   "since": "2026-07-21",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C069",
+   "status": "outdated",
+   "outdated_by": "R14-01",
+   "since": "2026-07-21",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C071",
+   "status": "outdated",
+   "outdated_by": "R14-01",
+   "since": "2026-07-21",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C064",
+   "status": "outdated",
+   "outdated_by": "R15-01",
+   "since": "2026-08-04",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C066",
+   "status": "outdated",
+   "outdated_by": "R15-01",
+   "since": "2026-08-04",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C074",
+   "status": "outdated",
+   "outdated_by": "R15-01",
+   "since": "2026-08-04",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C078",
+   "status": "outdated",
+   "outdated_by": "R16-01",
+   "since": "2026-08-18",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C036",
+   "status": "outdated",
+   "outdated_by": "R16-02",
+   "since": "2026-08-18",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C041",
+   "status": "outdated",
+   "outdated_by": "R16-02",
+   "since": "2026-08-18",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C077",
+   "status": "outdated",
+   "outdated_by": "R16-02",
+   "since": "2026-08-18",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C072",
+   "status": "outdated",
+   "outdated_by": "R16-03",
+   "since": "2026-08-18",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C073",
+   "status": "outdated",
+   "outdated_by": "R16-03",
+   "since": "2026-08-18",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C075",
+   "status": "outdated",
+   "outdated_by": "R16-03",
+   "since": "2026-08-18",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C080",
+   "status": "outdated",
+   "outdated_by": "R16-03",
+   "since": "2026-08-18",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C081",
+   "status": "outdated",
+   "outdated_by": "R16-03",
+   "since": "2026-08-18",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C082",
+   "status": "outdated",
+   "outdated_by": "R17-01",
+   "since": "2026-09-01",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C086",
+   "status": "outdated",
+   "outdated_by": "R17-02",
+   "since": "2026-09-01",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C088",
+   "status": "outdated",
+   "outdated_by": "R18-01",
+   "since": "2026-09-15",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C089",
+   "status": "outdated",
+   "outdated_by": "R18-01",
+   "since": "2026-09-15",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C087",
+   "status": "outdated",
+   "outdated_by": "R19-01",
+   "since": "2026-09-29",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C038",
+   "status": "outdated",
+   "outdated_by": "R19-03",
+   "since": "2026-09-29",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C044",
+   "status": "outdated",
+   "outdated_by": "R19-03",
+   "since": "2026-09-29",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C056",
+   "status": "outdated",
+   "outdated_by": "R19-03",
+   "since": "2026-09-29",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C092",
+   "status": "outdated",
+   "outdated_by": "R19-03",
+   "since": "2026-09-29",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C094",
+   "status": "outdated",
+   "outdated_by": "R19-03",
+   "since": "2026-09-29",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C095",
+   "status": "outdated",
+   "outdated_by": "R20-02",
+   "since": "2026-10-13",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C096",
+   "status": "outdated",
+   "outdated_by": "R20-02",
+   "since": "2026-10-13",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C097",
+   "status": "outdated",
+   "outdated_by": "R20-02",
+   "since": "2026-10-13",
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "complaint_id": "C098",
+   "status": "outdated",
+   "outdated_by": "R20-02",
+   "since": "2026-10-13",
+   "reason": "same product area",
+   "evidence": ""
+  }
+ ],
+ "checks": [
+  {
+   "release": "R01-01",
+   "release_date": "2026-01-13",
+   "complaint": "C001",
+   "id": "C001",
+   "fixes": true,
+   "score": 0.6496690511703491,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R01-01",
+   "release_date": "2026-01-13",
+   "complaint": "C002",
+   "id": "C002",
+   "fixes": true,
+   "score": 0.7164409160614014,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R01-01",
+   "release_date": "2026-01-13",
+   "complaint": "C004",
+   "id": "C004",
+   "fixes": true,
+   "score": 0.6175538897514343,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R01-01",
+   "release_date": "2026-01-13",
+   "complaint": "C005",
+   "id": "C005",
+   "fixes": true,
+   "score": 0.7278277277946472,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R01-01",
+   "release_date": "2026-01-13",
+   "complaint": "C006",
+   "id": "C006",
+   "fixes": true,
+   "score": 0.7029772996902466,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R02-01",
+   "release_date": "2026-01-27",
+   "complaint": "C008",
+   "id": "C008",
+   "fixes": true,
+   "score": 0.8885341286659241,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R03-01",
+   "release_date": "2026-02-10",
+   "complaint": "C003",
+   "id": "C003",
+   "fixes": true,
+   "score": 0.8508609533309937,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R03-01",
+   "release_date": "2026-02-10",
+   "complaint": "C007",
+   "id": "C007",
+   "fixes": true,
+   "score": 0.6358784437179565,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R03-01",
+   "release_date": "2026-02-10",
+   "complaint": "C011",
+   "id": "C011",
+   "fixes": true,
+   "score": 0.8340682983398438,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R03-01",
+   "release_date": "2026-02-10",
+   "complaint": "C013",
+   "id": "C013",
+   "fixes": true,
+   "score": 0.6232667565345764,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R03-03",
+   "release_date": "2026-02-10",
+   "complaint": "C009",
+   "id": "C009",
+   "fixes": true,
+   "score": 0.8343707323074341,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R04-01",
+   "release_date": "2026-02-24",
+   "complaint": "C015",
+   "id": "C015",
+   "fixes": true,
+   "score": 0.8306422233581543,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R04-01",
+   "release_date": "2026-02-24",
+   "complaint": "C017",
+   "id": "C017",
+   "fixes": true,
+   "score": 0.7238230109214783,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R04-02",
+   "release_date": "2026-02-24",
+   "complaint": "C012",
+   "id": "C012",
+   "fixes": true,
+   "score": 0.8590190410614014,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R05-01",
+   "release_date": "2026-03-03",
+   "complaint": "C010",
+   "id": "C010",
+   "fixes": true,
+   "score": 0.8727095127105713,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R05-01",
+   "release_date": "2026-03-03",
+   "complaint": "C018",
+   "id": "C018",
+   "fixes": true,
+   "score": 0.7500911951065063,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R05-01",
+   "release_date": "2026-03-03",
+   "complaint": "C020",
+   "id": "C020",
+   "fixes": true,
+   "score": 0.7504624128341675,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R06-01",
+   "release_date": "2026-03-17",
+   "complaint": "C022",
+   "id": "C022",
+   "fixes": true,
+   "score": 0.8237863779067993,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R06-01",
+   "release_date": "2026-03-17",
+   "complaint": "C024",
+   "id": "C024",
+   "fixes": true,
+   "score": 0.7262609004974365,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R06-01",
+   "release_date": "2026-03-17",
+   "complaint": "C027",
+   "id": "C027",
+   "fixes": true,
+   "score": 0.7733721733093262,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R07-01",
+   "release_date": "2026-03-31",
+   "complaint": "C021",
+   "id": "C021",
+   "fixes": true,
+   "score": 0.6757021546363831,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R07-01",
+   "release_date": "2026-03-31",
+   "complaint": "C025",
+   "id": "C025",
+   "fixes": true,
+   "score": 0.7348916530609131,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R07-01",
+   "release_date": "2026-03-31",
+   "complaint": "C029",
+   "id": "C029",
+   "fixes": true,
+   "score": 0.8453289270401001,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R07-02",
+   "release_date": "2026-03-31",
+   "complaint": "C032",
+   "id": "C032",
+   "fixes": true,
+   "score": 0.8371616005897522,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R08-01",
+   "release_date": "2026-04-21",
+   "complaint": "C019",
+   "id": "C019",
+   "fixes": true,
+   "score": 0.7723129987716675,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R08-01",
+   "release_date": "2026-04-21",
+   "complaint": "C026",
+   "id": "C026",
+   "fixes": true,
+   "score": 0.671308696269989,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R08-01",
+   "release_date": "2026-04-21",
+   "complaint": "C034",
+   "id": "C034",
+   "fixes": true,
+   "score": 0.8016325235366821,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R08-01",
+   "release_date": "2026-04-21",
+   "complaint": "C039",
+   "id": "C039",
+   "fixes": true,
+   "score": 0.7717983722686768,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R08-03",
+   "release_date": "2026-04-21",
+   "complaint": "C031",
+   "id": "C031",
+   "fixes": true,
+   "score": 0.8210980892181396,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R08-03",
+   "release_date": "2026-04-21",
+   "complaint": "C033",
+   "id": "C033",
+   "fixes": true,
+   "score": 0.7544025182723999,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R09-01",
+   "release_date": "2026-05-05",
+   "complaint": "C040",
+   "id": "C040",
+   "fixes": true,
+   "score": 0.6661969423294067,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R09-01",
+   "release_date": "2026-05-05",
+   "complaint": "C042",
+   "id": "C042",
+   "fixes": true,
+   "score": 0.7871252298355103,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R09-02",
+   "release_date": "2026-05-05",
+   "complaint": "C045",
+   "id": "C045",
+   "fixes": true,
+   "score": 0.6888186931610107,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R09-02",
+   "release_date": "2026-05-05",
+   "complaint": "C046",
+   "id": "C046",
+   "fixes": true,
+   "score": 0.8486467599868774,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R09-02",
+   "release_date": "2026-05-05",
+   "complaint": "C049",
+   "id": "C049",
+   "fixes": true,
+   "score": 0.8335885405540466,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R10-01",
+   "release_date": "2026-05-19",
+   "complaint": "C035",
+   "id": "C035",
+   "fixes": true,
+   "score": 0.8441905975341797,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R10-01",
+   "release_date": "2026-05-19",
+   "complaint": "C037",
+   "id": "C037",
+   "fixes": true,
+   "score": 0.6951531171798706,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R10-01",
+   "release_date": "2026-05-19",
+   "complaint": "C043",
+   "id": "C043",
+   "fixes": true,
+   "score": 0.6579259634017944,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R10-01",
+   "release_date": "2026-05-19",
+   "complaint": "C048",
+   "id": "C048",
+   "fixes": true,
+   "score": 0.8161420822143555,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R11-01",
+   "release_date": "2026-06-02",
+   "complaint": "C028",
+   "id": "C028",
+   "fixes": true,
+   "score": 0.6711374521255493,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R11-01",
+   "release_date": "2026-06-02",
+   "complaint": "C051",
+   "id": "C051",
+   "fixes": true,
+   "score": 0.8805058002471924,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R11-01",
+   "release_date": "2026-06-02",
+   "complaint": "C057",
+   "id": "C057",
+   "fixes": true,
+   "score": 0.7312370538711548,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R11-02",
+   "release_date": "2026-06-02",
+   "complaint": "C053",
+   "id": "C053",
+   "fixes": true,
+   "score": 0.8711573481559753,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R11-02",
+   "release_date": "2026-06-02",
+   "complaint": "C054",
+   "id": "C054",
+   "fixes": true,
+   "score": 0.7271178960800171,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R12-01",
+   "release_date": "2026-06-16",
+   "complaint": "C059",
+   "id": "C059",
+   "fixes": true,
+   "score": 0.7710311412811279,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R12-01",
+   "release_date": "2026-06-16",
+   "complaint": "C062",
+   "id": "C062",
+   "fixes": true,
+   "score": 0.6623014211654663,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R12-02",
+   "release_date": "2026-06-16",
+   "complaint": "C014",
+   "id": "C014",
+   "fixes": true,
+   "score": 0.712371826171875,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R12-02",
+   "release_date": "2026-06-16",
+   "complaint": "C016",
+   "id": "C016",
+   "fixes": true,
+   "score": 0.6662702560424805,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R12-02",
+   "release_date": "2026-06-16",
+   "complaint": "C023",
+   "id": "C023",
+   "fixes": true,
+   "score": 0.660150945186615,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R12-02",
+   "release_date": "2026-06-16",
+   "complaint": "C030",
+   "id": "C030",
+   "fixes": true,
+   "score": 0.656690239906311,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R12-02",
+   "release_date": "2026-06-16",
+   "complaint": "C050",
+   "id": "C050",
+   "fixes": true,
+   "score": 0.677352786064148,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R12-02",
+   "release_date": "2026-06-16",
+   "complaint": "C055",
+   "id": "C055",
+   "fixes": true,
+   "score": 0.8059910535812378,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R12-02",
+   "release_date": "2026-06-16",
+   "complaint": "C061",
+   "id": "C061",
+   "fixes": true,
+   "score": 0.7241454124450684,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R13-01",
+   "release_date": "2026-07-07",
+   "complaint": "C067",
+   "id": "C067",
+   "fixes": true,
+   "score": 0.8400773406028748,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R13-01",
+   "release_date": "2026-07-07",
+   "complaint": "C070",
+   "id": "C070",
+   "fixes": true,
+   "score": 0.6902502775192261,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R13-02",
+   "release_date": "2026-07-07",
+   "complaint": "C047",
+   "id": "C047",
+   "fixes": true,
+   "score": 0.7173736691474915,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R13-02",
+   "release_date": "2026-07-07",
+   "complaint": "C065",
+   "id": "C065",
+   "fixes": true,
+   "score": 0.8775800466537476,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R14-01",
+   "release_date": "2026-07-21",
+   "complaint": "C060",
+   "id": "C060",
+   "fixes": true,
+   "score": 0.6477529406547546,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R14-01",
+   "release_date": "2026-07-21",
+   "complaint": "C063",
+   "id": "C063",
+   "fixes": true,
+   "score": 0.647555947303772,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R14-01",
+   "release_date": "2026-07-21",
+   "complaint": "C069",
+   "id": "C069",
+   "fixes": true,
+   "score": 0.7822743058204651,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R14-01",
+   "release_date": "2026-07-21",
+   "complaint": "C071",
+   "id": "C071",
+   "fixes": true,
+   "score": 0.6836198568344116,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R15-01",
+   "release_date": "2026-08-04",
+   "complaint": "C064",
+   "id": "C064",
+   "fixes": true,
+   "score": 0.6369088888168335,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R15-01",
+   "release_date": "2026-08-04",
+   "complaint": "C066",
+   "id": "C066",
+   "fixes": true,
+   "score": 0.8504282236099243,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R15-01",
+   "release_date": "2026-08-04",
+   "complaint": "C074",
+   "id": "C074",
+   "fixes": true,
+   "score": 0.6113294363021851,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R16-01",
+   "release_date": "2026-08-18",
+   "complaint": "C078",
+   "id": "C078",
+   "fixes": true,
+   "score": 0.719208836555481,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R16-02",
+   "release_date": "2026-08-18",
+   "complaint": "C036",
+   "id": "C036",
+   "fixes": true,
+   "score": 0.6216170787811279,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R16-02",
+   "release_date": "2026-08-18",
+   "complaint": "C041",
+   "id": "C041",
+   "fixes": true,
+   "score": 0.6493644714355469,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R16-02",
+   "release_date": "2026-08-18",
+   "complaint": "C077",
+   "id": "C077",
+   "fixes": true,
+   "score": 0.8046863079071045,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R16-03",
+   "release_date": "2026-08-18",
+   "complaint": "C072",
+   "id": "C072",
+   "fixes": true,
+   "score": 0.8241754770278931,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R16-03",
+   "release_date": "2026-08-18",
+   "complaint": "C073",
+   "id": "C073",
+   "fixes": true,
+   "score": 0.7556086778640747,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R16-03",
+   "release_date": "2026-08-18",
+   "complaint": "C075",
+   "id": "C075",
+   "fixes": true,
+   "score": 0.6606931686401367,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R16-03",
+   "release_date": "2026-08-18",
+   "complaint": "C080",
+   "id": "C080",
+   "fixes": true,
+   "score": 0.7511920928955078,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R16-03",
+   "release_date": "2026-08-18",
+   "complaint": "C081",
+   "id": "C081",
+   "fixes": true,
+   "score": 0.6850351095199585,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R17-01",
+   "release_date": "2026-09-01",
+   "complaint": "C082",
+   "id": "C082",
+   "fixes": true,
+   "score": 0.8217746019363403,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R17-02",
+   "release_date": "2026-09-01",
+   "complaint": "C086",
+   "id": "C086",
+   "fixes": true,
+   "score": 0.8391953110694885,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R18-01",
+   "release_date": "2026-09-15",
+   "complaint": "C088",
+   "id": "C088",
+   "fixes": true,
+   "score": 0.7935240268707275,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R18-01",
+   "release_date": "2026-09-15",
+   "complaint": "C089",
+   "id": "C089",
+   "fixes": true,
+   "score": 0.7385247945785522,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R19-01",
+   "release_date": "2026-09-29",
+   "complaint": "C087",
+   "id": "C087",
+   "fixes": true,
+   "score": 0.69792640209198,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R19-03",
+   "release_date": "2026-09-29",
+   "complaint": "C038",
+   "id": "C038",
+   "fixes": true,
+   "score": 0.7444042563438416,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R19-03",
+   "release_date": "2026-09-29",
+   "complaint": "C044",
+   "id": "C044",
+   "fixes": true,
+   "score": 0.6759368181228638,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R19-03",
+   "release_date": "2026-09-29",
+   "complaint": "C056",
+   "id": "C056",
+   "fixes": true,
+   "score": 0.7339910268783569,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R19-03",
+   "release_date": "2026-09-29",
+   "complaint": "C092",
+   "id": "C092",
+   "fixes": true,
+   "score": 0.8619409203529358,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R19-03",
+   "release_date": "2026-09-29",
+   "complaint": "C094",
+   "id": "C094",
+   "fixes": true,
+   "score": 0.7224723100662231,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R20-02",
+   "release_date": "2026-10-13",
+   "complaint": "C095",
+   "id": "C095",
+   "fixes": true,
+   "score": 0.6555214524269104,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R20-02",
+   "release_date": "2026-10-13",
+   "complaint": "C096",
+   "id": "C096",
+   "fixes": true,
+   "score": 0.7182004451751709,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R20-02",
+   "release_date": "2026-10-13",
+   "complaint": "C097",
+   "id": "C097",
+   "fixes": true,
+   "score": 0.8659777641296387,
+   "reason": "same product area",
+   "evidence": ""
+  },
+  {
+   "release": "R20-02",
+   "release_date": "2026-10-13",
+   "complaint": "C098",
+   "id": "C098",
+   "fixes": true,
+   "score": 0.7530648708343506,
+   "reason": "same product area",
+   "evidence": ""
+  }
+ ]
+}
