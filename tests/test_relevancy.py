@@ -96,6 +96,38 @@ class TestRelevancy(unittest.TestCase):
         self.assertNotIn("C054", {e["complaint_id"] for e in log.events})
         self.assertTrue(any(c["complaint"] == "C054" and c["reason"].startswith("MISSING") for c in log.checks))
 
+    def test_failed_call_is_logged_not_raised(self):
+        class Boom(FakeClient):
+            def _generate(self, model, contents, config):
+                if contents.split("id: ", 1)[1].startswith("R12-01"):
+                    raise RuntimeError("quota exhausted")
+                return super()._generate(model, contents, config)
+
+        fake = Boom({("R18-01", "C054")})
+        fake.models = SimpleNamespace(generate_content=fake._generate)
+        log = run_relevancy(self.cfg, self.records, "llm", fake, tag="fail-test")
+        self.assertEqual(log.meta["counts"]["failed_calls"], 1)
+        self.assertEqual(log.meta["failures"][0]["release"], "R12-01")
+        self.assertTrue(all(c["stage"] == "error" for c in log.checks if c["release"] == "R12-01"))
+        self.assertTrue((self.cfg.status_dir / "failed_calls.jsonl").exists())
+        self.assertEqual({e["complaint_id"]: e["outdated_by"] for e in log.events}.get("C054"), "R18-01")
+
+    def test_runs_are_appended_and_tagged(self):
+        path = Path(self.tmp.name) / "append.json"
+        path.write_text(json.dumps({"meta": {"method": "old"}, "events": [], "checks": []}))  # legacy format
+        before = path.read_text()
+        for tag in ("first", "second"):
+            log = StatusLog(path)
+            log.start_run({"method": "unit"}, tag)
+            log.mark_outdated("C054", "R12-01", "2026-06-16")
+            log.save()
+        self.assertEqual(path.read_text(), before)  # legacy file untouched
+        self.assertEqual(StatusLog(path).tags(), ["legacy", "first", "second"])
+        self.assertEqual(StatusLog(path).meta["tag"], "second")  # latest by default
+        self.assertEqual(StatusLog(path, "legacy").events, [])
+        with self.assertRaises(ValueError):
+            StatusLog(path).start_run({"method": "unit"}, "first")  # tags are unique
+
     def test_cited_block_uses_status_log(self):
         log = StatusLog(Path(self.tmp.name) / "unit2.json")
         log.reset({"method": "unit"})

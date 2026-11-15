@@ -5,7 +5,7 @@ Baseline:
   python -m src ask "What do we know about checkout?" --as-of 2026-07-15 [--no-dates] [-k 8]
 
 Full agent:
-  python -m src update --method hybrid          # run the relevancy check, write data/status/hybrid.json
+  python -m src update --method hybrid [--tag T] # run the relevancy check, append a run to data/status/hybrid.jsonl
   python -m src ask-full "What do we know about checkout?" --as-of 2026-07-15 --method hybrid
 
 Agent code only. Seed questions and anything with expected answers live outside src/.
@@ -46,6 +46,7 @@ def main() -> None:
 
     p_up = sub.add_parser("update", help="Full agent: run the relevancy check over all releases")
     p_up.add_argument("--method", choices=METHODS, required=True)
+    p_up.add_argument("--tag", help="Name for this run in the append-only status log (default: method + timestamp)")
 
     p_full = sub.add_parser("ask-full", help="Full agent: ask one question using a method's status log")
     p_full.add_argument("question")
@@ -67,7 +68,7 @@ def main() -> None:
         if not store.records:
             raise SystemExit(f"Store {cfg.store_path} is empty. Run ingest first.")
         client = make_client(cfg) if args.method in ("llm", "hybrid") else None
-        run_relevancy(cfg, list(store.records.values()), args.method, client)
+        run_relevancy(cfg, list(store.records.values()), args.method, client, args.tag)
     elif args.cmd == "ask-full":
         include_dates = False if args.no_dates else None
         print_run(agent.ask(cfg, args.question, args.as_of, args.method, args.k, include_dates))

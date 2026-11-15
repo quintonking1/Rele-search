@@ -11,9 +11,14 @@ Four methods, one per answer to the research question, behind one flag:
 
 Releases are processed in date order. Only complaints dated strictly before a release can be
 outdated by it, and once a complaint is outdated it stays outdated (no later release reopens it).
+
+A judge call that still fails after retries does not stop the run: its candidates are logged as
+checks with stage "error" (treated as not fixed), the failure is listed in the run's meta, and a
+line is appended to data/status/failed_calls.jsonl.
 """
 
 import json
+from datetime import datetime, timezone
 
 import numpy as np
 from google.genai import types
@@ -121,8 +126,15 @@ def judge(cfg: Config, client, release: dict, candidates: list[dict]) -> dict[st
 # ---------- the update loop ----------
 
 
-def run_relevancy(cfg: Config, records: list[dict], method: str, client=None) -> StatusLog:
-    """Process every release in date order and write data/status/<method>.json.
+def log_failure(cfg: Config, entry: dict) -> None:
+    path = cfg.status_dir / "failed_calls.jsonl"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a") as f:
+        f.write(json.dumps(entry) + "\n")
+
+
+def run_relevancy(cfg: Config, records: list[dict], method: str, client=None, tag: str | None = None) -> StatusLog:
+    """Process every release in date order and append a tagged run to data/status/<method>.jsonl.
 
     `records` are store records (with vectors). `client` is only needed for llm and hybrid.
     """
@@ -138,7 +150,7 @@ def run_relevancy(cfg: Config, records: list[dict], method: str, client=None) ->
     sims = cosine_matrix([r["vector"] for r in releases], [c["vector"] for c in complaints])
 
     log = StatusLog(cfg.status_dir / f"{method}.json")
-    log.reset(
+    log.start_run(
         {
             "method": method,
             "similarity_threshold": cfg.similarity_threshold if method == "similarity" else None,
@@ -146,9 +158,13 @@ def run_relevancy(cfg: Config, records: list[dict], method: str, client=None) ->
             "relevancy_model": cfg.relevancy_model if method in ("llm", "hybrid") else None,
             "embedding_model": cfg.embedding_model,
             "complaints_checked": len(complaints),
-        }
+        },
+        tag,
     )
     outdated: set[str] = set()
+    # Counts of (release, complaint) pairs, for the hybrid gate-vs-model breakdown.
+    counts = {"gated_all": 0, "gated_in_top": 0, "sent_to_llm": 0, "llm_calls": 0, "failed_calls": 0}
+    failures: list[dict] = []
 
     for i, release in enumerate(releases):
         # Earlier complaints that are still current when this release ships.
@@ -185,18 +201,37 @@ def run_relevancy(cfg: Config, records: list[dict], method: str, client=None) ->
                     ok, why = passes_gates(release, complaints[j])
                     if ok:
                         pool.append(j)
-                    elif j in would_judge:
+                        continue
+                    counts["gated_all"] += 1
+                    if j in would_judge:
+                        counts["gated_in_top"] += 1
                         decisions.append(
                             {"id": complaints[j]["id"], "fixes": False, "score": float(sims[i, j]),
                              "reason": why, "evidence": "", "stage": "gate"}
                         )
             top = sorted(pool, key=lambda j: -sims[i, j])[: cfg.relevancy_candidates]
-            verdicts = judge(cfg, client, release, [complaints[j] for j in top])
+            candidates = [complaints[j] for j in top]
+            try:
+                verdicts = judge(cfg, client, release, candidates)
+                stage, error = "llm", ""
+            except Exception as e:  # noqa: BLE001 - any failure is logged and the run continues
+                error = f"{type(e).__name__}: {e}"[:500]
+                verdicts = {c["id"]: {"fixes": False, "reason": f"ERROR: {error}"} for c in candidates}
+                stage = "error"
+                entry = {"time": datetime.now(timezone.utc).isoformat(), "tag": log.meta["tag"], "method": method,
+                         "release": release["id"], "complaints": [c["id"] for c in candidates], "error": error}
+                failures.append(entry)
+                log_failure(cfg, entry)
+                counts["failed_calls"] += 1
+                print(f"  FAILED {release['id']}: {error}")
+            if candidates:
+                counts["llm_calls"] += 1
+                counts["sent_to_llm"] += len(candidates)
             for j in top:
                 v = verdicts[complaints[j]["id"]]
                 decisions.append(
                     {"id": complaints[j]["id"], "fixes": bool(v["fixes"]), "score": float(sims[i, j]),
-                     "reason": v.get("reason", ""), "evidence": v.get("evidence", ""), "stage": "llm"}
+                     "reason": v.get("reason", ""), "evidence": v.get("evidence", ""), "stage": stage}
                 )
 
         for d in decisions:
@@ -208,6 +243,11 @@ def run_relevancy(cfg: Config, records: list[dict], method: str, client=None) ->
         n_fixed = sum(d["fixes"] for d in decisions)
         print(f"  {release['date']} {release['id']}: {n_fixed} outdated")
 
+    if method in ("llm", "hybrid"):
+        log.meta["counts"] = counts
+        log.meta["failures"] = failures
     log.save()
-    print(f"{method}: {len(log.events)} complaints marked outdated -> {log.path}")
+    print(f"{method} [{log.meta['tag']}]: {len(log.events)} complaints marked outdated -> {log.path}")
+    if failures:
+        print(f"  {len(failures)} judge call(s) failed after retries; see {cfg.status_dir / 'failed_calls.jsonl'}")
     return log
