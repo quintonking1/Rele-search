@@ -14,8 +14,10 @@ Product teams collect research (complaints, interviews, findings) while the prod
 | Complaint labels | Drafted and passing all checks, **awaiting review** (`eval/labels/DRAFT_SUMMARY.md`). 58 fully fixed, 2 partially fixed, 55 never fixed (includes 15 near misses added 2026-11-09). |
 | Topic briefs | Drafted for 23 groups, awaiting review |
 | Questions | Not generated yet. Blocked on the open decisions below. |
-| Eval harness, split, scoring | Not started |
-| Full agent | First version built on branch `full-agent`: four relevancy methods (area, similarity, llm, hybrid), status log, `ask-full`. area and similarity have been run; llm and hybrid need a first run with an API key. |
+| Split | Done 2026-11-20 (`eval/split.json`, seed in `eval/config.json`): test 40% (46 complaints, held out), dev 20% (23), train 40% (46), split by group. |
+| Eval harness, question-level scoring | Not started. `eval.score_relevancy` scores the relevancy check per split. |
+| Full agent | First version built: four relevancy methods (area, similarity, llm, hybrid), status log, `ask-full`. All four methods run on OpenAI (run tag `openai-v1`, 2026-11-20). |
+| Models | Switched from Gemini to OpenAI on 2026-11-20 (`text-embedding-3-small`, `gpt-4.1`). See [Attempts so far](#attempts-so-far). |
 
 ## Open decisions
 
@@ -23,7 +25,7 @@ Product teams collect research (complaints, interviews, findings) while the prod
 2. **Items that fix no complaint.** R01-01, R10-04, and R19-01 have no complaint expressing their target finding, so they cannot get before and after pairs. Drop them from coverage, or add complaints for them.
 3. **Labels marked REVIEW:** C045, C092, C095.
 4. **Small groups.** api v1, microsoft teams, and slash menu hold one complaint each. Consider merging some before the split.
-5. **Re-embed after adding complaints.** C101 to C115 are new near misses, each dated before a release in the same area that does not fix it (before this, only C073 tested the relevancy check, since the other near misses come after their release). `data/store.json` does not have vectors for them yet: run `python -m src ingest`, commit the new store, then re-run `python -m src update` for every method.
+5. ~~**Re-embed after adding complaints.**~~ Done 2026-11-20 with the OpenAI re-ingest: `data/store.json` now holds all 164 records, including C101 to C115, and every method has been re-run.
 6. **Partial status.** The full agent has two statuses (current, outdated). The scoring table counts a partial complaint reported as current as a stale answer, which affects C014 and C061.
 7. **Agent run logs** stay in `runs/` at the root, since agent code may not reference `eval/`. `eval/runs/` is for the harness only. The eval plan's file layout should list `runs/`.
 
@@ -37,9 +39,10 @@ src/                     agent code (must never read eval/)
   agent.py               full agent: baseline retrieval + status in prompt + cited statuses from the log
   config.py              settings from .env
   schema.py              unified record schema for both datasets
-  embed.py               Gemini embeddings
+  embed.py               OpenAI embeddings
+  llm.py                 OpenAI client and chat calls, shared by both agents
   store.py               JSON vector store with as_of filter
-  retry.py               retries for rate limits and overload
+  retry.py               retries for rate limits, server errors, and dropped connections
 data/
   tessera_complaints.json   115 complaints, 2025-12-04 to 2026-10-21 (C101 to C115 are added near misses)
   tessera_changelog.json    20 releases, 49 items, 2026-01-13 to 2026-10-13
@@ -68,14 +71,14 @@ Requires Python 3.12.
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
-cp .env.example .env     # then add your own GOOGLE_API_KEY
+cp .env.example .env     # then add your own OPENAI_API_KEY
 ```
 
-Get a free key at https://aistudio.google.com/apikey. `.env` is gitignored; never commit it.
+Get a key at https://platform.openai.com/api-keys. `.env` is gitignored; never commit it.
 
 **Models** (set in `.env`):
-- Embeddings: `gemini-embedding-2`, 768 dimensions
-- Answers: `gemini-3.6-flash`, temperature 0. The full agent must use the same model.
+- Embeddings: `text-embedding-3-small`, 1536 dimensions
+- Answers: `gpt-4.1`, temperature 0. The full agent must use the same model.
 
 ## Usage
 
@@ -103,7 +106,7 @@ Each run writes a log to `runs/` with the question, `as_of`, retrieved IDs with 
 
 ## How the baseline works
 
-1. **Ingest:** complaints and changelog items are mapped to one shared schema and embedded with `gemini-embedding-2`.
+1. **Ingest:** complaints and changelog items are mapped to one shared schema and embedded with `text-embedding-3-small`.
 2. **Retrieve:** the question is embedded, and only records dated on or before `as_of` are candidates.
 3. **Rank:** top k by cosine similarity, with no boosting by source, date, or product area.
 4. **Answer:** the LLM answers from the retrieved records only and cites their IDs. The prompt says nothing about staleness.
@@ -119,7 +122,7 @@ Output contract (both agents):
 
 The baseline has no status concept, so every complaint it cites is reported as `current`.
 
-**First seed results (k = 8, dates shown).** All five questions returned cited answers. Most misses were in retrieval. On the webhooks question, 3 of 6 expected records ranked outside the top 8, at ranks 9, 19, and 24. When dates were shown, the model often noticed on its own that a later release had fixed a complaint, which narrows the gap the project measures. Runs without dates are also in `runs/` for comparison.
+**First seed results (Gemini, k = 8, dates shown).** All five questions returned cited answers. Most misses were in retrieval. On the webhooks question, 3 of 6 expected records ranked outside the top 8, at ranks 9, 19, and 24. When dates were shown, the model often noticed on its own that a later release had fixed a complaint, which narrows the gap the project measures. Runs without dates are also in `runs/` for comparison.
 
 ## How the full agent works
 
@@ -135,11 +138,11 @@ Same retrieval, ranking, model, temperature, and log format as the baseline. Wha
 | Method | Decides "release fixes complaint" when | Model calls |
 | --- | --- | --- |
 | `area` | same product area, complaint dated before the release | none |
-| `similarity` | cosine similarity >= `SIMILARITY_THRESHOLD` (default 0.80) | none |
+| `similarity` | cosine similarity >= `SIMILARITY_THRESHOLD` (default 0.55) | none |
 | `llm` | the model says yes, judging the `RELEVANCY_CANDIDATES` (10) most similar earlier complaints | 1 per release (49) |
 | `hybrid` | platform and plan overlap (metadata gates), then the llm step on what passes | 1 per release (49) |
 
-The 0.80 threshold is the 98th percentile of release-to-earlier-complaint similarity, chosen without looking at labels (about one flag per release). Tune it on the dev split once the split exists.
+The threshold depends on the embedding model. With Gemini it was 0.80 (the 98th percentile of release-to-earlier-complaint similarity). OpenAI's `text-embedding-3-small` scores much lower (median pair 0.22, 99th percentile 0.60), so it is now 0.55, set from the score distribution without looking at labels. Tune it on the dev split once the split exists.
 
 ```bash
 .venv/bin/python -m src update --method hybrid       # writes data/status/hybrid.json
@@ -148,16 +151,48 @@ The 0.80 threshold is the 98th percentile of release-to-earlier-complaint simila
 .venv/bin/python -m eval.score_relevancy --show-errors   # compare methods against the labels
 ```
 
-**First relevancy scores** (original 100 complaints, before C101 to C115 were added; no split yet, labels still a draft):
+**Latest relevancy scores: dev split** (OpenAI, run tag `openai-v1`, 23 complaints in 5 groups; labels still a draft):
+
+| Method | Correct | Wrong release | Missed | False flag | Precision | Recall | F1 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| area | 9 | 4 | 0 | 7 | 0.45 | 0.69 | 0.55 |
+| similarity (0.55) | 10 | 0 | 3 | 1 | 0.91 | 0.77 | 0.83 |
+| llm | 13 | 0 | 0 | 1 | 0.93 | 1.00 | 0.96 |
+| hybrid | 13 | 0 | 0 | 1 | 0.93 | 1.00 | 0.96 |
+
+On dev's 3 near misses, false flags were: area 3, similarity 1, llm 0, hybrid 0. In the hybrid run, the platform and plan gates rejected 155 of the pairs llm would have judged, and llm and hybrid still reached the same verdicts. Tune on dev only (`--split dev`). The test split is scored once per agent after freezing.
+
+Score with `.venv/bin/python -m eval.score_relevancy --tag openai-v1 --split dev`.
+
+## Attempts so far
+
+A running record of what has been tried, so results from different setups are not mixed up.
+
+**1. Baseline on Gemini (2026-11-04).** `gemini-embedding-2` (768 dimensions) and `gemini-3.6-flash` at temperature 0. The five seed questions all returned cited answers. Most misses were in retrieval (on the webhooks question, 3 of 6 expected records ranked 9, 19, and 24). With dates in the prompt, the model sometimes noticed on its own that a later release fixed a complaint. Logs are the 2026-11-04 files in `runs/`.
+
+**2. Full agent v1 on Gemini (2026-11-09).** Four relevancy methods added. area and similarity (threshold 0.80) were scored on the original 100 complaints:
 
 | Method | Correct | Wrong release | Missed | False flag | Precision | Recall |
 | --- | --- | --- | --- | --- | --- | --- |
 | area | 36 | 22 | 0 | 27 | 0.42 | 0.62 |
 | similarity | 46 | 1 | 11 | 1 | 0.96 | 0.79 |
-| llm | not run yet | | | | | |
-| hybrid | not run yet | | | | | |
 
-Similarity's precision here is inflated: the near misses in C001 to C100 are dated after their releases, so the check never sees them. C101 to C115 fix that; re-run after re-embedding (open decision 5). Six of them should be stopped by the hybrid's platform and plan gates (C101, C103, C106, C107, C111, C112), and nine need judgment.
+Similarity's precision was inflated: the near misses in C001 to C100 are dated after their releases, so the check never saw them.
+
+**3. Near misses added (2026-11-09).** C101 to C115, each dated before a release in the same product area that does not fix it, so the relevancy check is actually tested on them. A Gemini re-run of the llm method on 2026-11-15 hit the free-tier quota (429 errors, logged in `data/status/failed_calls.jsonl`), so llm and hybrid were never fully run on Gemini.
+
+**4. Switch to OpenAI (2026-11-20).** To get past the free-tier limits, both agents moved to OpenAI: `text-embedding-3-small` (1536 dimensions) for embeddings, and `gpt-4.1` at temperature 0 for answers and the relevancy judge. All API calls go through `src/llm.py`, so the baseline and the full agent call the model the same way. The baseline's prompt and logic are unchanged. The store was re-embedded (all 164 records), the similarity threshold was lowered to 0.55 to fit the new score range, and all four methods were re-run under tag `openai-v1`. The first hybrid run stalled for about 40 minutes on what was most likely one stuck API call, so calls now have a 120-second timeout (`LLM_TIMEOUT`) and a 4,000-token output cap (`LLM_MAX_TOKENS`); the rerun finished in a few minutes with no failed calls. One llm or hybrid run costs roughly $0.30 at gpt-4.1 list prices.
+
+Scores on all 115 complaints, taken before the split existed. These include the test groups, so they are for the record only and should not guide tuning:
+
+| Method | Correct | Wrong release | Missed | False flag | Precision | Recall | F1 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| area | 36 | 22 | 0 | 42 | 0.36 | 0.62 | 0.46 |
+| similarity (0.55) | 46 | 0 | 12 | 9 | 0.84 | 0.79 | 0.81 |
+| llm | 58 | 0 | 0 | 2 | 0.97 | 1.00 | 0.98 |
+| hybrid | 58 | 0 | 0 | 2 | 0.97 | 1.00 | 0.98 |
+
+**5. Train, dev, and test split (2026-11-20).** Groups split whole with seed 20261120: test 40% (46 complaints, held out), dev 20% (23), train 40% (46). Groups are weighted by complaint count until `questions.json` exists. Each split has both fixed and never-fixed complaints and at least 3 near misses. Dev scores are the table above. Gemini status-log runs are kept in `data/status/*.jsonl` under their own tags. Gemini run logs in `runs/` are not comparable with OpenAI runs.
 
 ## Evaluation
 
@@ -167,7 +202,7 @@ Full spec in `docs/eval_plan.md`.
 - **Answer key:** `eval/labels/complaint_labels.json` gives each complaint a `history` of fixes. A complaint's status at any date is computed from it. Any changelog item can fix a complaint, including items the README calls decoys.
 - **Grading is deterministic:** code compares the agent's `cited` block to statuses computed from the labels. No model grades the headline metrics.
 - **Isolation:** the agent only ever receives `{question, as_of}`. `tests/test_isolation.py` fails if anything in `src/` references `eval/` or the changelog README.
-- **Split:** question groups are shuffled with a fixed seed into dev (about 40%) and test. Tune on dev only; run test once per agent after freezing.
+- **Split:** groups are shuffled with a fixed seed into test (40%, held out), dev (20%), and train (40%) by `python -m eval.make_split`. Tune on dev only; run test once per agent after freezing.
 
 ### Building the answer key
 

@@ -14,8 +14,9 @@ Agent code only. Seed questions and anything with expected answers live outside 
 import argparse
 
 from . import agent
-from .baseline import ask, ingest, make_client
+from .baseline import ask, ingest
 from .config import load_config
+from .llm import make_client
 from .relevancy import METHODS, run_relevancy
 from .store import Store
 

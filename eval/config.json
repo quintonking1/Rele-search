@@ -1,0 +1,4 @@
+{
+  "split_seed": 20261120,
+  "split_note": "First split, 2026-11-20: 40% test, 20% dev, 40% train by complaint count (questions.json not written yet)."
+}

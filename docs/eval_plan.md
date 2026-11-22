@@ -97,10 +97,10 @@ Pairs are split by **group**, not individually, so pairs that share a storyline 
 Groups follow the README chains and product areas: sidebar, code blocks and pages, relations, large databases, mobile, calendar, mail, AI trust, AI usage and languages, guests and permissions, recurring templates, search, Slack, checkout and billing, slash menu, GitHub, accessibility, API v1, webhooks, AI autofill. Final list is set when labels are written.
 
 Split procedure (`eval/make_split.py`):
-1. Read all groups from `questions.json`.
-2. Shuffle groups with a fixed seed from `eval/config.json`.
-3. Assign groups to dev until dev holds about 40% of pairs; the rest go to test.
-4. Write `eval/split.json` with the seed, the group assignments, and pair counts.
+1. Read all groups from the label file. (`questions.json` does not exist yet, so groups are weighted by complaint count. Re-check the balance once questions are written.)
+2. Shuffle groups with a fixed seed from `eval/config.json`, then order them largest first, with the shuffle breaking ties.
+3. Give each group to the split furthest below its target: **test 40%** (held out), **dev 20%** (tuning), **train 40%**.
+4. Write `eval/split.json` with the seed, the group assignments, and counts per split.
 
 The seed is recorded in every run log. The split is generated once and committed; regenerating it requires a new seed and a note explaining why.
 

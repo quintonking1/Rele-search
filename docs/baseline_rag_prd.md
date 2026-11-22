@@ -62,7 +62,7 @@ The baseline keeps the gray boxes from the deck: one ingest path that fills the 
 INGEST (run once, re-run when data changes)
 
   tessera_complaints.json ─┐
-                           ├─> normalize to unified schema ─> embed (Gemini) ─> memory store (JSON)
+                           ├─> normalize to unified schema ─> embed (OpenAI) ─> memory store (JSON)
   tessera_changelog.json ──┘                                                     text, vector, date,
                                                                                  area, source_type
 
@@ -89,7 +89,7 @@ QUERY (per question)
 **Ingest**
 
 1. Load both JSON files and map every record into the unified schema above.
-2. Embed `title + text` for each record with the Gemini free-tier embedding model, and use the same model for questions.
+2. Embed `title + text` for each record with OpenAI `text-embedding-3-small`, and use the same model for questions.
 3. Re-running ingest is idempotent: records are keyed by `id` and overwritten, never duplicated.
 
 **Store**
@@ -135,15 +135,15 @@ The sidebar row is the partial case. How to score it depends on whether the full
 
 **Open questions**
 
-- Which LLM generates answers? It should be the same model the full agent uses.
-- Which Gemini embedding model and dimension? 149 records plus questions should sit well inside the free tier.
+- ~~Which LLM generates answers?~~ Decided: `gpt-4.1`, also used by the full agent.
+- ~~Which embedding model and dimension?~~ Decided: OpenAI `text-embedding-3-small`, 1536 dimensions.
 - What is the "system one model" in the deck's rank step? This draft ranks by similarity only; an LLM reranker would also go in the full agent.
 - Should dates reach the prompt? Showing them is realistic, but a capable model may notice a June release answers a May complaint on its own, which narrows the gap the project is measuring. Worth running both ways once.
 - Is k = 8 enough when a question spans both a complaint and the release that resolved it?
 
 **Next steps**
 
-- [ ] Set up Gemini embeddings
+- [ ] Set up OpenAI embeddings
 - [ ] Build the loader and unified schema; embed and write the JSON store
 - [ ] Build retrieve, rank, and answer with the `as_of` filter
 - [ ] Run the five seed questions and save logs

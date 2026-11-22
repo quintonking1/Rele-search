@@ -14,13 +14,11 @@ difference in the eval comes from the status. The changes:
 import re
 from datetime import date, datetime, timezone
 
-from google.genai import types
-
 from .baseline import SYSTEM_PROMPT as BASELINE_SYSTEM_PROMPT
-from .baseline import _log, make_client
+from .baseline import _log
 from .config import Config
 from .embed import Embedder
-from .retry import with_retry
+from .llm import generate, make_client
 from .status import OUTDATED, StatusLog
 from .store import Store
 
@@ -95,14 +93,7 @@ def ask(
     chunks = "\n\n---\n\n".join(format_chunk(r, statuses.get(r["id"]), include_dates) for r, _ in ranked)
     prompt = f"Retrieved records:\n\n{chunks}\n\n---\n\nQuestion: {question}"
 
-    response = with_retry(
-        lambda: client.models.generate_content(
-            model=cfg.generation_model,
-            contents=prompt,
-            config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT, temperature=cfg.temperature),
-        )
-    )
-    answer = response.text or ""
+    answer = generate(client, cfg.generation_model, SYSTEM_PROMPT, prompt, cfg.temperature)
     retrieved_ids = {r["id"] for r, _ in ranked}
     cited = sorted(set(re.findall(r"\b(C\d{3}|R\d{2}-\d{2})\b", answer)))
 

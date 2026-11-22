@@ -21,10 +21,9 @@ import json
 from datetime import datetime, timezone
 
 import numpy as np
-from google.genai import types
 
 from .config import Config
-from .retry import with_retry
+from .llm import generate
 from .status import StatusLog
 
 METHODS = ("area", "similarity", "llm", "hybrid")
@@ -39,18 +38,27 @@ Be strict:
 - If the release only partly addresses the complaint, answer false.
 Quote the sentence from the release that supports a true answer. Use an empty string for evidence when the answer is false."""
 
+# OpenAI strict structured output needs an object at the top level, so the verdicts sit under "results".
 JUDGE_SCHEMA = {
-    "type": "ARRAY",
-    "items": {
-        "type": "OBJECT",
-        "properties": {
-            "id": {"type": "STRING"},
-            "fixes": {"type": "BOOLEAN"},
-            "evidence": {"type": "STRING"},
-            "reason": {"type": "STRING"},
-        },
-        "required": ["id", "fixes", "evidence", "reason"],
+    "type": "object",
+    "properties": {
+        "results": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {"type": "string"},
+                    "fixes": {"type": "boolean"},
+                    "evidence": {"type": "string"},
+                    "reason": {"type": "string"},
+                },
+                "required": ["id", "fixes", "evidence", "reason"],
+                "additionalProperties": False,
+            },
+        }
     },
+    "required": ["results"],
+    "additionalProperties": False,
 }
 
 
@@ -102,19 +110,11 @@ def judge(cfg: Config, client, release: dict, candidates: list[dict]) -> dict[st
     """One LLM call per release. Returns {complaint_id: {fixes, evidence, reason}}."""
     if not candidates:
         return {}
-    response = with_retry(
-        lambda: client.models.generate_content(
-            model=cfg.relevancy_model,
-            contents=build_judge_prompt(release, candidates),
-            config=types.GenerateContentConfig(
-                system_instruction=JUDGE_SYSTEM_PROMPT,
-                temperature=0.0,
-                response_mime_type="application/json",
-                response_schema=JUDGE_SCHEMA,
-            ),
-        )
+    text = generate(
+        client, cfg.relevancy_model, JUDGE_SYSTEM_PROMPT, build_judge_prompt(release, candidates),
+        temperature=0.0, json_schema=JUDGE_SCHEMA, schema_name="judge_verdicts",
     )
-    results = json.loads(response.text or "[]")
+    results = json.loads(text or "{}").get("results", [])
     wanted = {c["id"] for c in candidates}
     verdicts = {r["id"]: r for r in results if r.get("id") in wanted}
     # A candidate the model skipped is treated as "not fixed" and flagged in the log.
@@ -141,7 +141,7 @@ def run_relevancy(cfg: Config, records: list[dict], method: str, client=None, ta
     if method not in METHODS:
         raise ValueError(f"method must be one of {METHODS}")
     if method in ("llm", "hybrid") and client is None:
-        raise ValueError(f"method {method} needs a Gemini client")
+        raise ValueError(f"method {method} needs an OpenAI client")
 
     complaints = [r for r in records if r["source_type"] == "complaint"]
     releases = sorted(
@@ -241,7 +241,7 @@ def run_relevancy(cfg: Config, records: list[dict], method: str, client=None, ta
                 outdated.add(d["id"])
 
         n_fixed = sum(d["fixes"] for d in decisions)
-        print(f"  {release['date']} {release['id']}: {n_fixed} outdated")
+        print(f"  {release['date']} {release['id']}: {n_fixed} outdated", flush=True)  # flush: progress shows even when output goes to a file
 
     if method in ("llm", "hybrid"):
         log.meta["counts"] = counts

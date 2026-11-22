@@ -4,12 +4,9 @@ import json
 import re
 from datetime import date, datetime, timezone
 
-from google import genai
-from google.genai import types
-
 from .config import Config
 from .embed import Embedder, document_text
-from .retry import with_retry
+from .llm import generate, make_client
 from .schema import load_all
 from .store import Store
 
@@ -18,12 +15,6 @@ SYSTEM_PROMPT = """You are a research assistant for the product team at Tessera,
 Answer the researcher's question using ONLY the retrieved records provided. Records are customer complaints and changelog items.
 Cite the record IDs that support every claim in square brackets, for example [C054] or [R12-01].
 If the records do not contain enough information to answer, say so."""
-
-
-def make_client(cfg: Config) -> genai.Client:
-    if not cfg.api_key:
-        raise SystemExit("GOOGLE_API_KEY is not set. Add it to .env.")
-    return genai.Client(api_key=cfg.api_key)
 
 
 def ingest(cfg: Config) -> int:
@@ -83,17 +74,7 @@ def ask(
     ranked = store.search(q_vec, as_of, k)
     prompt = build_prompt(question, ranked, include_dates)
 
-    response = with_retry(
-        lambda: client.models.generate_content(
-            model=cfg.generation_model,
-            contents=prompt,
-            config=types.GenerateContentConfig(
-                system_instruction=SYSTEM_PROMPT,
-                temperature=cfg.temperature,
-            ),
-        )
-    )
-    answer = response.text or ""
+    answer = generate(client, cfg.generation_model, SYSTEM_PROMPT, prompt, cfg.temperature)
     retrieved_ids = {r["id"] for r, _ in ranked}
     cited = sorted(set(re.findall(r"\b(C\d{3}|R\d{2}-\d{2})\b", answer)))
     output = {"answer": answer, "cited": cited_block(cited)}

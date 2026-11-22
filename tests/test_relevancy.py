@@ -1,6 +1,6 @@
 """Offline tests for the full agent's status log, gates, relevancy loop, and cited block.
 
-The llm and hybrid methods are exercised with a fake Gemini client, so no API key is needed.
+The llm and hybrid methods are exercised with a fake OpenAI client, so no API key is needed.
 
   python -m unittest discover tests
 """
@@ -20,15 +20,19 @@ from src.store import Store
 
 
 class FakeClient:
-    """Stands in for genai.Client. Says a release fixes a complaint only for pairs in `fixes`."""
+    """Stands in for openai.OpenAI. Says a release fixes a complaint only for pairs in `fixes`."""
 
     def __init__(self, fixes: set[tuple[str, str]], drop: set[str] = frozenset()):
         self.fixes = fixes
         self.drop = drop  # complaint ids to leave out of the response, to test missing verdicts
         self.calls: list[str] = []  # complaint ids sent to the model, per call
-        self.models = SimpleNamespace(generate_content=self._generate)
+        self.chat = SimpleNamespace(completions=SimpleNamespace(create=self._create))
 
-    def _generate(self, model, contents, config):
+    def _create(self, model, messages, temperature, **kwargs):
+        text = self._generate(messages[-1]["content"])
+        return SimpleNamespace(choices=[SimpleNamespace(finish_reason="stop", message=SimpleNamespace(content=text))])
+
+    def _generate(self, contents):
         release = contents.split("id: ", 1)[1].split("\n", 1)[0]
         ids = [line[4:] for line in contents.split("COMPLAINTS", 1)[1].splitlines() if line.startswith("id: ")]
         self.calls.append((release, ids))
@@ -37,7 +41,7 @@ class FakeClient:
             for i in ids
             if i not in self.drop
         ]
-        return SimpleNamespace(text=json.dumps(out))
+        return json.dumps({"results": out})
 
 
 class TestRelevancy(unittest.TestCase):
@@ -98,13 +102,12 @@ class TestRelevancy(unittest.TestCase):
 
     def test_failed_call_is_logged_not_raised(self):
         class Boom(FakeClient):
-            def _generate(self, model, contents, config):
+            def _generate(self, contents):
                 if contents.split("id: ", 1)[1].startswith("R12-01"):
                     raise RuntimeError("quota exhausted")
-                return super()._generate(model, contents, config)
+                return super()._generate(contents)
 
         fake = Boom({("R18-01", "C054")})
-        fake.models = SimpleNamespace(generate_content=fake._generate)
         log = run_relevancy(self.cfg, self.records, "llm", fake, tag="fail-test")
         self.assertEqual(log.meta["counts"]["failed_calls"], 1)
         self.assertEqual(log.meta["failures"][0]["release"], "R12-01")

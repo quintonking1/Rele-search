@@ -36,11 +36,11 @@ class Config:
 
 
 def load_config() -> Config:
-    generation_model = os.getenv("GENERATION_MODEL", "gemini-3.6-flash")
+    generation_model = os.getenv("GENERATION_MODEL", "gpt-4.1")
     return Config(
-        api_key=os.getenv("GOOGLE_API_KEY", ""),
-        embedding_model=os.getenv("EMBEDDING_MODEL", "gemini-embedding-2"),
-        embedding_dim=int(os.getenv("EMBEDDING_DIM", "768")),
+        api_key=os.getenv("OPENAI_API_KEY", ""),
+        embedding_model=os.getenv("EMBEDDING_MODEL", "text-embedding-3-small"),
+        embedding_dim=int(os.getenv("EMBEDDING_DIM", "1536")),
         generation_model=generation_model,
         retrieval_model=os.getenv("RETRIEVAL_MODEL") or generation_model,
         temperature=float(os.getenv("GENERATION_TEMPERATURE", "0.0")),
@@ -52,6 +52,6 @@ def load_config() -> Config:
         include_dates=_bool(os.getenv("INCLUDE_DATES_IN_PROMPT", "true")),
         status_dir=ROOT / os.getenv("STATUS_DIR", "data/status"),
         relevancy_model=os.getenv("RELEVANCY_MODEL") or generation_model,
-        similarity_threshold=float(os.getenv("SIMILARITY_THRESHOLD", "0.80")),
+        similarity_threshold=float(os.getenv("SIMILARITY_THRESHOLD", "0.55")),
         relevancy_candidates=int(os.getenv("RELEVANCY_CANDIDATES", "10")),
     )

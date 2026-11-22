@@ -21,8 +21,8 @@ Counting, per complaint (labels' first fix vs the method's outdating event):
   false flag       labeled never fixed, method outdated it    -> would cause lost findings
   partial          labeled partial (reported separately; the agent has no partial status yet)
 
-The split does not exist yet. Once eval/split.json is committed, tune thresholds and prompts on
-dev groups only (--split dev).
+eval/split.json (python -m eval.make_split) assigns groups to train (40%), dev (20%), and test
+(40%). Tune thresholds and prompts on dev only (--split dev); score test once per agent after freezing.
 """
 
 import argparse
@@ -134,7 +134,7 @@ def gate_breakdown(data: dict) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(prog="python -m eval.score_relevancy")
     parser.add_argument("--method", action="append", help="Method(s) to score; default: all with a status log")
-    parser.add_argument("--split", choices=("dev", "test"), help="Only score groups in this split (needs eval/split.json)")
+    parser.add_argument("--split", choices=("train", "dev", "test"), help="Only score groups in this split (needs eval/split.json)")
     parser.add_argument("--show-errors", action="store_true", help="List every error with the method's reason")
     parser.add_argument("--tag", help="Score the run with this tag (default: latest run per method)")
     args = parser.parse_args()

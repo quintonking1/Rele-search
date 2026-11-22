@@ -1,0 +1,73 @@
+{
+  "seed": 20261120,
+  "targets": {
+    "test": 0.4,
+    "dev": 0.2,
+    "train": 0.4
+  },
+  "weighted_by": "complaint count",
+  "groups": {
+    "test": [
+      "ai trust",
+      "ai usage and languages",
+      "calendar",
+      "checkout and billing",
+      "desktop apps",
+      "github",
+      "microsoft teams",
+      "relations",
+      "slash menu"
+    ],
+    "dev": [
+      "accessibility",
+      "guests and permissions",
+      "large databases",
+      "recurring templates",
+      "search"
+    ],
+    "train": [
+      "ai autofill",
+      "api v1",
+      "code blocks and pages",
+      "mail",
+      "mobile",
+      "security and sign-in",
+      "sidebar",
+      "slack",
+      "webhooks"
+    ]
+  },
+  "summary": {
+    "test": {
+      "groups": 9,
+      "complaints": 46,
+      "share": 0.4,
+      "by_label": {
+        "fixed": 23,
+        "never": 23
+      },
+      "near_misses": 7
+    },
+    "dev": {
+      "groups": 5,
+      "complaints": 23,
+      "share": 0.2,
+      "by_label": {
+        "fixed": 13,
+        "never": 10
+      },
+      "near_misses": 3
+    },
+    "train": {
+      "groups": 9,
+      "complaints": 46,
+      "share": 0.4,
+      "by_label": {
+        "fixed": 22,
+        "partial": 2,
+        "never": 22
+      },
+      "near_misses": 5
+    }
+  }
+}

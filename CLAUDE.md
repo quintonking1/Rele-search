@@ -49,14 +49,14 @@ Both datasets are synthetic and describe **Tessera**, a fictional Notion-like wo
 
 ## Stack and decisions
 
-- **Embeddings:** Gemini free-tier embedding model. Use the same model for records and questions.
+- **Models:** OpenAI. Embeddings with `text-embedding-3-small` (1536 dimensions), answers and relevancy judging with `gpt-4.1`. Use the same embedding model for records and questions. Both agents call the API through `src/llm.py`.
 - **Storage:** a single JSON file for now; migrate to SQLite later.
 - **Retrieval:** cosine similarity, top k (default 8), filtered to records dated on or before `as_of`.
 - **Answering:** LLM answers from retrieved chunks only, cites IDs (for example C054, R12-01), temperature 0.
 - **Logging:** one JSON record per run (question, `as_of`, retrieved IDs with scores and ranks, prompt, answer, model names, timestamp). The full agent must use the same log format.
 - **Secrets:** API keys come from environment variables. Never hard-code or commit them.
 
-Open decisions (ask before choosing): answer LLM, exact embedding model, whether to add an LLM reranker, whether dates appear in the answer prompt, and whether status gets a third "partial" value later. The full agent currently uses two statuses (current, outdated).
+Open decisions (ask before choosing): whether to add an LLM reranker, whether dates appear in the answer prompt, and whether status gets a third "partial" value later. The full agent currently uses two statuses (current, outdated).
 
 ## Evaluation
 
@@ -66,7 +66,7 @@ Full spec: `docs/eval_plan.md`. The essentials:
 - **Answer key:** `eval/labels/complaint_labels.json` (a fix `history` per complaint) and `eval/questions/questions.json`. Drafted once, reviewed, committed, then frozen.
 - **Any changelog item can resolve a complaint**, including README decoys and neutrals. README roles describe effects on target findings only.
 - **Grading is deterministic:** code compares the agent's `cited` block to statuses computed from the label file at `as_of`. No model grades the headline metrics.
-- **Split:** groups shuffled with a fixed seed into dev (about 40%) and test. Tune on dev only. Run test once per agent, after freezing.
+- **Split:** groups shuffled with a fixed seed (`eval/config.json`) into test (40%, held out), dev (20%), and train (40%); see `eval/split.json`. Tune on dev only. Run test once per agent, after freezing.
 - **Errors counted:** stale answer (outdated complaint cited as current) and lost finding (still-true complaint missed or marked outdated).
 
 Agent output format (both agents):
