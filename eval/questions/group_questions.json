@@ -1,0 +1,28 @@
+{
+  "_about": "One question per group, written from eval/topic_briefs.json as a product researcher would ask it. Every pair in a group reuses the same wording, so the as_of date is the only thing that changes between pairs. Rules (eval/prompts/02_questions.md): no complaint wording, no fixes, features, or release names, and no words that hint at the answer (still, anymore, now that, recently, after the update).",
+  "questions": {
+    "sidebar": "What do we know about how people get around their pages using the sidebar?",
+    "code blocks and pages": "What problems do people run into when writing and reusing pages?",
+    "relations": "What do we know about how people connect databases to each other?",
+    "large databases": "What is it like for people to work with databases that hold many rows?",
+    "mobile": "What problems do people have using Tessera on phones and tablets?",
+    "calendar": "What do we know about how people schedule their time with Tessera Calendar?",
+    "mail": "What problems do people have keeping up with email in Tessera Mail?",
+    "ai trust": "How much do people trust the answers Tessera AI gives them?",
+    "ai usage and languages": "What do we know about how workspaces adopt and oversee Tessera AI?",
+    "guests and permissions": "What do we know about sharing pages and keeping track of who can see them?",
+    "recurring templates": "How do teams handle documents they produce on a regular schedule?",
+    "search": "What problems do people have finding information with search?",
+    "slack": "What do people think about how Tessera activity reaches them in Slack?",
+    "checkout and billing": "What do we know about paying for Tessera and managing plans?",
+    "slash menu": "What do we know about how people add new blocks to a page?",
+    "github": "How do engineering teams use Tessera alongside GitHub?",
+    "accessibility": "What problems do people have using Tessera with assistive technology or without a mouse?",
+    "api v1": "What do we know about developers building on the Tessera API for pages?",
+    "webhooks": "How do developers keep external systems in sync with Tessera databases?",
+    "ai autofill": "What do we know about keeping database properties filled in as rows pile up?",
+    "desktop apps": "How reliable are the Tessera desktop apps over a workday?",
+    "security and sign-in": "How do organizations control sign-in to Tessera?",
+    "microsoft teams": "How does Tessera fit companies whose daily communication runs outside Slack?"
+  }
+}
