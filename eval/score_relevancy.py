@@ -14,12 +14,20 @@ This checks the relevancy check directly, before any question is asked: did each
 the right complaints outdated, by the right release? It complements the question-level eval
 (stale answers, lost findings), which also depends on retrieval.
 
-Counting, per complaint (labels' first fix vs the method's outdating event):
+Counting, per complaint (labels' first fix vs the method's first outdated and first partial event):
   correct          labeled fixed, method outdated it by the same release
   wrong release    labeled fixed, method outdated it by a different release
-  missed           labeled fixed, method left it current      -> would cause stale answers
+  missed           labeled fixed, method never outdated it (left it current or only called it partial)
+                                                              -> would cause stale answers
   false flag       labeled never fixed, method outdated it    -> would cause lost findings
-  partial          labeled partial (reported separately; the agent has no partial status yet)
+  false partial    labeled never fixed, method called it partial -> would cause lost findings
+  partial right    labeled partial, method called it partial by the same release
+  partial wrong    labeled partial, anything else (v1 methods have no partial status)
+  correctly current  labeled never fixed, method left it current
+
+Precision and recall cover full fixes only, as in the v1 reports: precision = correct / all
+outdated flags on complaints not labeled partial; recall = correct / all labeled fixed. False
+partials and partial rows are reported in their own columns.
 
 eval/split.json (python -m eval.make_split) assigns groups to train (40%), dev (20%), and test
 (40%). Tune thresholds and prompts on dev only (--split dev); score test once per agent after freezing.
@@ -70,25 +78,33 @@ def load_run(method: str, tag: str | None) -> dict:
 
 def score(method: str, labels: dict[str, dict], groups: set[str] | None, data: dict,
           keep=lambda cid: True) -> dict:
-    predicted = {}
+    predicted, partials = {}, {}  # first outdated event and first partial event per complaint
     for e in sorted(data["events"], key=lambda e: e["since"]):
-        predicted.setdefault(e["complaint_id"], e)
+        if e.get("status", "outdated") == "partial":
+            partials.setdefault(e["complaint_id"], e)
+        else:
+            predicted.setdefault(e["complaint_id"], e)
 
-    rows = {"correct": [], "wrong release": [], "missed": [], "false flag": [], "partial": [], "correctly current": []}
+    rows = {k: [] for k in COLUMNS}
     for cid, label in sorted(labels.items()):
         if (groups is not None and label["group"] not in groups) or not keep(cid):
             continue
         fix = first_fix(label)
         pred = predicted.get(cid)
+        part = partials.get(cid)
         if fix and fix["resolution"] == "partial":
-            rows["partial"].append((cid, fix["item"], pred["outdated_by"] if pred else None))
+            ok = part is not None and part["partial_by"] == fix["item"] and (pred is None or pred["since"] > fix["date"])
+            got = pred["outdated_by"] if pred else (part["partial_by"] if part else None)
+            rows["partial right" if ok else "partial wrong"].append((cid, fix["item"], got))
         elif fix and pred:
             key = "correct" if pred["outdated_by"] == fix["item"] else "wrong release"
             rows[key].append((cid, fix["item"], pred["outdated_by"]))
         elif fix:
-            rows["missed"].append((cid, fix["item"], None))
+            rows["missed"].append((cid, fix["item"], part["partial_by"] if part else None))
         elif pred:
             rows["false flag"].append((cid, None, pred["outdated_by"]))
+        elif part:
+            rows["false partial"].append((cid, None, part["partial_by"]))
         else:
             rows["correctly current"].append((cid, None, None))
 
@@ -100,12 +116,16 @@ def score(method: str, labels: dict[str, dict], groups: set[str] | None, data: d
             "f1": f1(precision, recall), "checks": data.get("checks", [])}
 
 
+COLUMNS = ["correct", "wrong release", "missed", "false flag", "false partial", "partial right", "partial wrong",
+           "correctly current"]
+
+
 def fmt(x: float | None) -> str:
     return "n/a" if x is None else f"{x:.2f}"
 
 
 def print_table(title: str, results: list[dict]) -> None:
-    cols = ["correct", "wrong release", "missed", "false flag", "partial", "correctly current"]
+    cols = COLUMNS
     print(f"\n{title}")
     print(f"{'method':<11}" + "".join(f"{c:>18}" for c in cols) + f"{'precision':>11}{'recall':>8}{'F1':>6}")
     for r in results:
@@ -127,8 +147,9 @@ def gate_breakdown(data: dict) -> None:
         sub = [c for c in checks if keep(c["complaint"])]
         n = {s: sum(c.get("stage") == s for c in sub) for s in ("gate", "llm", "error")}
         flagged = sum(c["fixes"] for c in sub)
+        part = sum(c.get("verdict") == "partial" for c in sub)
         print(f"  {name:<9} logged pairs: gate {n['gate']}, llm {n['llm']}, error {n['error']}  "
-              f"(llm said fixes: {flagged})")
+              f"(llm said fixes: {flagged}, partial: {part})")
 
 
 def main() -> None:
@@ -163,19 +184,22 @@ def main() -> None:
     print_table("ALL COMPLAINTS", results)
     for name, keep in SUBSETS.items():
         print_table(f"{name.upper()} ONLY", [score(m, labels, groups, runs[m], keep) for m in methods])
-    print("\nprecision = correct / all flagged; recall = correct / all labeled fixed (partials excluded); "
-          "n/a = no denominator")
+    print("\nprecision = correct / all outdated flags; recall = correct / all labeled fixed (partials excluded); "
+          "n/a = no denominator. Judge: " + ", ".join(f"{r['method']} {r['meta'].get('judge') or 'v1' if r['method'] in ('llm', 'hybrid') else '-'}" for r in results))
     if "hybrid" in runs:
         gate_breakdown(runs["hybrid"])
 
     if args.show_errors:
         for r in results:
-            reasons = {(c["release"], c["complaint"]): c["reason"] for c in r["checks"]}
+            checks = {(c["release"], c["complaint"]): c for c in r["checks"]}
             print(f"\n== {r['method']} ==")
-            for kind in ("wrong release", "missed", "false flag", "partial"):
+            for kind in ("wrong release", "missed", "false flag", "false partial", "partial right", "partial wrong"):
                 for cid, truth, pred in r["rows"][kind]:
-                    why = reasons.get((pred, cid), "") if pred else ""
-                    print(f"  {kind:<14} {cid}  label={truth}  method={pred}  {why}")
+                    c = checks.get((pred, cid), {}) if pred else {}
+                    verdict = f"[{c['verdict']}] " if c.get("verdict") else ""
+                    print(f"  {kind:<14} {cid}  label={truth}  method={pred}  {verdict}{c.get('reason', '')}")
+                    for q in c.get("requirements", []):  # v2 checklist, so the verdict can be audited
+                        print(f"      - {q['met']:<8} {q['need']}")
 
 
 if __name__ == "__main__":

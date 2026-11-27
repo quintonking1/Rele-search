@@ -11,6 +11,11 @@ The log is append-only at two levels:
   (the format before run tags) is read as the first run, tagged "legacy", and never modified.
 
 Readers use the latest run unless they ask for a tag.
+
+Statuses: current, partial, outdated. A partial event (judge v2) means a release partly fixed the
+complaint; a later release can still fix it fully. On any date, the latest event on or before that
+date decides the status. Events written before partial existed have no "status" key and are
+outdated events.
 """
 
 import json
@@ -18,6 +23,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 CURRENT = "current"
+PARTIAL = "partial"
 OUTDATED = "outdated"
 LEGACY_TAG = "legacy"
 
@@ -36,7 +42,7 @@ class StatusLog:
 
         self._new = False  # True once start_run is called; only a new run can be saved
         self.meta: dict = {}
-        self.events: list[dict] = []  # one per complaint marked outdated
+        self.events: list[dict] = []  # one per status change: a complaint marked partial or outdated
         self.checks: list[dict] = []  # every (release, complaint) decision, for error analysis
         if self.runs:
             run = self.run(tag) if tag else self.runs[-1]
@@ -83,20 +89,38 @@ class StatusLog:
             }
         )
 
+    def mark_partial(self, complaint_id: str, item_id: str, since: str, reason: str = "", evidence: str = "") -> None:
+        self.events.append(
+            {
+                "complaint_id": complaint_id,
+                "status": PARTIAL,
+                "partial_by": item_id,
+                "since": since,
+                "reason": reason,
+                "evidence": evidence,
+            }
+        )
+
     def event_as_of(self, complaint_id: str, as_of: str | None) -> dict | None:
-        """The earliest outdating event for this complaint dated on or before as_of, if any."""
+        """The latest status event for this complaint dated on or before as_of, if any.
+
+        An outdated event wins over a partial one on the same day.
+        """
         hits = [
             e
             for e in self.events
             if e["complaint_id"] == complaint_id and (as_of is None or e["since"] <= as_of)
         ]
-        return min(hits, key=lambda e: e["since"]) if hits else None
+        rank = {PARTIAL: 0, OUTDATED: 1}
+        return max(hits, key=lambda e: (e["since"], rank[e.get("status", OUTDATED)])) if hits else None
 
     def status_as_of(self, complaint_id: str, as_of: str | None) -> dict:
-        """{'status': 'current'} or {'status': 'outdated', 'outdated_by': ..., 'since': ...}."""
+        """{'status': 'current'}, {'status': 'partial', 'partial_by', 'since'}, or {'status': 'outdated', 'outdated_by', 'since'}."""
         event = self.event_as_of(complaint_id, as_of)
         if event is None:
             return {"status": CURRENT}
+        if event.get("status", OUTDATED) == PARTIAL:
+            return {"status": PARTIAL, "partial_by": event["partial_by"], "since": event["since"]}
         return {"status": OUTDATED, "outdated_by": event["outdated_by"], "since": event["since"]}
 
     def save(self) -> None:

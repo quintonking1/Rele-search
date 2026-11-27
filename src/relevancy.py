@@ -12,6 +12,19 @@ Four methods, one per answer to the research question, behind one flag:
 Releases are processed in date order. Only complaints dated strictly before a release can be
 outdated by it, and once a complaint is outdated it stays outdated (no later release reopens it).
 
+Two judge versions (llm and hybrid only), chosen with --judge:
+  v1  one yes/no answer per complaint: "does this release fully fix it?" (the 2026-11-20 runs)
+  v2  requirements checklist (default). The model lists what the customer needs (1 to 4 items,
+      the core need first) and checks each one against the release: met, partly, or not met,
+      quoting the release. Code, not the model, turns the checklist into a verdict:
+        every item met                      -> fixed    (complaint becomes outdated)
+        core need met or partly, not all    -> partial  (complaint stays open; a later release
+                                                         can still fix it fully)
+        core need not met                   -> not fixed
+      This targets the v1 mistakes on train: a release that covers a related but different case
+      (C115: autofill for text and select properties, the customer needs a person property), and
+      releases that only partly fix a complaint (C014, C061), which v1 could only call fixed.
+
 A judge call that still fails after retries does not stop the run: its candidates are logged as
 checks with stage "error" (treated as not fixed), the failure is listed in the run's meta, and a
 line is appended to data/status/failed_calls.jsonl.
@@ -39,6 +52,7 @@ Be strict:
 Quote the sentence from the release that supports a true answer. Use an empty string for evidence when the answer is false."""
 
 # OpenAI strict structured output needs an object at the top level, so the verdicts sit under "results".
+JUDGE_VERSIONS = ("v1", "v2")
 JUDGE_SCHEMA = {
     "type": "object",
     "properties": {
@@ -60,6 +74,73 @@ JUDGE_SCHEMA = {
     "required": ["results"],
     "additionalProperties": False,
 }
+
+
+JUDGE_V2_SYSTEM_PROMPT = """You check whether a product release fixes specific customer complaints for Tessera, an all-in-one workspace app.
+
+Work through each complaint in two steps.
+
+Step 1. List what this customer needs for their problem to be solved: 1 to 4 short requirements, in the customer's terms.
+- The first requirement is the core need: the specific thing the customer asks for or the specific problem they hit, including the object it applies to (for example a property type, view, file type, or kind of page) and the situation they are in.
+- Add a requirement for scope only when the customer states it or their record shows it: their platform, their plan, a limit or size they mention.
+- If the complaint is about how the product behaves by default, include that the default experience changes.
+- List only what the customer states or clearly implies. Do not add extras such as documentation, pricing, or polish.
+
+Step 2. Check each requirement against the release text only.
+- met: the release clearly delivers this for this customer's case.
+- partly: the release delivers some of it, or only in some of the customer's cases.
+- not met: the release does not deliver it. When a release lists what it supports (property types, views, platforms, plans, contexts), anything it does not list is not covered. A related feature for a different object, context, platform, or plan does not meet the requirement. An optional setting meets a request for an option, but only partly meets a requirement that the default experience changes.
+- Quote the sentence from the release that shows met or partly. Use an empty string for not met.
+
+Be strict and literal. A release in the same product area that sounds related is not enough.
+Keep it short: each requirement under 15 words, each quote under 30 words, and the reason one sentence."""
+
+# v2: the model fills in the checklist; code derives the verdict (verdict_from_checklist).
+JUDGE_V2_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "results": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {"type": "string"},
+                    "requirements": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "need": {"type": "string"},
+                                "met": {"type": "string", "enum": ["met", "partly", "not met"]},
+                                "evidence": {"type": "string"},
+                            },
+                            "required": ["need", "met", "evidence"],
+                            "additionalProperties": False,
+                        },
+                    },
+                    "reason": {"type": "string"},
+                },
+                "required": ["id", "requirements", "reason"],
+                "additionalProperties": False,
+            },
+        }
+    },
+    "required": ["results"],
+    "additionalProperties": False,
+}
+
+FIXED, PARTIAL, NOT_FIXED = "fixed", "partial", "not fixed"
+
+
+def verdict_from_checklist(requirements: list[dict]) -> str:
+    """Deterministic rule: all met -> fixed; core need (first item) not met -> not fixed; else partial."""
+    if not requirements:
+        return NOT_FIXED
+    if requirements[0]["met"] == "not met":
+        return NOT_FIXED
+    if all(r["met"] == "met" for r in requirements):
+        return FIXED
+    return PARTIAL
 
 
 # ---------- helpers ----------
@@ -106,20 +187,34 @@ def build_judge_prompt(release: dict, candidates: list[dict]) -> str:
     )
 
 
-def judge(cfg: Config, client, release: dict, candidates: list[dict]) -> dict[str, dict]:
-    """One LLM call per release. Returns {complaint_id: {fixes, evidence, reason}}."""
+def judge(cfg: Config, client, release: dict, candidates: list[dict], version: str = "v2") -> dict[str, dict]:
+    """One LLM call per release. Returns {complaint_id: {verdict, evidence, reason, requirements?}}."""
     if not candidates:
         return {}
+    v2 = version == "v2"
     text = generate(
-        client, cfg.relevancy_model, JUDGE_SYSTEM_PROMPT, build_judge_prompt(release, candidates),
-        temperature=0.0, json_schema=JUDGE_SCHEMA, schema_name="judge_verdicts",
+        client, cfg.relevancy_model, JUDGE_V2_SYSTEM_PROMPT if v2 else JUDGE_SYSTEM_PROMPT,
+        build_judge_prompt(release, candidates), temperature=0.0,
+        json_schema=JUDGE_V2_SCHEMA if v2 else JUDGE_SCHEMA,
+        schema_name="judge_checklist" if v2 else "judge_verdicts",
     )
     results = json.loads(text or "{}").get("results", [])
     wanted = {c["id"] for c in candidates}
-    verdicts = {r["id"]: r for r in results if r.get("id") in wanted}
+    verdicts = {}
+    for r in results:
+        if r.get("id") not in wanted:
+            continue
+        if v2:
+            reqs = r["requirements"]
+            evidence = " | ".join(q["evidence"] for q in reqs if q["met"] != "not met" and q["evidence"])
+            verdicts[r["id"]] = {"verdict": verdict_from_checklist(reqs), "evidence": evidence,
+                                 "reason": r.get("reason", ""), "requirements": reqs}
+        else:
+            verdicts[r["id"]] = {"verdict": FIXED if r["fixes"] else NOT_FIXED,
+                                 "evidence": r.get("evidence", ""), "reason": r.get("reason", "")}
     # A candidate the model skipped is treated as "not fixed" and flagged in the log.
     for cid in wanted - verdicts.keys():
-        verdicts[cid] = {"id": cid, "fixes": False, "evidence": "", "reason": "MISSING: model returned no verdict"}
+        verdicts[cid] = {"verdict": NOT_FIXED, "evidence": "", "reason": "MISSING: model returned no verdict"}
     return verdicts
 
 
@@ -133,13 +228,18 @@ def log_failure(cfg: Config, entry: dict) -> None:
         f.write(json.dumps(entry) + "\n")
 
 
-def run_relevancy(cfg: Config, records: list[dict], method: str, client=None, tag: str | None = None) -> StatusLog:
+def run_relevancy(cfg: Config, records: list[dict], method: str, client=None, tag: str | None = None,
+                  judge_version: str = "v2") -> StatusLog:
     """Process every release in date order and append a tagged run to data/status/<method>.jsonl.
 
     `records` are store records (with vectors). `client` is only needed for llm and hybrid.
+    `judge_version` (v1 or v2) only matters for llm and hybrid.
     """
     if method not in METHODS:
         raise ValueError(f"method must be one of {METHODS}")
+    if judge_version not in JUDGE_VERSIONS:
+        raise ValueError(f"judge_version must be one of {JUDGE_VERSIONS}")
+    uses_judge = method in ("llm", "hybrid")
     if method in ("llm", "hybrid") and client is None:
         raise ValueError(f"method {method} needs an OpenAI client")
 
@@ -156,12 +256,14 @@ def run_relevancy(cfg: Config, records: list[dict], method: str, client=None, ta
             "similarity_threshold": cfg.similarity_threshold if method == "similarity" else None,
             "candidates_per_release": cfg.relevancy_candidates if method in ("llm", "hybrid") else None,
             "relevancy_model": cfg.relevancy_model if method in ("llm", "hybrid") else None,
+            "judge": judge_version if uses_judge else None,
             "embedding_model": cfg.embedding_model,
             "complaints_checked": len(complaints),
         },
         tag,
     )
     outdated: set[str] = set()
+    partial: set[str] = set()  # partly fixed; still open, so a later release can fix them fully
     # Counts of (release, complaint) pairs, for the hybrid gate-vs-model breakdown.
     counts = {"gated_all": 0, "gated_in_top": 0, "sent_to_llm": 0, "llm_calls": 0, "failed_calls": 0}
     failures: list[dict] = []
@@ -171,7 +273,7 @@ def run_relevancy(cfg: Config, records: list[dict], method: str, client=None, ta
         open_idx = [
             j for j, c in enumerate(complaints) if c["date"] < release["date"] and c["id"] not in outdated
         ]
-        decisions: list[dict] = []  # {id, fixes, score, reason, evidence}
+        decisions: list[dict] = []  # {id, fixes, verdict, score, reason, evidence}
 
         if method == "area":
             for j in open_idx:
@@ -212,11 +314,11 @@ def run_relevancy(cfg: Config, records: list[dict], method: str, client=None, ta
             top = sorted(pool, key=lambda j: -sims[i, j])[: cfg.relevancy_candidates]
             candidates = [complaints[j] for j in top]
             try:
-                verdicts = judge(cfg, client, release, candidates)
+                verdicts = judge(cfg, client, release, candidates, judge_version)
                 stage, error = "llm", ""
             except Exception as e:  # noqa: BLE001 - any failure is logged and the run continues
                 error = f"{type(e).__name__}: {e}"[:500]
-                verdicts = {c["id"]: {"fixes": False, "reason": f"ERROR: {error}"} for c in candidates}
+                verdicts = {c["id"]: {"verdict": NOT_FIXED, "reason": f"ERROR: {error}"} for c in candidates}
                 stage = "error"
                 entry = {"time": datetime.now(timezone.utc).isoformat(), "tag": log.meta["tag"], "method": method,
                          "release": release["id"], "complaints": [c["id"] for c in candidates], "error": error}
@@ -229,25 +331,34 @@ def run_relevancy(cfg: Config, records: list[dict], method: str, client=None, ta
                 counts["sent_to_llm"] += len(candidates)
             for j in top:
                 v = verdicts[complaints[j]["id"]]
-                decisions.append(
-                    {"id": complaints[j]["id"], "fixes": bool(v["fixes"]), "score": float(sims[i, j]),
-                     "reason": v.get("reason", ""), "evidence": v.get("evidence", ""), "stage": stage}
-                )
+                d = {"id": complaints[j]["id"], "fixes": v["verdict"] == FIXED, "verdict": v["verdict"],
+                     "score": float(sims[i, j]), "reason": v.get("reason", ""), "evidence": v.get("evidence", ""),
+                     "stage": stage}
+                if "requirements" in v:
+                    d["requirements"] = v["requirements"]
+                decisions.append(d)
 
         for d in decisions:
             log.add_check({"release": release["id"], "release_date": release["date"], "complaint": d["id"], **d})
             if d["fixes"]:
                 log.mark_outdated(d["id"], release["id"], release["date"], d["reason"], d["evidence"])
                 outdated.add(d["id"])
+            elif d.get("verdict") == PARTIAL and d["id"] not in partial:
+                # First partial fix only; the complaint stays open for a later full fix.
+                log.mark_partial(d["id"], release["id"], release["date"], d["reason"], d["evidence"])
+                partial.add(d["id"])
 
         n_fixed = sum(d["fixes"] for d in decisions)
-        print(f"  {release['date']} {release['id']}: {n_fixed} outdated", flush=True)  # flush: progress shows even when output goes to a file
+        n_partial = sum(d.get("verdict") == PARTIAL for d in decisions)
+        note = f", {n_partial} partial" if n_partial else ""
+        print(f"  {release['date']} {release['id']}: {n_fixed} outdated{note}", flush=True)  # flush: progress shows even when output goes to a file
 
     if method in ("llm", "hybrid"):
         log.meta["counts"] = counts
         log.meta["failures"] = failures
     log.save()
-    print(f"{method} [{log.meta['tag']}]: {len(log.events)} complaints marked outdated -> {log.path}")
+    n_out = sum(e.get("status", "outdated") == "outdated" for e in log.events)
+    print(f"{method} [{log.meta['tag']}]: {n_out} complaints marked outdated, {len(partial)} partial -> {log.path}")
     if failures:
         print(f"  {len(failures)} judge call(s) failed after retries; see {cfg.status_dir / 'failed_calls.jsonl'}")
     return log

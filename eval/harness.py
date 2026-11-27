@@ -2,6 +2,7 @@
 
   python -m eval.harness --agent baseline --split dev
   python -m eval.harness --agent full --method hybrid --split dev
+  python -m eval.harness --agent full --method hybrid --status-tag openai-v1 --split dev   # a specific status log run
   python -m eval.harness --agent oracle --split dev        # no API calls; checks the harness itself
   python -m eval.harness --compare eval/runs/A.json eval/runs/B.json
   python -m eval.harness --agent full --method hybrid --split test --final   # once, after freezing
@@ -14,7 +15,8 @@ Approved 2026-11-26. Follows docs/eval_plan.md ("Harness flow"):
 5. Score mechanically (eval/scoring.py).
 6. Write a run file to eval/runs/ with settings, per-pair results, and summary metrics.
 
-The full agent reads the latest run in data/status/<method>.jsonl; the run file records its tag.
+The full agent reads the latest run in data/status/<method>.jsonl unless --status-tag names one;
+the run file records the tag it used, and the run file name includes it.
 """
 
 import argparse
@@ -37,7 +39,8 @@ def load_pairs(split: str) -> list[dict]:
     return [p for p in json.loads(QUESTIONS.read_text())["pairs"] if p["group"] in groups]
 
 
-def make_agent(name: str, method: str | None, k: int | None, no_dates: bool, labels: dict, dates: dict):
+def make_agent(name: str, method: str | None, k: int | None, no_dates: bool, labels: dict, dates: dict,
+               status_tag: str | None = None):
     """Return (ask(question, as_of) -> (cited, retrieved_ids, run), settings dict)."""
     if name == "oracle":
         # Perfect agent built from the answer key. Only for checking the harness; never a result.
@@ -58,10 +61,11 @@ def make_agent(name: str, method: str | None, k: int | None, no_dates: bool, lab
         if name == "baseline":
             run = baseline_ask(cfg, question, as_of, k, include_dates, tag=tag)
         else:
-            run = full_agent.ask(cfg, question, as_of, method, k, include_dates, tag=tag)
+            run = full_agent.ask(cfg, question, as_of, method, k, include_dates, tag=tag, status_tag=status_tag)
         return run["output"]["cited"], [r["id"] for r in run["retrieved"]], run
 
-    settings = {"agent": name if name == "baseline" else f"full-{method}", "k": k or cfg.top_k,
+    agent_name = name if name == "baseline" else f"full-{method}" + (f"-{status_tag}" if status_tag else "")
+    settings = {"agent": agent_name, "k": k or cfg.top_k,
                 "include_dates": cfg.include_dates if include_dates is None else include_dates,
                 "embedding_model": cfg.embedding_model, "generation_model": cfg.generation_model}
     return ask, settings
@@ -75,7 +79,7 @@ def run(args) -> Path:
         pairs = [p for p in pairs if p["question_id"] in wanted]
     if args.limit:
         pairs = pairs[: args.limit]
-    ask, settings = make_agent(args.agent, args.method, args.k, args.no_dates, labels, dates)
+    ask, settings = make_agent(args.agent, args.method, args.k, args.no_dates, labels, dates, args.status_tag)
 
     results, failed, status_log = [], [], None
     for p in pairs:
@@ -91,7 +95,7 @@ def run(args) -> Path:
             print(f"  {p['question_id']} FAILED: {problem}")
             continue
         if agent_run and "relevancy" in agent_run:
-            status_log = {k: agent_run["relevancy"].get(k) for k in ("method", "tag", "created", "relevancy_model")}
+            status_log = {k: agent_run["relevancy"].get(k) for k in ("method", "tag", "created", "relevancy_model", "judge")}
         scored = scoring.score_pair(p, cited, retrieved, labels, dates)
         results.append({"question_id": p["question_id"], "group": p["group"], "type": p["type"],
                         "as_of": p["as_of"], "cited": cited, "retrieved": retrieved, **scored})
@@ -164,6 +168,7 @@ def main() -> None:
     parser.add_argument("--agent", choices=("baseline", "full", "oracle"))
     parser.add_argument("--method", choices=("area", "similarity", "llm", "hybrid"), default="hybrid",
                         help="Relevancy method for --agent full (default: hybrid)")
+    parser.add_argument("--status-tag", help="For --agent full: which run of the status log to use (default: latest)")
     parser.add_argument("--split", choices=("train", "dev", "test"), default="dev")
     parser.add_argument("--final", action="store_true", help="Required for --split test (run once, after freezing)")
     parser.add_argument("-k", type=int)
@@ -182,6 +187,8 @@ def main() -> None:
         parser.error("The test split runs once per agent, after freezing. Add --final if that is now.")
     if args.agent == "baseline":
         args.method = None
+        if args.status_tag:
+            parser.error("--status-tag only applies to --agent full")
     run(args)
 
 
