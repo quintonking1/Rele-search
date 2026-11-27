@@ -1,0 +1,1608 @@
+{
+  "timestamp": "20261126T214415Z",
+  "split": "dev",
+  "split_seed": 20261120,
+  "settings": {
+    "agent": "oracle"
+  },
+  "status_log": null,
+  "pairs_requested": 17,
+  "failed": [],
+  "summary": {
+    "all": {
+      "pairs": 17,
+      "counts": {
+        "relevant": 65,
+        "expected_current": 33,
+        "expected_partial": 0,
+        "expected_outdated": 32,
+        "retrieved": 65,
+        "correct": 65,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      },
+      "stale_answer_rate": 0.0,
+      "lost_finding_rate": 0.0,
+      "retrieval_recall": 1.0,
+      "lost_finding_reasons": {},
+      "confusion": {
+        "current": {
+          "current": 33,
+          "partial": 0,
+          "outdated": 0,
+          "not cited": 0
+        },
+        "partial": {
+          "current": 0,
+          "partial": 0,
+          "outdated": 0,
+          "not cited": 0
+        },
+        "outdated": {
+          "current": 0,
+          "partial": 0,
+          "outdated": 32,
+          "not cited": 0
+        }
+      },
+      "off_topic": {
+        "cited": 0,
+        "stale": 0,
+        "wrongly_outdated": 0
+      },
+      "unknown_ids": 0
+    },
+    "invalidator_before": {
+      "pairs": 5,
+      "counts": {
+        "relevant": 12,
+        "expected_current": 11,
+        "expected_partial": 0,
+        "expected_outdated": 1,
+        "retrieved": 12,
+        "correct": 12,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      },
+      "stale_answer_rate": 0.0,
+      "lost_finding_rate": 0.0,
+      "retrieval_recall": 1.0,
+      "lost_finding_reasons": {},
+      "confusion": {
+        "current": {
+          "current": 11,
+          "partial": 0,
+          "outdated": 0,
+          "not cited": 0
+        },
+        "partial": {
+          "current": 0,
+          "partial": 0,
+          "outdated": 0,
+          "not cited": 0
+        },
+        "outdated": {
+          "current": 0,
+          "partial": 0,
+          "outdated": 1,
+          "not cited": 0
+        }
+      },
+      "off_topic": {
+        "cited": 0,
+        "stale": 0,
+        "wrongly_outdated": 0
+      },
+      "unknown_ids": 0
+    },
+    "invalidator_after": {
+      "pairs": 5,
+      "counts": {
+        "relevant": 17,
+        "expected_current": 7,
+        "expected_partial": 0,
+        "expected_outdated": 10,
+        "retrieved": 17,
+        "correct": 17,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      },
+      "stale_answer_rate": 0.0,
+      "lost_finding_rate": 0.0,
+      "retrieval_recall": 1.0,
+      "lost_finding_reasons": {},
+      "confusion": {
+        "current": {
+          "current": 7,
+          "partial": 0,
+          "outdated": 0,
+          "not cited": 0
+        },
+        "partial": {
+          "current": 0,
+          "partial": 0,
+          "outdated": 0,
+          "not cited": 0
+        },
+        "outdated": {
+          "current": 0,
+          "partial": 0,
+          "outdated": 10,
+          "not cited": 0
+        }
+      },
+      "off_topic": {
+        "cited": 0,
+        "stale": 0,
+        "wrongly_outdated": 0
+      },
+      "unknown_ids": 0
+    },
+    "decoy": {
+      "pairs": 2,
+      "counts": {
+        "relevant": 13,
+        "expected_current": 5,
+        "expected_partial": 0,
+        "expected_outdated": 8,
+        "retrieved": 13,
+        "correct": 13,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      },
+      "stale_answer_rate": 0.0,
+      "lost_finding_rate": 0.0,
+      "retrieval_recall": 1.0,
+      "lost_finding_reasons": {},
+      "confusion": {
+        "current": {
+          "current": 5,
+          "partial": 0,
+          "outdated": 0,
+          "not cited": 0
+        },
+        "partial": {
+          "current": 0,
+          "partial": 0,
+          "outdated": 0,
+          "not cited": 0
+        },
+        "outdated": {
+          "current": 0,
+          "partial": 0,
+          "outdated": 8,
+          "not cited": 0
+        }
+      },
+      "off_topic": {
+        "cited": 0,
+        "stale": 0,
+        "wrongly_outdated": 0
+      },
+      "unknown_ids": 0
+    },
+    "still_true": {
+      "pairs": 5,
+      "counts": {
+        "relevant": 23,
+        "expected_current": 10,
+        "expected_partial": 0,
+        "expected_outdated": 13,
+        "retrieved": 23,
+        "correct": 23,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      },
+      "stale_answer_rate": 0.0,
+      "lost_finding_rate": 0.0,
+      "retrieval_recall": 1.0,
+      "lost_finding_reasons": {},
+      "confusion": {
+        "current": {
+          "current": 10,
+          "partial": 0,
+          "outdated": 0,
+          "not cited": 0
+        },
+        "partial": {
+          "current": 0,
+          "partial": 0,
+          "outdated": 0,
+          "not cited": 0
+        },
+        "outdated": {
+          "current": 0,
+          "partial": 0,
+          "outdated": 13,
+          "not cited": 0
+        }
+      },
+      "off_topic": {
+        "cited": 0,
+        "stale": 0,
+        "wrongly_outdated": 0
+      },
+      "unknown_ids": 0
+    }
+  },
+  "results": [
+    {
+      "question_id": "Q001",
+      "group": "accessibility",
+      "type": "invalidator_before",
+      "as_of": "2026-08-21",
+      "cited": [
+        {
+          "id": "C082",
+          "status": "current"
+        },
+        {
+          "id": "C113",
+          "status": "current"
+        }
+      ],
+      "retrieved": [
+        "C082",
+        "C113"
+      ],
+      "rows": [
+        {
+          "id": "C082",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C113",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        }
+      ],
+      "unknown_ids": [],
+      "counts": {
+        "relevant": 2,
+        "expected_current": 2,
+        "expected_partial": 0,
+        "expected_outdated": 0,
+        "retrieved": 2,
+        "correct": 2,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      }
+    },
+    {
+      "question_id": "Q002",
+      "group": "accessibility",
+      "type": "invalidator_after",
+      "as_of": "2026-09-18",
+      "cited": [
+        {
+          "id": "C082",
+          "status": "outdated"
+        },
+        {
+          "id": "C086",
+          "status": "outdated"
+        },
+        {
+          "id": "C091",
+          "status": "current"
+        },
+        {
+          "id": "C093",
+          "status": "current"
+        },
+        {
+          "id": "C113",
+          "status": "current"
+        }
+      ],
+      "retrieved": [
+        "C082",
+        "C086",
+        "C091",
+        "C093",
+        "C113"
+      ],
+      "rows": [
+        {
+          "id": "C082",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C086",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C091",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C093",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C113",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        }
+      ],
+      "unknown_ids": [],
+      "counts": {
+        "relevant": 5,
+        "expected_current": 3,
+        "expected_partial": 0,
+        "expected_outdated": 2,
+        "retrieved": 5,
+        "correct": 5,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      }
+    },
+    {
+      "question_id": "Q003",
+      "group": "accessibility",
+      "type": "still_true",
+      "as_of": "2026-10-31",
+      "cited": [
+        {
+          "id": "C082",
+          "status": "outdated"
+        },
+        {
+          "id": "C086",
+          "status": "outdated"
+        },
+        {
+          "id": "C091",
+          "status": "current"
+        },
+        {
+          "id": "C093",
+          "status": "current"
+        },
+        {
+          "id": "C113",
+          "status": "current"
+        }
+      ],
+      "retrieved": [
+        "C082",
+        "C086",
+        "C091",
+        "C093",
+        "C113"
+      ],
+      "rows": [
+        {
+          "id": "C082",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C086",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C091",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C093",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C113",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        }
+      ],
+      "unknown_ids": [],
+      "counts": {
+        "relevant": 5,
+        "expected_current": 3,
+        "expected_partial": 0,
+        "expected_outdated": 2,
+        "retrieved": 5,
+        "correct": 5,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      }
+    },
+    {
+      "question_id": "Q035",
+      "group": "guests and permissions",
+      "type": "invalidator_before",
+      "as_of": "2026-02-26",
+      "cited": [
+        {
+          "id": "C017",
+          "status": "current"
+        }
+      ],
+      "retrieved": [
+        "C017"
+      ],
+      "rows": [
+        {
+          "id": "C017",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        }
+      ],
+      "unknown_ids": [],
+      "counts": {
+        "relevant": 1,
+        "expected_current": 1,
+        "expected_partial": 0,
+        "expected_outdated": 0,
+        "retrieved": 1,
+        "correct": 1,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      }
+    },
+    {
+      "question_id": "Q036",
+      "group": "guests and permissions",
+      "type": "invalidator_after",
+      "as_of": "2026-04-03",
+      "cited": [
+        {
+          "id": "C017",
+          "status": "outdated"
+        }
+      ],
+      "retrieved": [
+        "C017"
+      ],
+      "rows": [
+        {
+          "id": "C017",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        }
+      ],
+      "unknown_ids": [],
+      "counts": {
+        "relevant": 1,
+        "expected_current": 0,
+        "expected_partial": 0,
+        "expected_outdated": 1,
+        "retrieved": 1,
+        "correct": 1,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      }
+    },
+    {
+      "question_id": "Q037",
+      "group": "guests and permissions",
+      "type": "invalidator_before",
+      "as_of": "2026-04-23",
+      "cited": [
+        {
+          "id": "C017",
+          "status": "outdated"
+        },
+        {
+          "id": "C040",
+          "status": "current"
+        },
+        {
+          "id": "C042",
+          "status": "current"
+        }
+      ],
+      "retrieved": [
+        "C017",
+        "C040",
+        "C042"
+      ],
+      "rows": [
+        {
+          "id": "C017",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C040",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C042",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        }
+      ],
+      "unknown_ids": [],
+      "counts": {
+        "relevant": 3,
+        "expected_current": 2,
+        "expected_partial": 0,
+        "expected_outdated": 1,
+        "retrieved": 3,
+        "correct": 3,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      }
+    },
+    {
+      "question_id": "Q038",
+      "group": "guests and permissions",
+      "type": "invalidator_after",
+      "as_of": "2026-05-22",
+      "cited": [
+        {
+          "id": "C017",
+          "status": "outdated"
+        },
+        {
+          "id": "C040",
+          "status": "current"
+        },
+        {
+          "id": "C042",
+          "status": "outdated"
+        }
+      ],
+      "retrieved": [
+        "C017",
+        "C040",
+        "C042"
+      ],
+      "rows": [
+        {
+          "id": "C017",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C040",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C042",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        }
+      ],
+      "unknown_ids": [],
+      "counts": {
+        "relevant": 3,
+        "expected_current": 1,
+        "expected_partial": 0,
+        "expected_outdated": 2,
+        "retrieved": 3,
+        "correct": 3,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      }
+    },
+    {
+      "question_id": "Q039",
+      "group": "guests and permissions",
+      "type": "still_true",
+      "as_of": "2026-10-31",
+      "cited": [
+        {
+          "id": "C017",
+          "status": "outdated"
+        },
+        {
+          "id": "C040",
+          "status": "current"
+        },
+        {
+          "id": "C042",
+          "status": "outdated"
+        }
+      ],
+      "retrieved": [
+        "C017",
+        "C040",
+        "C042"
+      ],
+      "rows": [
+        {
+          "id": "C017",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C040",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C042",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        }
+      ],
+      "unknown_ids": [],
+      "counts": {
+        "relevant": 3,
+        "expected_current": 1,
+        "expected_partial": 0,
+        "expected_outdated": 2,
+        "retrieved": 3,
+        "correct": 3,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      }
+    },
+    {
+      "question_id": "Q040",
+      "group": "large databases",
+      "type": "decoy",
+      "as_of": "2026-02-27",
+      "cited": [
+        {
+          "id": "C007",
+          "status": "outdated"
+        },
+        {
+          "id": "C013",
+          "status": "outdated"
+        },
+        {
+          "id": "C021",
+          "status": "current"
+        },
+        {
+          "id": "C102",
+          "status": "current"
+        }
+      ],
+      "retrieved": [
+        "C007",
+        "C013",
+        "C021",
+        "C102"
+      ],
+      "rows": [
+        {
+          "id": "C007",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C013",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C021",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C102",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        }
+      ],
+      "unknown_ids": [],
+      "counts": {
+        "relevant": 4,
+        "expected_current": 2,
+        "expected_partial": 0,
+        "expected_outdated": 2,
+        "retrieved": 4,
+        "correct": 4,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      }
+    },
+    {
+      "question_id": "Q041",
+      "group": "large databases",
+      "type": "still_true",
+      "as_of": "2026-10-31",
+      "cited": [
+        {
+          "id": "C007",
+          "status": "outdated"
+        },
+        {
+          "id": "C013",
+          "status": "outdated"
+        },
+        {
+          "id": "C021",
+          "status": "current"
+        },
+        {
+          "id": "C102",
+          "status": "current"
+        }
+      ],
+      "retrieved": [
+        "C007",
+        "C013",
+        "C021",
+        "C102"
+      ],
+      "rows": [
+        {
+          "id": "C007",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C013",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C021",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C102",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        }
+      ],
+      "unknown_ids": [],
+      "counts": {
+        "relevant": 4,
+        "expected_current": 2,
+        "expected_partial": 0,
+        "expected_outdated": 2,
+        "retrieved": 4,
+        "correct": 4,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      }
+    },
+    {
+      "question_id": "Q054",
+      "group": "recurring templates",
+      "type": "invalidator_before",
+      "as_of": "2026-03-20",
+      "cited": [
+        {
+          "id": "C029",
+          "status": "current"
+        }
+      ],
+      "retrieved": [
+        "C029"
+      ],
+      "rows": [
+        {
+          "id": "C029",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        }
+      ],
+      "unknown_ids": [],
+      "counts": {
+        "relevant": 1,
+        "expected_current": 1,
+        "expected_partial": 0,
+        "expected_outdated": 0,
+        "retrieved": 1,
+        "correct": 1,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      }
+    },
+    {
+      "question_id": "Q055",
+      "group": "recurring templates",
+      "type": "invalidator_after",
+      "as_of": "2026-04-17",
+      "cited": [
+        {
+          "id": "C029",
+          "status": "outdated"
+        }
+      ],
+      "retrieved": [
+        "C029"
+      ],
+      "rows": [
+        {
+          "id": "C029",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        }
+      ],
+      "unknown_ids": [],
+      "counts": {
+        "relevant": 1,
+        "expected_current": 0,
+        "expected_partial": 0,
+        "expected_outdated": 1,
+        "retrieved": 1,
+        "correct": 1,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      }
+    },
+    {
+      "question_id": "Q056",
+      "group": "recurring templates",
+      "type": "still_true",
+      "as_of": "2026-10-31",
+      "cited": [
+        {
+          "id": "C029",
+          "status": "outdated"
+        },
+        {
+          "id": "C047",
+          "status": "current"
+        }
+      ],
+      "retrieved": [
+        "C029",
+        "C047"
+      ],
+      "rows": [
+        {
+          "id": "C029",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C047",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        }
+      ],
+      "unknown_ids": [],
+      "counts": {
+        "relevant": 2,
+        "expected_current": 1,
+        "expected_partial": 0,
+        "expected_outdated": 1,
+        "retrieved": 2,
+        "correct": 2,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      }
+    },
+    {
+      "question_id": "Q061",
+      "group": "search",
+      "type": "invalidator_before",
+      "as_of": "2026-04-13",
+      "cited": [
+        {
+          "id": "C019",
+          "status": "current"
+        },
+        {
+          "id": "C026",
+          "status": "current"
+        },
+        {
+          "id": "C034",
+          "status": "current"
+        },
+        {
+          "id": "C039",
+          "status": "current"
+        },
+        {
+          "id": "C105",
+          "status": "current"
+        }
+      ],
+      "retrieved": [
+        "C019",
+        "C026",
+        "C034",
+        "C039",
+        "C105"
+      ],
+      "rows": [
+        {
+          "id": "C019",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C026",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C034",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C039",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C105",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        }
+      ],
+      "unknown_ids": [],
+      "counts": {
+        "relevant": 5,
+        "expected_current": 5,
+        "expected_partial": 0,
+        "expected_outdated": 0,
+        "retrieved": 5,
+        "correct": 5,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      }
+    },
+    {
+      "question_id": "Q062",
+      "group": "search",
+      "type": "invalidator_after",
+      "as_of": "2026-04-28",
+      "cited": [
+        {
+          "id": "C019",
+          "status": "outdated"
+        },
+        {
+          "id": "C026",
+          "status": "outdated"
+        },
+        {
+          "id": "C034",
+          "status": "outdated"
+        },
+        {
+          "id": "C039",
+          "status": "outdated"
+        },
+        {
+          "id": "C045",
+          "status": "current"
+        },
+        {
+          "id": "C046",
+          "status": "current"
+        },
+        {
+          "id": "C105",
+          "status": "current"
+        }
+      ],
+      "retrieved": [
+        "C019",
+        "C026",
+        "C034",
+        "C039",
+        "C045",
+        "C046",
+        "C105"
+      ],
+      "rows": [
+        {
+          "id": "C019",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C026",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C034",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C039",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C045",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C046",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C105",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        }
+      ],
+      "unknown_ids": [],
+      "counts": {
+        "relevant": 7,
+        "expected_current": 3,
+        "expected_partial": 0,
+        "expected_outdated": 4,
+        "retrieved": 7,
+        "correct": 7,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      }
+    },
+    {
+      "question_id": "Q063",
+      "group": "search",
+      "type": "decoy",
+      "as_of": "2026-05-22",
+      "cited": [
+        {
+          "id": "C019",
+          "status": "outdated"
+        },
+        {
+          "id": "C026",
+          "status": "outdated"
+        },
+        {
+          "id": "C034",
+          "status": "outdated"
+        },
+        {
+          "id": "C039",
+          "status": "outdated"
+        },
+        {
+          "id": "C045",
+          "status": "current"
+        },
+        {
+          "id": "C046",
+          "status": "outdated"
+        },
+        {
+          "id": "C049",
+          "status": "outdated"
+        },
+        {
+          "id": "C052",
+          "status": "current"
+        },
+        {
+          "id": "C105",
+          "status": "current"
+        }
+      ],
+      "retrieved": [
+        "C019",
+        "C026",
+        "C034",
+        "C039",
+        "C045",
+        "C046",
+        "C049",
+        "C052",
+        "C105"
+      ],
+      "rows": [
+        {
+          "id": "C019",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C026",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C034",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C039",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C045",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C046",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C049",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C052",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C105",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        }
+      ],
+      "unknown_ids": [],
+      "counts": {
+        "relevant": 9,
+        "expected_current": 3,
+        "expected_partial": 0,
+        "expected_outdated": 6,
+        "retrieved": 9,
+        "correct": 9,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      }
+    },
+    {
+      "question_id": "Q064",
+      "group": "search",
+      "type": "still_true",
+      "as_of": "2026-10-31",
+      "cited": [
+        {
+          "id": "C019",
+          "status": "outdated"
+        },
+        {
+          "id": "C026",
+          "status": "outdated"
+        },
+        {
+          "id": "C034",
+          "status": "outdated"
+        },
+        {
+          "id": "C039",
+          "status": "outdated"
+        },
+        {
+          "id": "C045",
+          "status": "current"
+        },
+        {
+          "id": "C046",
+          "status": "outdated"
+        },
+        {
+          "id": "C049",
+          "status": "outdated"
+        },
+        {
+          "id": "C052",
+          "status": "current"
+        },
+        {
+          "id": "C105",
+          "status": "current"
+        }
+      ],
+      "retrieved": [
+        "C019",
+        "C026",
+        "C034",
+        "C039",
+        "C045",
+        "C046",
+        "C049",
+        "C052",
+        "C105"
+      ],
+      "rows": [
+        {
+          "id": "C019",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C026",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C034",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C039",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C045",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C046",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C049",
+          "expected": "outdated",
+          "agent": "outdated",
+          "outcome": "correct",
+          "retrieved": true,
+          "right_release": false,
+          "in_topic": true
+        },
+        {
+          "id": "C052",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        },
+        {
+          "id": "C105",
+          "expected": "current",
+          "agent": "current",
+          "outcome": "correct",
+          "retrieved": true,
+          "in_topic": true
+        }
+      ],
+      "unknown_ids": [],
+      "counts": {
+        "relevant": 9,
+        "expected_current": 3,
+        "expected_partial": 0,
+        "expected_outdated": 6,
+        "retrieved": 9,
+        "correct": 9,
+        "stale answer": 0,
+        "lost finding": 0,
+        "ignored": 0,
+        "off_topic_cited": 0,
+        "off_topic_not_current": 0,
+        "off_topic_stale": 0,
+        "off_topic_wrongly_outdated": 0
+      }
+    }
+  ]
+}
