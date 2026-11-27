@@ -14,33 +14,49 @@ from types import SimpleNamespace
 
 from src import agent
 from src.config import load_config
-from src.relevancy import passes_gates, run_relevancy
+from src.relevancy import passes_gates, run_relevancy, verdict_from_checklist
 from src.status import StatusLog
 from src.store import Store
 
 
 class FakeClient:
-    """Stands in for openai.OpenAI. Says a release fixes a complaint only for pairs in `fixes`."""
+    """Stands in for openai.OpenAI. Says a release fixes a complaint only for pairs in `fixes`.
 
-    def __init__(self, fixes: set[tuple[str, str]], drop: set[str] = frozenset()):
+    Answers in the v1 format (yes/no) or the v2 format (checklist) depending on the schema asked
+    for. In v2, pairs in `partial` get a checklist whose core need is met and second need is not.
+    """
+
+    def __init__(self, fixes: set[tuple[str, str]], drop: set[str] = frozenset(),
+                 partial: set[tuple[str, str]] = frozenset()):
         self.fixes = fixes
+        self.partial = partial
         self.drop = drop  # complaint ids to leave out of the response, to test missing verdicts
         self.calls: list[str] = []  # complaint ids sent to the model, per call
+        self.schemas: list[str] = []  # schema name per call
         self.chat = SimpleNamespace(completions=SimpleNamespace(create=self._create))
 
     def _create(self, model, messages, temperature, **kwargs):
+        self.schemas.append(kwargs.get("response_format", {}).get("json_schema", {}).get("name"))
         text = self._generate(messages[-1]["content"])
         return SimpleNamespace(choices=[SimpleNamespace(finish_reason="stop", message=SimpleNamespace(content=text))])
+
+    def _checklist(self, release, cid):
+        if (release, cid) in self.fixes:
+            return [{"need": "core", "met": "met", "evidence": "q"}]
+        if (release, cid) in self.partial:
+            return [{"need": "core", "met": "met", "evidence": "q"}, {"need": "default", "met": "not met", "evidence": ""}]
+        return [{"need": "core", "met": "not met", "evidence": ""}]
 
     def _generate(self, contents):
         release = contents.split("id: ", 1)[1].split("\n", 1)[0]
         ids = [line[4:] for line in contents.split("COMPLAINTS", 1)[1].splitlines() if line.startswith("id: ")]
         self.calls.append((release, ids))
-        out = [
-            {"id": i, "fixes": (release, i) in self.fixes, "evidence": "", "reason": "fake"}
-            for i in ids
-            if i not in self.drop
-        ]
+        if self.schemas and self.schemas[-1] == "judge_checklist":
+            out = [{"id": i, "requirements": self._checklist(release, i), "reason": "fake"}
+                   for i in ids if i not in self.drop]
+        else:
+            out = [{"id": i, "fixes": (release, i) in self.fixes, "evidence": "", "reason": "fake"}
+                   for i in ids if i not in self.drop]
         return json.dumps({"results": out})
 
 
@@ -142,6 +158,51 @@ class TestRelevancy(unittest.TestCase):
             {"id": "R12-01"},
         ])
         self.assertEqual(agent.cited_block(["C054"], log, "2026-05-20"), [{"id": "C054", "status": "current"}])
+
+    def test_v1_judge_still_available(self):
+        fake = FakeClient({("R12-01", "C054")})
+        log = run_relevancy(self.cfg, self.records, "llm", fake, tag="v1-check", judge_version="v1")
+        self.assertEqual(set(fake.schemas), {"judge_verdicts"})
+        self.assertEqual(log.meta["judge"], "v1")
+        self.assertEqual({e["complaint_id"] for e in log.events}, {"C054"})
+
+    def test_checklist_verdict_rule(self):
+        met = {"need": "x", "met": "met", "evidence": "q"}
+        partly = {"need": "x", "met": "partly", "evidence": "q"}
+        no = {"need": "x", "met": "not met", "evidence": ""}
+        self.assertEqual(verdict_from_checklist([met, met]), "fixed")
+        self.assertEqual(verdict_from_checklist([met, no]), "partial")
+        self.assertEqual(verdict_from_checklist([partly]), "partial")
+        self.assertEqual(verdict_from_checklist([no, met]), "not fixed")  # core need not met
+        self.assertEqual(verdict_from_checklist([]), "not fixed")
+
+    def test_v2_partial_then_full_fix(self):
+        # R16-01 partly fixes C014; R18-01 (later) fixes it fully. C054 is fixed outright by R12-01.
+        fake = FakeClient({("R12-01", "C054"), ("R18-01", "C014")}, partial={("R16-01", "C014")})
+        cfg = replace(self.cfg, relevancy_candidates=500)  # judge every open complaint, so R18-01 sees C014
+        log = run_relevancy(cfg, self.records, "llm", fake, tag="v2-check")
+        self.assertEqual(set(fake.schemas), {"judge_checklist"})
+        self.assertEqual(log.meta["judge"], "v2")
+        self.assertEqual(log.status_as_of("C014", "2026-08-01")["status"], "current")
+        self.assertEqual(log.status_as_of("C014", "2026-08-20"), {"status": "partial", "partial_by": "R16-01", "since": "2026-08-18"})
+        self.assertEqual(log.status_as_of("C014", "2026-10-01")["outdated_by"], "R18-01")
+        self.assertEqual(log.status_as_of("C054", "2026-07-01")["status"], "outdated")
+        checks = [c for c in log.checks if c["complaint"] == "C014" and c["release"] == "R16-01"]
+        self.assertEqual(checks[0]["verdict"], "partial")
+        self.assertEqual(len(checks[0]["requirements"]), 2)
+
+    def test_cited_block_and_prompt_show_partial(self):
+        log = StatusLog(Path(self.tmp.name) / "unit3.json")
+        log.start_run({"method": "unit", "judge": "v2"}, "p")
+        log.mark_partial("C014", "R16-01", "2026-08-18")
+        self.assertEqual(agent.cited_block(["C014"], log, "2026-09-01"),
+                         [{"id": "C014", "status": "partial", "partial_by": "R16-01"}])
+        line = agent.status_line(log.status_as_of("C014", "2026-09-01"), True)
+        self.assertEqual(line, "status: PARTIAL as of 2026-08-18, partly fixed by R16-01")
+        self.assertIn("PARTIAL complaint", agent.system_prompt(log))
+        v1 = StatusLog(Path(self.tmp.name) / "unit4.json")
+        v1.start_run({"method": "unit"}, "old")
+        self.assertEqual(agent.system_prompt(v1), agent.SYSTEM_PROMPT)  # v1 logs keep the v1 prompt exactly
 
     def test_prompt_shows_status(self):
         rec = self.by_id["C054"]

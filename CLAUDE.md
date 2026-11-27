@@ -56,7 +56,7 @@ Both datasets are synthetic and describe **Tessera**, a fictional Notion-like wo
 - **Logging:** one JSON record per run (question, `as_of`, retrieved IDs with scores and ranks, prompt, answer, model names, timestamp). The full agent must use the same log format.
 - **Secrets:** API keys come from environment variables. Never hard-code or commit them.
 
-Open decisions (ask before choosing): whether to add an LLM reranker, whether dates appear in the answer prompt, and whether status gets a third "partial" value later. The full agent currently uses two statuses (current, outdated).
+Open decisions (ask before choosing): whether to add an LLM reranker, and whether dates appear in the answer prompt. Decided 2026-11-26: V2 adds a third status, "partial", produced by judge v2 (`--judge v2`, the default). Runs with judge v1 have two statuses (current, outdated).
 
 ## Evaluation
 

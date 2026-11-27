@@ -89,6 +89,30 @@ class TestScoringTable(unittest.TestCase):
         self.assertIsNotNone(scoring.validate_cited("C1"))
 
 
+class TestScoreRelevancyPartial(unittest.TestCase):
+    """Test 1 scoring of partial verdicts (eval/score_relevancy.py)."""
+
+    def test_rows(self):
+        from eval.score_relevancy import score
+        labels = {
+            "C1": {"complaint_id": "C1", "group": "g", "history": [{"item": "R1", "date": "2026-02-01", "resolution": "partial"}]},
+            "C2": {"complaint_id": "C2", "group": "g", "history": []},
+            "C3": {"complaint_id": "C3", "group": "g", "history": [{"item": "R2", "date": "2026-03-01", "resolution": "full"}]},
+            "C4": {"complaint_id": "C4", "group": "g", "history": [{"item": "R1", "date": "2026-02-01", "resolution": "partial"}]},
+        }
+        events = [
+            {"complaint_id": "C1", "status": "partial", "partial_by": "R1", "since": "2026-02-01"},
+            {"complaint_id": "C2", "status": "partial", "partial_by": "R2", "since": "2026-03-01"},
+            {"complaint_id": "C3", "status": "partial", "partial_by": "R2", "since": "2026-03-01"},
+            {"complaint_id": "C4", "outdated_by": "R1", "since": "2026-02-01"},  # v1-style event: outdated
+        ]
+        rows = score("hybrid", labels, None, {"meta": {}, "events": events, "checks": []})["rows"]
+        self.assertEqual([r[0] for r in rows["partial right"]], ["C1"])
+        self.assertEqual([r[0] for r in rows["false partial"]], ["C2"])
+        self.assertEqual([r[0] for r in rows["missed"]], ["C3"])  # fully fixed but only called partial
+        self.assertEqual([r[0] for r in rows["partial wrong"]], ["C4"])
+
+
 class TestQuestions(unittest.TestCase):
     def test_committed_questions_pass_every_rule(self):
         w = make_questions.World()

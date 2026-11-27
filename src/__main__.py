@@ -5,8 +5,8 @@ Baseline:
   python -m src ask "What do we know about checkout?" --as-of 2026-07-15 [--no-dates] [-k 8]
 
 Full agent:
-  python -m src update --method hybrid [--tag T] # run the relevancy check, append a run to data/status/hybrid.jsonl
-  python -m src ask-full "What do we know about checkout?" --as-of 2026-07-15 --method hybrid
+  python -m src update --method hybrid [--tag T] [--judge v2]  # run the relevancy check, append a run to data/status/hybrid.jsonl
+  python -m src ask-full "What do we know about checkout?" --as-of 2026-07-15 --method hybrid [--status-tag T]
 
 Agent code only. Seed questions and anything with expected answers live outside src/.
 """
@@ -17,7 +17,7 @@ from . import agent
 from .baseline import ask, ingest
 from .config import load_config
 from .llm import make_client
-from .relevancy import METHODS, run_relevancy
+from .relevancy import JUDGE_VERSIONS, METHODS, run_relevancy
 from .store import Store
 
 
@@ -25,7 +25,8 @@ def print_run(run: dict) -> None:
     print(f"\nQ: {run['question']}  (as_of={run['as_of']}, k={run['k']}, dates={run['include_dates']})")
     print("Retrieved: " + ", ".join(f"{r['id']}({r['score']:.3f})" for r in run["retrieved"]))
     print(f"\n{run['output']['answer']}\n")
-    statuses = [f"{c['id']}={c['status']}" + (f"({c['outdated_by']})" if "outdated_by" in c else "")
+    statuses = [f"{c['id']}={c['status']}" + (f"({c.get('outdated_by') or c.get('partial_by')})"
+                                              if "outdated_by" in c or "partial_by" in c else "")
                 for c in run["output"]["cited"] if "status" in c]
     if statuses:
         print("Cited status: " + ", ".join(statuses))
@@ -48,6 +49,8 @@ def main() -> None:
     p_up = sub.add_parser("update", help="Full agent: run the relevancy check over all releases")
     p_up.add_argument("--method", choices=METHODS, required=True)
     p_up.add_argument("--tag", help="Name for this run in the append-only status log (default: method + timestamp)")
+    p_up.add_argument("--judge", choices=JUDGE_VERSIONS, default="v2",
+                      help="llm and hybrid only: v1 yes/no judge, or v2 requirements checklist with partial (default)")
 
     p_full = sub.add_parser("ask-full", help="Full agent: ask one question using a method's status log")
     p_full.add_argument("question")
@@ -55,6 +58,7 @@ def main() -> None:
     p_full.add_argument("--method", choices=METHODS, default="hybrid")
     p_full.add_argument("-k", type=int, help="Top k (default TOP_K from .env)")
     p_full.add_argument("--no-dates", action="store_true", help="Hide record dates from the LLM")
+    p_full.add_argument("--status-tag", help="Which run of the status log to use (default: latest)")
 
     args = parser.parse_args()
     cfg = load_config()
@@ -69,10 +73,11 @@ def main() -> None:
         if not store.records:
             raise SystemExit(f"Store {cfg.store_path} is empty. Run ingest first.")
         client = make_client(cfg) if args.method in ("llm", "hybrid") else None
-        run_relevancy(cfg, list(store.records.values()), args.method, client, args.tag)
+        run_relevancy(cfg, list(store.records.values()), args.method, client, args.tag, args.judge)
     elif args.cmd == "ask-full":
         include_dates = False if args.no_dates else None
-        print_run(agent.ask(cfg, args.question, args.as_of, args.method, args.k, include_dates))
+        print_run(agent.ask(cfg, args.question, args.as_of, args.method, args.k, include_dates,
+                            status_tag=args.status_tag))
 
 
 if __name__ == "__main__":

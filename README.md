@@ -16,7 +16,7 @@ Product teams collect research (complaints, interviews, findings) while the prod
 | Questions | **Approved** 2026-11-26: 79 pairs in `eval/questions/questions.json` (dev 17, train 30, test 32), from `python -m eval.make_questions`. Decision 1: option (a), two questions per cross-group decoy. Decision 2: R01-01, R19-01 and R10-04 are skipped. Partials are scored as partial. Approved by Sanjali and Quinton 2026-11-26. |
 | Split | Done 2026-11-20 (`eval/split.json`, seed in `eval/config.json`): test 40% (46 complaints, held out), dev 20% (23), train 40% (46), split by group. |
 | Eval harness, question-level scoring | **Built** 2026-11-26: `eval/harness.py` and `eval/scoring.py` (Test 2). Checked with the oracle agent and unit tests; not yet run on a real agent. `eval.score_relevancy` scores the relevancy check per split. |
-| Full agent | First version built: four relevancy methods (area, similarity, llm, hybrid), status log, `ask-full`. All four methods run on OpenAI (run tag `openai-v1`, 2026-11-20). |
+| Full agent | First version built: four relevancy methods (area, similarity, llm, hybrid), status log, `ask-full`. All four methods run on OpenAI (run tag `openai-v1`, 2026-11-20). **V2** built 2026-11-26: judge v2 (requirements checklist) and a partial status, not yet run. See [Attempts so far](#attempts-so-far) 6 and 7. |
 | Models | Switched from Gemini to OpenAI on 2026-11-20 (`text-embedding-3-small`, `gpt-4.1`). See [Attempts so far](#attempts-so-far). |
 
 ## Open decisions
@@ -26,7 +26,7 @@ Product teams collect research (complaints, interviews, findings) while the prod
 3. **Labels marked REVIEW:** C045, C092, C095.
 4. **Small groups.** api v1, microsoft teams, and slash menu hold one complaint each. Consider merging some before the split.
 5. ~~**Re-embed after adding complaints.**~~ Done 2026-11-20 with the OpenAI re-ingest: `data/store.json` now holds all 164 records, including C101 to C115, and every method has been re-run.
-6. **Partial status.** The full agent has two statuses (current, outdated). The scoring table counts a partial complaint reported as current as a stale answer, which affects C014 and C061. Test 2 scores partials as partial for now (decided 2026-11-26); the agent may get a partial status in V2.
+6. ~~**Partial status.**~~ Decided 2026-11-26: V2 adds a partial status, produced by judge v2. Runs with judge v1 (such as `openai-v1`) still have two statuses. Test 2 and Test 1 both score partials.
 7. **Agent run logs** stay in `runs/` at the root, since agent code may not reference `eval/`. `eval/runs/` is for the harness only. The eval plan's file layout should list `runs/`.
 
 ## Repo layout
@@ -133,6 +133,13 @@ Same retrieval, ranking, model, temperature, and log format as the baseline. Wha
 3. **Prompt:** each retrieved complaint gets a line like `status: OUTDATED as of 2026-06-16, fixed by R12-01` or `status: CURRENT`, and the system prompt says to present outdated complaints as resolved and cite the release.
 4. **Output:** code fills the `cited` statuses from the status log; the model never writes them. The eval then measures the relevancy check, not how well the model copies a label.
 
+**Judge v2 (V2, 2026-11-26).** The llm and hybrid methods take `--judge v1` or `--judge v2` (default v2):
+- **v1** asks one yes or no question per complaint: does this release fully fix it?
+- **v2** asks the model for a requirements checklist. It lists what the customer needs (1 to 4 items, the core need first) and checks each one against the release as met, partly, or not met, quoting the release. Code then turns the checklist into a verdict: every item met is **fixed** (outdated), core need not met is **not fixed**, anything in between is **partial**. A partial complaint stays open, so a later release can still fix it fully.
+- The checklist is kept in each check, so `score_relevancy --show-errors` shows why each verdict was reached.
+- The prompt gets a PARTIAL instruction only when the status log came from judge v2, so v1 runs keep exactly the v1 prompt.
+- Built from the v1 mistakes on train: C115 (a related feature that covers a different property type) and C014 and C061 (partly fixed, which v1 could only call fixed). Dev and test were not used to design it.
+
 **Relevancy methods** (the research question, one flag):
 
 | Method | Decides "release fixes complaint" when | Model calls |
@@ -145,8 +152,9 @@ Same retrieval, ranking, model, temperature, and log format as the baseline. Wha
 The threshold depends on the embedding model. With Gemini it was 0.80 (the 98th percentile of release-to-earlier-complaint similarity). OpenAI's `text-embedding-3-small` scores much lower (median pair 0.22, 99th percentile 0.60), so it is now 0.55, set from the score distribution without looking at labels. Tune it on the dev split once the split exists.
 
 ```bash
-.venv/bin/python -m src update --method hybrid       # writes data/status/hybrid.json
-.venv/bin/python -m src ask-full "What do we know about checkout?" --as-of 2026-07-15 --method hybrid
+.venv/bin/python -m src update --method hybrid --tag v2           # judge v2 by default; appends a run to data/status/hybrid.jsonl
+.venv/bin/python -m src update --method hybrid --judge v1 --tag T  # the original yes/no judge
+.venv/bin/python -m src ask-full "What do we know about checkout?" --as-of 2026-07-15 --method hybrid [--status-tag v2]
 .venv/bin/python -m eval.run_seeds --method hybrid
 .venv/bin/python -m eval.score_relevancy --show-errors   # compare methods against the labels
 ```
@@ -194,6 +202,19 @@ Scores on all 115 complaints, taken before the split existed. These include the 
 
 **5. Train, dev, and test split (2026-11-20).** Groups split whole with seed 20261120: test 40% (46 complaints, held out), dev 20% (23), train 40% (46). Groups are weighted by complaint count until `questions.json` exists. Each split has both fixed and never-fixed complaints and at least 3 near misses. Dev scores are the table above. Gemini status-log runs are kept in `data/status/*.jsonl` under their own tags. Gemini run logs in `runs/` are not comparable with OpenAI runs.
 
+**6. Test 2 "before" runs (2026-11-26).** Baseline and full hybrid (status log `openai-v1`, judge v1) on dev and train, k=8, no failed pairs. Run files are in `eval/runs/`.
+
+| Run | Pairs | Stale answer rate | Lost finding rate | Retrieval recall |
+| --- | --- | --- | --- | --- |
+| Baseline, dev | 17 | 0.74 | 0.33 | 0.71 |
+| Hybrid v1, dev | 17 | 0.00 | 0.39 | 0.71 |
+| Baseline, train | 30 | 0.46 | 0.68 | 0.38 |
+| Hybrid v1, train | 30 | 0.00 | 0.70 | 0.38 |
+
+Hybrid never reported a fixed complaint as current. Almost every lost finding is a retrieval miss shared by both agents (dev 10 of 13, train 48 of 50 for hybrid). The only lost findings hybrid caused itself were C040 (dev, false flag) and C061 (train, partial called fixed), 2 per split. Some topics retrieve very little with one question per topic (webhooks 0 of 15, Slack 1 of 8, mobile 9 of 47 relevant complaints).
+
+**7. V2: judge v2 with partial status (2026-11-26).** Built on train mistakes only; see "Judge v2" above. Not yet run.
+
 ## Evaluation
 
 Full spec in `docs/eval_plan.md`.
@@ -204,7 +225,7 @@ Full spec in `docs/eval_plan.md`.
 - **Isolation:** the agent only ever receives `{question, as_of}`. `tests/test_isolation.py` fails if anything in `src/` references `eval/` or the changelog README.
 - **Split:** groups are shuffled with a fixed seed into test (40%, held out), dev (20%), and train (40%) by `python -m eval.make_split`. Tune on dev only; run test once per agent after freezing.
 
-### Test 2: question-level eval (draft)
+### Test 2: question-level eval
 
 ```bash
 .venv/bin/python -m eval.make_questions --check                       # validate questions.json against the prompt-2 rules

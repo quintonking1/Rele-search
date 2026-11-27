@@ -9,6 +9,9 @@ difference in the eval comes from the status. The changes:
 3. The `cited` block's statuses are filled in by code from the status log; the model never
    writes them. The eval then measures the relevancy check rather than how well the model
    copies a label.
+
+Status logs from the v2 judge can also hold partial statuses. For those logs only, the system
+prompt adds PARTIAL_PROMPT; with a v1 log the prompt is exactly what the v1 runs used.
 """
 
 import re
@@ -19,7 +22,7 @@ from .baseline import _log
 from .config import Config
 from .embed import Embedder
 from .llm import generate, make_client
-from .status import OUTDATED, StatusLog
+from .status import OUTDATED, PARTIAL, StatusLog
 from .store import Store
 
 SYSTEM_PROMPT = (
@@ -31,12 +34,22 @@ An OUTDATED complaint describes a problem a later release has already fixed. Do 
 Mention it as resolved and cite the release that fixed it, for example: "Users found checkout confusing [C054], but the redesign fixed this [R12-01]." """
 )
 
+# Added only when the status log can contain partial statuses (judge v2).
+PARTIAL_PROMPT = """
+A PARTIAL complaint describes a problem a later release has only partly fixed. Present it as still partly true: say what the release changed and what remains, and cite both, for example: "Some users want a flat page list [C014]; a compact layout now offers one, but teamspace grouping is still the default [R16-01]." """
+
+
+def system_prompt(log: StatusLog) -> str:
+    return SYSTEM_PROMPT + (PARTIAL_PROMPT if log.meta.get("judge") == "v2" else "")
+
 
 def status_line(status: dict, include_dates: bool) -> str:
-    if status["status"] != OUTDATED:
-        return "status: CURRENT"
-    when = f" as of {status['since']}" if include_dates else ""
-    return f"status: OUTDATED{when}, fixed by {status['outdated_by']}"
+    when = f" as of {status.get('since')}" if include_dates else ""
+    if status["status"] == OUTDATED:
+        return f"status: OUTDATED{when}, fixed by {status['outdated_by']}"
+    if status["status"] == PARTIAL:
+        return f"status: PARTIAL{when}, partly fixed by {status['partial_by']}"
+    return "status: CURRENT"
 
 
 def format_chunk(record: dict, status: dict | None, include_dates: bool) -> str:
@@ -60,6 +73,8 @@ def cited_block(cited_ids: list[str], log: StatusLog, as_of: str | None) -> list
         entry = {"id": i, "status": s["status"]}
         if s["status"] == OUTDATED:
             entry["outdated_by"] = s["outdated_by"]
+        elif s["status"] == PARTIAL:
+            entry["partial_by"] = s["partial_by"]
         block.append(entry)
     return block
 
@@ -72,7 +87,9 @@ def ask(
     k: int | None = None,
     include_dates: bool | None = None,
     tag: str | None = None,
+    status_tag: str | None = None,
 ) -> dict:
+    """Answer one question. `status_tag` picks a run in the method's status log (default: latest)."""
     k = k or cfg.top_k
     include_dates = cfg.include_dates if include_dates is None else include_dates
     if as_of:
@@ -81,7 +98,7 @@ def ask(
     store = Store(cfg.store_path)
     if not store.records:
         raise SystemExit(f"Store {cfg.store_path} is empty. Run ingest first.")
-    log = StatusLog(cfg.status_dir / f"{method}.json")
+    log = StatusLog(cfg.status_dir / f"{method}.json", status_tag)
     if not log.meta:
         raise SystemExit(f"No status log for method '{method}'. Run: python -m src update --method {method}")
 
@@ -93,7 +110,8 @@ def ask(
     chunks = "\n\n---\n\n".join(format_chunk(r, statuses.get(r["id"]), include_dates) for r, _ in ranked)
     prompt = f"Retrieved records:\n\n{chunks}\n\n---\n\nQuestion: {question}"
 
-    answer = generate(client, cfg.generation_model, SYSTEM_PROMPT, prompt, cfg.temperature)
+    system = system_prompt(log)
+    answer = generate(client, cfg.generation_model, system, prompt, cfg.temperature)
     retrieved_ids = {r["id"] for r, _ in ranked}
     cited = sorted(set(re.findall(r"\b(C\d{3}|R\d{2}-\d{2})\b", answer)))
 
@@ -117,7 +135,7 @@ def ask(
              "score": round(s, 6), **({"status": statuses[r["id"]]["status"]} if r["id"] in statuses else {})}
             for i, (r, s) in enumerate(ranked)
         ],
-        "prompt": {"system": SYSTEM_PROMPT, "user": prompt},
+        "prompt": {"system": system, "user": prompt},
         "output": {"answer": answer, "cited": cited_block(cited, log, as_of)},
         "cited_not_retrieved": [c for c in cited if c not in retrieved_ids],
     }
