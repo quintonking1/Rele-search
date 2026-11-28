@@ -16,7 +16,7 @@ Product teams collect research (complaints, interviews, findings) while the prod
 | Questions | **Approved** 2026-11-26: 79 pairs in `eval/questions/questions.json` (dev 17, train 30, test 32), from `python -m eval.make_questions`. Decision 1: option (a), two questions per cross-group decoy. Decision 2: R01-01, R19-01 and R10-04 are skipped. Partials are scored as partial. Approved by Sanjali and Quinton 2026-11-26. |
 | Split | Done 2026-11-20 (`eval/split.json`, seed in `eval/config.json`): test 40% (46 complaints, held out), dev 20% (23), train 40% (46), split by group. |
 | Eval harness, question-level scoring | **Built** 2026-11-26: `eval/harness.py` and `eval/scoring.py` (Test 2). Checked with the oracle agent and unit tests; not yet run on a real agent. `eval.score_relevancy` scores the relevancy check per split. |
-| Full agent | First version built: four relevancy methods (area, similarity, llm, hybrid), status log, `ask-full`. All four methods run on OpenAI (run tag `openai-v1`, 2026-11-20). **V2** (judge v2, requirements checklist and a partial status) run 2026-11-27; **V2.1** (judge v2.1) run 2026-11-27, frozen. **Decisions judge** (OpenAI Decisions API) built 2026-11-27, not yet run. See [Attempts so far](#attempts-so-far) 6 to 9. |
+| Full agent | First version built: four relevancy methods (area, similarity, llm, hybrid), status log, `ask-full`. All four methods run on OpenAI (run tag `openai-v1`, 2026-11-20). **V2** (judge v2, requirements checklist and a partial status) run 2026-11-27; **V2.1** (judge v2.1) run 2026-11-27, frozen. **Decisions judge** (OpenAI Decisions API) run 2026-11-27, frozen. **Test split run once for every version, 2026-11-28**: see [Final results](#final-results-test-split). |
 | Models | Switched from Gemini to OpenAI on 2026-11-20 (`text-embedding-3-small`, `gpt-4.1`). See [Attempts so far](#attempts-so-far). |
 
 ## Open decisions
@@ -241,7 +241,42 @@ Test 2 (stale answer rate / lost finding rate): train 0.00 / 0.70, dev 0.00 / 0.
 
 The judge returned no partial verdicts at all, so v2.1's gain over v1 comes from the checklist and the stricter rule: C115 and C040 are no longer false flags. C014 and C061 are still called fixed: their customers asked for an option and the release adds one, while the labels say partial because grouping stays the default. Whether those two labels should be "fixed" is an open question.
 
-**9. Decisions judge (2026-11-27).** Added at Quinton's request as another version of the full agent; see `--judge decisions` above. One design, one run on train and dev, then frozen (no tuning rounds), so the test split can run once for every version. Not yet run.
+**9. Decisions judge (2026-11-27).** Added at Quinton's request as another version of the full agent; see `--judge decisions` above. One design, one run on train and dev, then frozen (no tuning rounds). Run tag `decisions`, no failed calls, about 120,000 input tokens and 0 output tokens for the whole run.
+
+Test 1: train 21 correct, 1 missed (C005), 0 false flags, 2 partial wrong (C014, C061 called fixed); dev perfect. Test 2 (stale / lost): train 0.03 / 0.70, dev 0.00 / 0.33. The miss: it judged R01-03 "not fixed" for C005 with 0.96 confidence, while v2.1 called it fixed and quoted the release. With no written reason, the cause cannot be inspected, and the confidence score did not flag the error. Like v2.1 it never returned partial.
+
+**10. Test split, once per version (2026-11-28).** All versions frozen first. See [Final results](#final-results-test-split).
+
+## Final results (test split)
+
+Run once per version on 2026-11-28, after every version was frozen. Test split: 46 complaints in 10 groups (7 near misses), 32 question and date pairs. No failed calls or pairs.
+
+**Test 1: does each method mark the right complaints outdated?**
+
+| Method | Correct | Wrong release | Missed | False flag | Near-miss false flags | Precision | Recall |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| area (v1) | 16 | 7 | 0 | 19 | 7 of 7 | 0.38 | 0.70 |
+| similarity (v1) | 18 | 0 | 5 | 5 | 4 of 7 | 0.78 | 0.78 |
+| llm (v1) | 23 | 0 | 0 | 0 | 0 of 7 | 1.00 | 1.00 |
+| hybrid v1 | 23 | 0 | 0 | 0 | 0 of 7 | 1.00 | 1.00 |
+| hybrid v2.1 | 23 | 0 | 0 | 0 | 0 of 7 | 1.00 | 1.00 |
+| hybrid decisions | 23 | 0 | 0 | 0 | 0 of 7 | 1.00 | 1.00 |
+
+**Test 2: are the answers better?** Rates with counts; 95% confidence intervals for the difference from the baseline come from a paired bootstrap over the 32 pairs (10,000 resamples).
+
+| Agent | Stale answer rate | Lost finding rate | Retrieval recall | Stale vs baseline (95% CI) |
+| --- | --- | --- | --- | --- |
+| Baseline | 0.32 (27 of 84) | 0.69 (65 of 94) | 0.33 | |
+| Hybrid v1 | 0.00 (0 of 80) | 0.69 (65 of 94) | 0.33 | -0.32 [-0.48, -0.20] |
+| Hybrid v2.1 | 0.00 (0 of 81) | 0.68 (64 of 94) | 0.33 | -0.32 [-0.49, -0.20] |
+| Hybrid decisions | 0.00 (0 of 81) | 0.68 (64 of 94) | 0.33 | -0.32 [-0.49, -0.20] |
+
+What the results show:
+- **Research question.** A model's judgment beats product area and text similarity, most clearly on near misses: area flagged all 7, similarity 4, the model-based methods none.
+- **Stale answers.** Every full-agent version removed stale answers on test, including before releases and on decoys. The baseline presented an outdated complaint as current about a third of the time.
+- **Lost findings are a retrieval limit.** 63 of 64 or 65 lost findings per agent were never retrieved (k=8, one question per topic), and retrieval is identical for both agents. The relevancy check caused no lost findings on test. The lost finding difference from the baseline is within noise (95% CI for v2.1: -0.04 to 0.00).
+- **v1 vs v2.1 vs decisions.** They tie on test. The test split has no partial-labeled complaints and none of the fine-print near misses v1 failed on in train and dev (C115, C040), so v2.1's gain there is not confirmed on test. The decisions judge matched v2.1 on test, missed C005 on train with 0.96 confidence, and gives no reasons.
+- **Partial status.** No version ever returned partial. C014 and C061 (labeled partial) were called fixed by v2.1 and the decisions judge alike; the labels may be the issue.
 
 ## Evaluation
 
