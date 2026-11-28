@@ -19,6 +19,15 @@ def make_client(cfg: Config) -> OpenAI:
     return OpenAI(api_key=cfg.api_key, max_retries=0, timeout=float(os.getenv("LLM_TIMEOUT", "120")))
 
 
+def decide(client: OpenAI, model: str, input, questions: list[dict]):
+    """One Decisions API call (POST /v1/decisions): the model picks an answer per question and writes no text.
+
+    Returns the SDK's Decision object: `answers` in question order (choice, confidence,
+    probabilities, or a refusal) and `usage`.
+    """
+    return with_retry(lambda: client.decisions.create(model=model, input=input, questions=questions))
+
+
 def generate(
     client: OpenAI,
     model: str,

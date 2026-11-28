@@ -50,7 +50,8 @@ def main() -> None:
     p_up.add_argument("--method", choices=METHODS, required=True)
     p_up.add_argument("--tag", help="Name for this run in the append-only status log (default: method + timestamp)")
     p_up.add_argument("--judge", choices=JUDGE_VERSIONS, default="v2.1",
-                      help="llm and hybrid only: v1 yes/no judge; v2 or v2.1 (default) requirements checklist with partial")
+                      help="llm and hybrid only: v1 yes/no judge; v2 or v2.1 (default) requirements checklist with partial; "
+                           "decisions = OpenAI Decisions API (gpt-6-luna)")
 
     p_full = sub.add_parser("ask-full", help="Full agent: ask one question using a method's status log")
     p_full.add_argument("question")
@@ -73,6 +74,8 @@ def main() -> None:
         if not store.records:
             raise SystemExit(f"Store {cfg.store_path} is empty. Run ingest first.")
         client = make_client(cfg) if args.method in ("llm", "hybrid") else None
+        if args.judge == "decisions" and args.method not in ("llm", "hybrid"):
+            raise SystemExit("--judge decisions only applies to the llm and hybrid methods")
         run_relevancy(cfg, list(store.records.values()), args.method, client, args.tag, args.judge)
     elif args.cmd == "ask-full":
         include_dates = False if args.no_dates else None

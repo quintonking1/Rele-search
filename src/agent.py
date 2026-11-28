@@ -10,7 +10,7 @@ difference in the eval comes from the status. The changes:
    writes them. The eval then measures the relevancy check rather than how well the model
    copies a label.
 
-Status logs from the v2 or v2.1 judge can also hold partial statuses. For those logs only, the system
+Status logs from the v2, v2.1, or decisions judge can also hold partial statuses. For those logs only, the system
 prompt adds PARTIAL_PROMPT; with a v1 log the prompt is exactly what the v1 runs used.
 """
 
@@ -34,13 +34,14 @@ An OUTDATED complaint describes a problem a later release has already fixed. Do 
 Mention it as resolved and cite the release that fixed it, for example: "Users found checkout confusing [C054], but the redesign fixed this [R12-01]." """
 )
 
-# Added only when the status log can contain partial statuses (judge v2 or v2.1).
+# Added only when the status log can contain partial statuses.
+PARTIAL_JUDGES = ("v2", "v2.1", "decisions")
 PARTIAL_PROMPT = """
 A PARTIAL complaint describes a problem a later release has only partly fixed. Present it as still partly true: say what the release changed and what remains, and cite both, for example: "Some users want a flat page list [C014]; a compact layout now offers one, but teamspace grouping is still the default [R16-01]." """
 
 
 def system_prompt(log: StatusLog) -> str:
-    return SYSTEM_PROMPT + (PARTIAL_PROMPT if log.meta.get("judge") in ("v2", "v2.1") else "")
+    return SYSTEM_PROMPT + (PARTIAL_PROMPT if log.meta.get("judge") in PARTIAL_JUDGES else "")
 
 
 def status_line(status: dict, include_dates: bool) -> str:
