@@ -16,7 +16,7 @@ Product teams collect research (complaints, interviews, findings) while the prod
 | Questions | **Approved** 2026-11-26: 79 pairs in `eval/questions/questions.json` (dev 17, train 30, test 32), from `python -m eval.make_questions`. Decision 1: option (a), two questions per cross-group decoy. Decision 2: R01-01, R19-01 and R10-04 are skipped. Partials are scored as partial. Approved by Sanjali and Quinton 2026-11-26. |
 | Split | Done 2026-11-20 (`eval/split.json`, seed in `eval/config.json`): test 40% (46 complaints, held out), dev 20% (23), train 40% (46), split by group. |
 | Eval harness, question-level scoring | **Built** 2026-11-26: `eval/harness.py` and `eval/scoring.py` (Test 2). Checked with the oracle agent and unit tests; not yet run on a real agent. `eval.score_relevancy` scores the relevancy check per split. |
-| Full agent | First version built: four relevancy methods (area, similarity, llm, hybrid), status log, `ask-full`. All four methods run on OpenAI (run tag `openai-v1`, 2026-11-20). **V2** (judge v2, requirements checklist and a partial status) run 2026-11-27; **V2.1** (judge v2.1) built 2026-11-27, not yet run. See [Attempts so far](#attempts-so-far) 6 to 8. |
+| Full agent | First version built: four relevancy methods (area, similarity, llm, hybrid), status log, `ask-full`. All four methods run on OpenAI (run tag `openai-v1`, 2026-11-20). **V2** (judge v2, requirements checklist and a partial status) run 2026-11-27; **V2.1** (judge v2.1) run 2026-11-27, frozen. **Decisions judge** (OpenAI Decisions API) built 2026-11-27, not yet run. See [Attempts so far](#attempts-so-far) 6 to 9. |
 | Models | Switched from Gemini to OpenAI on 2026-11-20 (`text-embedding-3-small`, `gpt-4.1`). See [Attempts so far](#attempts-so-far). |
 
 ## Open decisions
@@ -139,6 +139,7 @@ Same retrieval, ranking, model, temperature, and log format as the baseline. Wha
 - The checklist is kept in each check, so `score_relevancy --show-errors` shows why each verdict was reached.
 - The prompt gets a PARTIAL instruction only when the status log came from judge v2, so v1 runs keep exactly the v1 prompt.
 - Built from the v1 mistakes on train: C115 (a related feature that covers a different property type) and C014 and C061 (partly fixed, which v1 could only call fixed). Dev and test were not used to design it.
+- **decisions** (`--judge decisions`) uses the OpenAI Decisions API (`POST /v1/decisions`, model `gpt-6-luna`, set with `DECISIONS_MODEL`). One call per release: the release is the input, and each candidate complaint is a choice question with three options (fixed, partial, not fixed) whose descriptions restate the v2.1 rule. The API returns a choice, a confidence, and probabilities, and writes no text, so these checks have no quoted evidence or written reason. The status log keeps the confidence and probabilities, plus token counts in `meta.counts`. Note for comparisons: the API runs a different model from gpt-4.1, so a difference against v2.1 mixes the API with the model.
 - **v2.1** changes two things, both from the v2 mistakes on train. Partial now needs the core need fully met; a core need that is only partly met means not fixed (the model marked a related feature for a different case as "partly", C115). The instruction to add a "default experience changes" requirement is gone (it made v2 call fully fixed C077 partial, and did not change C014 or C061).
 
 **Relevancy methods** (the research question, one flag):
@@ -229,7 +230,18 @@ Test 2 (stale answer rate / lost finding rate): train v1 0.00 / 0.70, v2 0.03 / 
 
 What changed per complaint: C115 (train) and C040 (dev) moved from fixed to partial, but they are never fixed, so they still count as errors (the judge's own reasons say the release covers a different case, yet it marked the core need "partly"). C014 and C061 stayed fixed: the customers asked for an option and the release gives one, while the labels say partial because grouping stays the default. C077 (train) was a new error: fully fixed, called partial because of the "default experience" instruction, which produced 2 stale answers in Test 2. V2 was no better than V1.
 
-**8. V2.1: judge v2.1 (2026-11-27).** Two fixes from the v2 train mistakes; see "Judge v2 and v2.1" above. Not yet run. After this run the judge is frozen and the test split is run once.
+**8. V2.1: judge v2.1 (2026-11-27).** Two fixes from the v2 train mistakes; see "Judge v2 and v2.1" above. Run tag `v2.1`, no failed calls. Frozen after this run.
+
+| Split | Version | Correct | Missed | False flag | False partial | Partial wrong | Precision | Recall |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Train | v2.1 | 22 | 0 | 0 | 0 | 2 | 1.00 | 1.00 |
+| Dev | v2.1 | 13 | 0 | 0 | 0 | 0 | 1.00 | 1.00 |
+
+Test 2 (stale answer rate / lost finding rate): train 0.00 / 0.70, dev 0.00 / 0.33. On dev every lost finding is a retrieval miss, the same ones the baseline has. On train the only judge-caused lost findings are C061 (labeled partial, called fixed).
+
+The judge returned no partial verdicts at all, so v2.1's gain over v1 comes from the checklist and the stricter rule: C115 and C040 are no longer false flags. C014 and C061 are still called fixed: their customers asked for an option and the release adds one, while the labels say partial because grouping stays the default. Whether those two labels should be "fixed" is an open question.
+
+**9. Decisions judge (2026-11-27).** Added at Quinton's request as another version of the full agent; see `--judge decisions` above. One design, one run on train and dev, then frozen (no tuning rounds), so the test split can run once for every version. Not yet run.
 
 ## Evaluation
 

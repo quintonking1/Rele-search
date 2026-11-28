@@ -29,6 +29,12 @@ Judge versions (llm and hybrid only), chosen with --judge:
           that is only partly met means not fixed.
         - no extra requirement that the default experience changes. It made v2 call a fully
           fixed complaint partial (C077) and did not change C014 or C061.
+  decisions  the OpenAI Decisions API (POST /v1/decisions, model gpt-6-luna). One call per
+        release: the release is the input and each candidate complaint is one choice question
+        (fixed, partial, not fixed) whose option descriptions carry the v2.1 rules. The API
+        returns a choice with a confidence and probabilities but no text, so these checks have
+        no quoted evidence or written reason. A separate version of the full agent, added
+        2026-11-27 at Quinton's request; built and frozen without tuning rounds.
 
 A judge call that still fails after retries does not stop the run: its candidates are logged as
 checks with stage "error" (treated as not fixed), the failure is listed in the run's meta, and a
@@ -41,7 +47,7 @@ from datetime import datetime, timezone
 import numpy as np
 
 from .config import Config
-from .llm import generate
+from .llm import decide, generate
 from .status import StatusLog
 
 METHODS = ("area", "similarity", "llm", "hybrid")
@@ -57,7 +63,7 @@ Be strict:
 Quote the sentence from the release that supports a true answer. Use an empty string for evidence when the answer is false."""
 
 # OpenAI strict structured output needs an object at the top level, so the verdicts sit under "results".
-JUDGE_VERSIONS = ("v1", "v2", "v2.1")
+JUDGE_VERSIONS = ("v1", "v2", "v2.1", "decisions")
 CHECKLIST_VERSIONS = ("v2", "v2.1")
 JUDGE_SCHEMA = {
     "type": "object",
@@ -147,6 +153,19 @@ JUDGE_V2_SCHEMA = {
 
 FIXED, PARTIAL, NOT_FIXED = "fixed", "partial", "not fixed"
 
+# Judge "decisions": the instructions go in as a developer message and the release as the user
+# message; each complaint is one choice question. The three options restate the v2.1 rule.
+DECISIONS_INSTRUCTIONS = """You check whether a product release fixes specific customer complaints for Tessera, an all-in-one workspace app.
+The user message is one release. Each question gives one customer complaint and asks whether this release fixes it.
+Judge the customer's core need: the specific thing they ask for or the problem they hit, including the object it applies to (a property type, view, file type, or kind of page) and their situation, platform, and plan.
+Be strict and literal. When a release lists what it supports (property types, views, platforms, plans, contexts), anything it does not list is not covered. A related feature for a different object, context, platform, or plan does not fix the complaint. A release in the same product area that sounds related is not enough."""
+
+DECISION_CHOICES = [
+    {"value": FIXED, "description": "The release fully delivers what this customer needs, for their case, platform, and plan."},
+    {"value": PARTIAL, "description": "The release fully delivers the customer's core need, but a secondary part of what they asked for is missing."},
+    {"value": NOT_FIXED, "description": "The release does not fully deliver the customer's core need. This includes a related feature for a different object, context, platform, or plan, and a release in the same area that leaves the problem unsolved."},
+]
+
 
 def verdict_from_checklist(requirements: list[dict], version: str = "v2.1") -> str:
     """Deterministic rule. All met -> fixed. Core need (first item) not met -> not fixed
@@ -205,10 +224,47 @@ def build_judge_prompt(release: dict, candidates: list[dict]) -> str:
     )
 
 
-def judge(cfg: Config, client, release: dict, candidates: list[dict], version: str = "v2.1") -> dict[str, dict]:
-    """One LLM call per release. Returns {complaint_id: {verdict, evidence, reason, requirements?}}."""
+def judge_decisions(cfg: Config, client, release: dict, candidates: list[dict],
+                    usage: dict | None = None) -> dict[str, dict]:
+    """One Decisions API call per release. Returns {complaint_id: {verdict, evidence, reason, confidence, probabilities}}."""
+    questions = [
+        {"type": "choice", "name": c["id"], "choices": DECISION_CHOICES,
+         "instructions": f"COMPLAINT\n\n{format_complaint(c)}\n\nDoes this release fix this customer's specific problem?"}
+        for c in candidates
+    ]
+    decision = decide(
+        client, cfg.decisions_model,
+        [{"role": "developer", "content": DECISIONS_INSTRUCTIONS},
+         {"role": "user", "content": f"RELEASE\n\n{format_release(release)}"}],
+        questions,
+    )
+    if usage is not None:
+        usage["input_tokens"] = usage.get("input_tokens", 0) + decision.usage.input_tokens
+        usage["output_tokens"] = usage.get("output_tokens", 0) + decision.usage.output_tokens
+    verdicts = {}
+    for c, answer in zip(candidates, decision.answers):  # answers come back in question order
+        cid = answer.name or c["id"]
+        if answer.type != "choice" or answer.choice not in (FIXED, PARTIAL, NOT_FIXED):
+            verdicts[cid] = {"verdict": NOT_FIXED, "evidence": "", "reason": f"REFUSAL or unexpected answer: {answer.type}"}
+            continue
+        verdicts[cid] = {
+            "verdict": answer.choice, "evidence": "",
+            "reason": f"decisions API: {answer.choice} (confidence {answer.confidence:.2f})",
+            "confidence": answer.confidence,
+            "probabilities": {p.value: round(p.probability, 4) for p in answer.probabilities},
+        }
+    for c in candidates:  # a candidate with no answer is treated as "not fixed" and flagged
+        verdicts.setdefault(c["id"], {"verdict": NOT_FIXED, "evidence": "", "reason": "MISSING: no answer returned"})
+    return verdicts
+
+
+def judge(cfg: Config, client, release: dict, candidates: list[dict], version: str = "v2.1",
+          usage: dict | None = None) -> dict[str, dict]:
+    """One model call per release. Returns {complaint_id: {verdict, evidence, reason, requirements?}}."""
     if not candidates:
         return {}
+    if version == "decisions":
+        return judge_decisions(cfg, client, release, candidates, usage)
     v2 = version in CHECKLIST_VERSIONS
     system = {"v1": JUDGE_SYSTEM_PROMPT, "v2": JUDGE_V2_SYSTEM_PROMPT, "v2.1": JUDGE_V21_SYSTEM_PROMPT}[version]
     text = generate(
@@ -252,7 +308,7 @@ def run_relevancy(cfg: Config, records: list[dict], method: str, client=None, ta
     """Process every release in date order and append a tagged run to data/status/<method>.jsonl.
 
     `records` are store records (with vectors). `client` is only needed for llm and hybrid.
-    `judge_version` (v1, v2, or v2.1) only matters for llm and hybrid.
+    `judge_version` (v1, v2, v2.1, or decisions) only matters for llm and hybrid.
     """
     if method not in METHODS:
         raise ValueError(f"method must be one of {METHODS}")
@@ -274,7 +330,8 @@ def run_relevancy(cfg: Config, records: list[dict], method: str, client=None, ta
             "method": method,
             "similarity_threshold": cfg.similarity_threshold if method == "similarity" else None,
             "candidates_per_release": cfg.relevancy_candidates if method in ("llm", "hybrid") else None,
-            "relevancy_model": cfg.relevancy_model if method in ("llm", "hybrid") else None,
+            "relevancy_model": (cfg.decisions_model if judge_version == "decisions" else cfg.relevancy_model)
+            if uses_judge else None,
             "judge": judge_version if uses_judge else None,
             "embedding_model": cfg.embedding_model,
             "complaints_checked": len(complaints),
@@ -285,6 +342,7 @@ def run_relevancy(cfg: Config, records: list[dict], method: str, client=None, ta
     partial: set[str] = set()  # partly fixed; still open, so a later release can fix them fully
     # Counts of (release, complaint) pairs, for the hybrid gate-vs-model breakdown.
     counts = {"gated_all": 0, "gated_in_top": 0, "sent_to_llm": 0, "llm_calls": 0, "failed_calls": 0}
+    usage: dict = {}  # token totals, filled by the decisions judge (for the cost comparison)
     failures: list[dict] = []
 
     for i, release in enumerate(releases):
@@ -333,7 +391,7 @@ def run_relevancy(cfg: Config, records: list[dict], method: str, client=None, ta
             top = sorted(pool, key=lambda j: -sims[i, j])[: cfg.relevancy_candidates]
             candidates = [complaints[j] for j in top]
             try:
-                verdicts = judge(cfg, client, release, candidates, judge_version)
+                verdicts = judge(cfg, client, release, candidates, judge_version, usage)
                 stage, error = "llm", ""
             except Exception as e:  # noqa: BLE001 - any failure is logged and the run continues
                 error = f"{type(e).__name__}: {e}"[:500]
@@ -353,8 +411,9 @@ def run_relevancy(cfg: Config, records: list[dict], method: str, client=None, ta
                 d = {"id": complaints[j]["id"], "fixes": v["verdict"] == FIXED, "verdict": v["verdict"],
                      "score": float(sims[i, j]), "reason": v.get("reason", ""), "evidence": v.get("evidence", ""),
                      "stage": stage}
-                if "requirements" in v:
-                    d["requirements"] = v["requirements"]
+                for key in ("requirements", "confidence", "probabilities"):
+                    if key in v:
+                        d[key] = v[key]
                 decisions.append(d)
 
         for d in decisions:
@@ -373,7 +432,7 @@ def run_relevancy(cfg: Config, records: list[dict], method: str, client=None, ta
         print(f"  {release['date']} {release['id']}: {n_fixed} outdated{note}", flush=True)  # flush: progress shows even when output goes to a file
 
     if method in ("llm", "hybrid"):
-        log.meta["counts"] = counts
+        log.meta["counts"] = {**counts, **usage}
         log.meta["failures"] = failures
     log.save()
     n_out = sum(e.get("status", "outdated") == "outdated" for e in log.events)

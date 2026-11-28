@@ -34,6 +34,24 @@ class FakeClient:
         self.calls: list[str] = []  # complaint ids sent to the model, per call
         self.schemas: list[str] = []  # schema name per call
         self.chat = SimpleNamespace(completions=SimpleNamespace(create=self._create))
+        self.decisions = SimpleNamespace(create=self._decide)  # the Decisions API (judge "decisions")
+        self.refuse: set[tuple[str, str]] = set()  # pairs the fake Decisions API refuses to answer
+
+    def _decide(self, model, input, questions):
+        release = input[1]["content"].split("id: ", 1)[1].split("\n", 1)[0]
+        ids = [q["name"] for q in questions]
+        self.calls.append((release, ids))
+        self.schemas.append("decisions")
+        answers = []
+        for i in ids:
+            if (release, i) in self.refuse:
+                answers.append(SimpleNamespace(type="refusal", name=i))
+                continue
+            choice = "fixed" if (release, i) in self.fixes else "partial" if (release, i) in self.partial else "not fixed"
+            answers.append(SimpleNamespace(type="choice", name=i, choice=choice, confidence=0.9,
+                                           probabilities=[SimpleNamespace(value=choice, probability=0.9)]))
+        usage = SimpleNamespace(input_tokens=100, output_tokens=len(ids))
+        return SimpleNamespace(answers=answers, model=model, usage=usage)
 
     def _create(self, model, messages, temperature, **kwargs):
         self.schemas.append(kwargs.get("response_format", {}).get("json_schema", {}).get("name"))
@@ -201,6 +219,22 @@ class TestRelevancy(unittest.TestCase):
         checks = [c for c in log.checks if c["complaint"] == "C014" and c["release"] == "R16-01"]
         self.assertEqual(checks[0]["verdict"], "partial")
         self.assertEqual(len(checks[0]["requirements"]), 2)
+
+    def test_decisions_judge(self):
+        fake = FakeClient({("R12-01", "C054")}, partial={("R16-01", "C014")})
+        fake.refuse = {("R12-01", "C059")}
+        log = run_relevancy(self.cfg, self.records, "hybrid", fake, tag="decisions-check", judge_version="decisions")
+        self.assertEqual(set(fake.schemas), {"decisions"})  # never calls chat completions
+        self.assertEqual(log.meta["judge"], "decisions")
+        self.assertEqual(log.meta["relevancy_model"], "gpt-6-luna")
+        self.assertEqual(log.status_as_of("C054", "2026-07-01")["outdated_by"], "R12-01")
+        self.assertEqual(log.status_as_of("C014", "2026-09-01")["status"], "partial")
+        self.assertEqual(log.status_as_of("C059", "2026-07-01")["status"], "current")  # refusal = not fixed
+        check = next(c for c in log.checks if c["release"] == "R12-01" and c["complaint"] == "C054")
+        self.assertEqual((check["verdict"], check["confidence"], check["evidence"]), ("fixed", 0.9, ""))
+        self.assertTrue(any(c["reason"].startswith("REFUSAL") for c in log.checks if c["complaint"] == "C059"))
+        self.assertEqual(log.meta["counts"]["input_tokens"], 100 * log.meta["counts"]["llm_calls"])
+        self.assertIn("PARTIAL complaint", agent.system_prompt(log))
 
     def test_cited_block_and_prompt_show_partial(self):
         log = StatusLog(Path(self.tmp.name) / "unit3.json")

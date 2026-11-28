@@ -33,6 +33,8 @@ class Config:
     relevancy_model: str
     similarity_threshold: float
     relevancy_candidates: int
+    # Judge "decisions" only: model for the OpenAI Decisions API (it supports only gpt-6-luna).
+    decisions_model: str = "gpt-6-luna"
 
 
 def load_config() -> Config:
@@ -54,4 +56,5 @@ def load_config() -> Config:
         relevancy_model=os.getenv("RELEVANCY_MODEL") or generation_model,
         similarity_threshold=float(os.getenv("SIMILARITY_THRESHOLD", "0.55")),
         relevancy_candidates=int(os.getenv("RELEVANCY_CANDIDATES", "10")),
+        decisions_model=os.getenv("DECISIONS_MODEL", "gpt-6-luna"),
     )
