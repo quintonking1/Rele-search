@@ -16,7 +16,7 @@ Product teams collect research (complaints, interviews, findings) while the prod
 | Questions | **Approved** 2026-11-26: 79 pairs in `eval/questions/questions.json` (dev 17, train 30, test 32), from `python -m eval.make_questions`. Decision 1: option (a), two questions per cross-group decoy. Decision 2: R01-01, R19-01 and R10-04 are skipped. Partials are scored as partial. Approved by Sanjali and Quinton 2026-11-26. |
 | Split | Done 2026-11-20 (`eval/split.json`, seed in `eval/config.json`): test 40% (46 complaints, held out), dev 20% (23), train 40% (46), split by group. |
 | Eval harness, question-level scoring | **Built** 2026-11-26: `eval/harness.py` and `eval/scoring.py` (Test 2). Checked with the oracle agent and unit tests; not yet run on a real agent. `eval.score_relevancy` scores the relevancy check per split. |
-| Full agent | First version built: four relevancy methods (area, similarity, llm, hybrid), status log, `ask-full`. All four methods run on OpenAI (run tag `openai-v1`, 2026-11-20). **V2** built 2026-11-26: judge v2 (requirements checklist) and a partial status, not yet run. See [Attempts so far](#attempts-so-far) 6 and 7. |
+| Full agent | First version built: four relevancy methods (area, similarity, llm, hybrid), status log, `ask-full`. All four methods run on OpenAI (run tag `openai-v1`, 2026-11-20). **V2** (judge v2, requirements checklist and a partial status) run 2026-11-27; **V2.1** (judge v2.1) built 2026-11-27, not yet run. See [Attempts so far](#attempts-so-far) 6 to 8. |
 | Models | Switched from Gemini to OpenAI on 2026-11-20 (`text-embedding-3-small`, `gpt-4.1`). See [Attempts so far](#attempts-so-far). |
 
 ## Open decisions
@@ -133,12 +133,13 @@ Same retrieval, ranking, model, temperature, and log format as the baseline. Wha
 3. **Prompt:** each retrieved complaint gets a line like `status: OUTDATED as of 2026-06-16, fixed by R12-01` or `status: CURRENT`, and the system prompt says to present outdated complaints as resolved and cite the release.
 4. **Output:** code fills the `cited` statuses from the status log; the model never writes them. The eval then measures the relevancy check, not how well the model copies a label.
 
-**Judge v2 (V2, 2026-11-26).** The llm and hybrid methods take `--judge v1` or `--judge v2` (default v2):
+**Judge v2 and v2.1 (V2, V2.1).** The llm and hybrid methods take `--judge v1`, `--judge v2`, or `--judge v2.1` (default v2.1):
 - **v1** asks one yes or no question per complaint: does this release fully fix it?
 - **v2** asks the model for a requirements checklist. It lists what the customer needs (1 to 4 items, the core need first) and checks each one against the release as met, partly, or not met, quoting the release. Code then turns the checklist into a verdict: every item met is **fixed** (outdated), core need not met is **not fixed**, anything in between is **partial**. A partial complaint stays open, so a later release can still fix it fully.
 - The checklist is kept in each check, so `score_relevancy --show-errors` shows why each verdict was reached.
 - The prompt gets a PARTIAL instruction only when the status log came from judge v2, so v1 runs keep exactly the v1 prompt.
 - Built from the v1 mistakes on train: C115 (a related feature that covers a different property type) and C014 and C061 (partly fixed, which v1 could only call fixed). Dev and test were not used to design it.
+- **v2.1** changes two things, both from the v2 mistakes on train. Partial now needs the core need fully met; a core need that is only partly met means not fixed (the model marked a related feature for a different case as "partly", C115). The instruction to add a "default experience changes" requirement is gone (it made v2 call fully fixed C077 partial, and did not change C014 or C061).
 
 **Relevancy methods** (the research question, one flag):
 
@@ -152,9 +153,9 @@ Same retrieval, ranking, model, temperature, and log format as the baseline. Wha
 The threshold depends on the embedding model. With Gemini it was 0.80 (the 98th percentile of release-to-earlier-complaint similarity). OpenAI's `text-embedding-3-small` scores much lower (median pair 0.22, 99th percentile 0.60), so it is now 0.55, set from the score distribution without looking at labels. Tune it on the dev split once the split exists.
 
 ```bash
-.venv/bin/python -m src update --method hybrid --tag v2           # judge v2 by default; appends a run to data/status/hybrid.jsonl
+.venv/bin/python -m src update --method hybrid --tag v2.1         # judge v2.1 by default; appends a run to data/status/hybrid.jsonl
 .venv/bin/python -m src update --method hybrid --judge v1 --tag T  # the original yes/no judge
-.venv/bin/python -m src ask-full "What do we know about checkout?" --as-of 2026-07-15 --method hybrid [--status-tag v2]
+.venv/bin/python -m src ask-full "What do we know about checkout?" --as-of 2026-07-15 --method hybrid [--status-tag v2.1]
 .venv/bin/python -m eval.run_seeds --method hybrid
 .venv/bin/python -m eval.score_relevancy --show-errors   # compare methods against the labels
 ```
@@ -213,7 +214,22 @@ Scores on all 115 complaints, taken before the split existed. These include the 
 
 Hybrid never reported a fixed complaint as current. Almost every lost finding is a retrieval miss shared by both agents (dev 10 of 13, train 48 of 50 for hybrid). The only lost findings hybrid caused itself were C040 (dev, false flag) and C061 (train, partial called fixed), 2 per split. Some topics retrieve very little with one question per topic (webhooks 0 of 15, Slack 1 of 8, mobile 9 of 47 relevant complaints).
 
-**7. V2: judge v2 with partial status (2026-11-26).** Built on train mistakes only; see "Judge v2" above. Not yet run.
+**7. V2: judge v2 with partial status (2026-11-27).** Built on train mistakes only; see "Judge v2 and v2.1" above. Run tag `v2`, no failed calls.
+
+Test 1 (relevancy check):
+
+| Split | Version | Correct | Missed | False flag | False partial | Partial wrong | Precision | Recall |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Train | v1 | 22 | 0 | 1 | 0 | 2 | 0.96 | 1.00 |
+| Train | v2 | 21 | 1 | 0 | 1 | 2 | 1.00 | 0.95 |
+| Dev | v1 | 13 | 0 | 1 | 0 | 0 | 0.93 | 1.00 |
+| Dev | v2 | 13 | 0 | 0 | 1 | 0 | 1.00 | 1.00 |
+
+Test 2 (stale answer rate / lost finding rate): train v1 0.00 / 0.70, v2 0.03 / 0.70; dev v1 0.00 / 0.39, v2 0.00 / 0.39.
+
+What changed per complaint: C115 (train) and C040 (dev) moved from fixed to partial, but they are never fixed, so they still count as errors (the judge's own reasons say the release covers a different case, yet it marked the core need "partly"). C014 and C061 stayed fixed: the customers asked for an option and the release gives one, while the labels say partial because grouping stays the default. C077 (train) was a new error: fully fixed, called partial because of the "default experience" instruction, which produced 2 stale answers in Test 2. V2 was no better than V1.
+
+**8. V2.1: judge v2.1 (2026-11-27).** Two fixes from the v2 train mistakes; see "Judge v2 and v2.1" above. Not yet run. After this run the judge is frozen and the test split is run once.
 
 ## Evaluation
 
