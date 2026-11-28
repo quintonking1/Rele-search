@@ -170,11 +170,22 @@ class TestRelevancy(unittest.TestCase):
         met = {"need": "x", "met": "met", "evidence": "q"}
         partly = {"need": "x", "met": "partly", "evidence": "q"}
         no = {"need": "x", "met": "not met", "evidence": ""}
-        self.assertEqual(verdict_from_checklist([met, met]), "fixed")
-        self.assertEqual(verdict_from_checklist([met, no]), "partial")
-        self.assertEqual(verdict_from_checklist([partly]), "partial")
-        self.assertEqual(verdict_from_checklist([no, met]), "not fixed")  # core need not met
-        self.assertEqual(verdict_from_checklist([]), "not fixed")
+        for v in ("v2", "v2.1"):
+            self.assertEqual(verdict_from_checklist([met, met], v), "fixed")
+            self.assertEqual(verdict_from_checklist([met, no], v), "partial")
+            self.assertEqual(verdict_from_checklist([met, partly], v), "partial")
+            self.assertEqual(verdict_from_checklist([no, met], v), "not fixed")  # core need not met
+            self.assertEqual(verdict_from_checklist([], v), "not fixed")
+        # The one rule that differs: a core need that is only partly met.
+        self.assertEqual(verdict_from_checklist([partly, met], "v2"), "partial")
+        self.assertEqual(verdict_from_checklist([partly, met], "v2.1"), "not fixed")
+
+    def test_v21_prompt_drops_default_rules_only(self):
+        from src.relevancy import JUDGE_V2_SYSTEM_PROMPT, JUDGE_V21_SYSTEM_PROMPT
+        self.assertIn("default experience", JUDGE_V2_SYSTEM_PROMPT)
+        self.assertNotIn("default experience", JUDGE_V21_SYSTEM_PROMPT)
+        self.assertNotIn("default", JUDGE_V21_SYSTEM_PROMPT.lower())
+        self.assertIn("anything it does not list is not covered", JUDGE_V21_SYSTEM_PROMPT)
 
     def test_v2_partial_then_full_fix(self):
         # R16-01 partly fixes C014; R18-01 (later) fixes it fully. C054 is fixed outright by R12-01.
@@ -182,7 +193,7 @@ class TestRelevancy(unittest.TestCase):
         cfg = replace(self.cfg, relevancy_candidates=500)  # judge every open complaint, so R18-01 sees C014
         log = run_relevancy(cfg, self.records, "llm", fake, tag="v2-check")
         self.assertEqual(set(fake.schemas), {"judge_checklist"})
-        self.assertEqual(log.meta["judge"], "v2")
+        self.assertEqual(log.meta["judge"], "v2.1")
         self.assertEqual(log.status_as_of("C014", "2026-08-01")["status"], "current")
         self.assertEqual(log.status_as_of("C014", "2026-08-20"), {"status": "partial", "partial_by": "R16-01", "since": "2026-08-18"})
         self.assertEqual(log.status_as_of("C014", "2026-10-01")["outdated_by"], "R18-01")

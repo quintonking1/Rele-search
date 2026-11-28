@@ -5,7 +5,7 @@ Baseline:
   python -m src ask "What do we know about checkout?" --as-of 2026-07-15 [--no-dates] [-k 8]
 
 Full agent:
-  python -m src update --method hybrid [--tag T] [--judge v2]  # run the relevancy check, append a run to data/status/hybrid.jsonl
+  python -m src update --method hybrid [--tag T] [--judge v2.1]  # run the relevancy check, append a run to data/status/hybrid.jsonl
   python -m src ask-full "What do we know about checkout?" --as-of 2026-07-15 --method hybrid [--status-tag T]
 
 Agent code only. Seed questions and anything with expected answers live outside src/.
@@ -49,8 +49,8 @@ def main() -> None:
     p_up = sub.add_parser("update", help="Full agent: run the relevancy check over all releases")
     p_up.add_argument("--method", choices=METHODS, required=True)
     p_up.add_argument("--tag", help="Name for this run in the append-only status log (default: method + timestamp)")
-    p_up.add_argument("--judge", choices=JUDGE_VERSIONS, default="v2",
-                      help="llm and hybrid only: v1 yes/no judge, or v2 requirements checklist with partial (default)")
+    p_up.add_argument("--judge", choices=JUDGE_VERSIONS, default="v2.1",
+                      help="llm and hybrid only: v1 yes/no judge; v2 or v2.1 (default) requirements checklist with partial")
 
     p_full = sub.add_parser("ask-full", help="Full agent: ask one question using a method's status log")
     p_full.add_argument("question")

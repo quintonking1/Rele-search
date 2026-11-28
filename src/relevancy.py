@@ -12,18 +12,23 @@ Four methods, one per answer to the research question, behind one flag:
 Releases are processed in date order. Only complaints dated strictly before a release can be
 outdated by it, and once a complaint is outdated it stays outdated (no later release reopens it).
 
-Two judge versions (llm and hybrid only), chosen with --judge:
-  v1  one yes/no answer per complaint: "does this release fully fix it?" (the 2026-11-20 runs)
-  v2  requirements checklist (default). The model lists what the customer needs (1 to 4 items,
-      the core need first) and checks each one against the release: met, partly, or not met,
-      quoting the release. Code, not the model, turns the checklist into a verdict:
-        every item met                      -> fixed    (complaint becomes outdated)
-        core need met or partly, not all    -> partial  (complaint stays open; a later release
-                                                         can still fix it fully)
-        core need not met                   -> not fixed
-      This targets the v1 mistakes on train: a release that covers a related but different case
-      (C115: autofill for text and select properties, the customer needs a person property), and
-      releases that only partly fix a complaint (C014, C061), which v1 could only call fixed.
+Judge versions (llm and hybrid only), chosen with --judge:
+  v1    one yes/no answer per complaint: "does this release fully fix it?" (run openai-v1)
+  v2    requirements checklist (run v2). The model lists what the customer needs (1 to 4 items,
+        the core need first) and checks each one against the release: met, partly, or not met,
+        quoting the release. Code, not the model, turns the checklist into a verdict:
+          every item met                      -> fixed    (complaint becomes outdated)
+          core need met or partly, not all    -> partial  (complaint stays open; a later release
+                                                           can still fix it fully)
+          core need not met                   -> not fixed
+        Built from the v1 mistakes on train: C115 (a related feature for a different property
+        type) and C014, C061 (partly fixed, which v1 could only call fixed).
+  v2.1  (default) v2 with two changes, both from the v2 mistakes on train:
+        - partial needs the core need fully met. The model marked a related feature for a
+          different case as "partly" (C115), which v2 turned into partial; in v2.1 a core need
+          that is only partly met means not fixed.
+        - no extra requirement that the default experience changes. It made v2 call a fully
+          fixed complaint partial (C077) and did not change C014 or C061.
 
 A judge call that still fails after retries does not stop the run: its candidates are logged as
 checks with stage "error" (treated as not fixed), the failure is listed in the run's meta, and a
@@ -52,7 +57,8 @@ Be strict:
 Quote the sentence from the release that supports a true answer. Use an empty string for evidence when the answer is false."""
 
 # OpenAI strict structured output needs an object at the top level, so the verdicts sit under "results".
-JUDGE_VERSIONS = ("v1", "v2")
+JUDGE_VERSIONS = ("v1", "v2", "v2.1")
+CHECKLIST_VERSIONS = ("v2", "v2.1")
 JUDGE_SCHEMA = {
     "type": "object",
     "properties": {
@@ -76,6 +82,7 @@ JUDGE_SCHEMA = {
 }
 
 
+# v2 prompt. v2.1 is built from it below by dropping the two default-experience instructions.
 JUDGE_V2_SYSTEM_PROMPT = """You check whether a product release fixes specific customer complaints for Tessera, an all-in-one workspace app.
 
 Work through each complaint in two steps.
@@ -95,7 +102,16 @@ Step 2. Check each requirement against the release text only.
 Be strict and literal. A release in the same product area that sounds related is not enough.
 Keep it short: each requirement under 15 words, each quote under 30 words, and the reason one sentence."""
 
-# v2: the model fills in the checklist; code derives the verdict (verdict_from_checklist).
+DEFAULT_RULES = (
+    "- If the complaint is about how the product behaves by default, include that the default experience changes.\n",
+    " An optional setting meets a request for an option, but only partly meets a requirement that the default experience changes.",
+)
+JUDGE_V21_SYSTEM_PROMPT = JUDGE_V2_SYSTEM_PROMPT
+for _rule in DEFAULT_RULES:
+    assert _rule in JUDGE_V21_SYSTEM_PROMPT  # fails loudly if the v2 prompt is edited out of sync
+    JUDGE_V21_SYSTEM_PROMPT = JUDGE_V21_SYSTEM_PROMPT.replace(_rule, "")
+
+# v2 and v2.1: the model fills in the checklist; code derives the verdict (verdict_from_checklist).
 JUDGE_V2_SCHEMA = {
     "type": "object",
     "properties": {
@@ -132,11 +148,13 @@ JUDGE_V2_SCHEMA = {
 FIXED, PARTIAL, NOT_FIXED = "fixed", "partial", "not fixed"
 
 
-def verdict_from_checklist(requirements: list[dict]) -> str:
-    """Deterministic rule: all met -> fixed; core need (first item) not met -> not fixed; else partial."""
+def verdict_from_checklist(requirements: list[dict], version: str = "v2.1") -> str:
+    """Deterministic rule. All met -> fixed. Core need (first item) not met -> not fixed
+    (v2.1: also when it is only partly met). Anything else -> partial."""
     if not requirements:
         return NOT_FIXED
-    if requirements[0]["met"] == "not met":
+    core = requirements[0]["met"]
+    if core == "not met" or (version == "v2.1" and core != "met"):
         return NOT_FIXED
     if all(r["met"] == "met" for r in requirements):
         return FIXED
@@ -187,13 +205,14 @@ def build_judge_prompt(release: dict, candidates: list[dict]) -> str:
     )
 
 
-def judge(cfg: Config, client, release: dict, candidates: list[dict], version: str = "v2") -> dict[str, dict]:
+def judge(cfg: Config, client, release: dict, candidates: list[dict], version: str = "v2.1") -> dict[str, dict]:
     """One LLM call per release. Returns {complaint_id: {verdict, evidence, reason, requirements?}}."""
     if not candidates:
         return {}
-    v2 = version == "v2"
+    v2 = version in CHECKLIST_VERSIONS
+    system = {"v1": JUDGE_SYSTEM_PROMPT, "v2": JUDGE_V2_SYSTEM_PROMPT, "v2.1": JUDGE_V21_SYSTEM_PROMPT}[version]
     text = generate(
-        client, cfg.relevancy_model, JUDGE_V2_SYSTEM_PROMPT if v2 else JUDGE_SYSTEM_PROMPT,
+        client, cfg.relevancy_model, system,
         build_judge_prompt(release, candidates), temperature=0.0,
         json_schema=JUDGE_V2_SCHEMA if v2 else JUDGE_SCHEMA,
         schema_name="judge_checklist" if v2 else "judge_verdicts",
@@ -207,7 +226,7 @@ def judge(cfg: Config, client, release: dict, candidates: list[dict], version: s
         if v2:
             reqs = r["requirements"]
             evidence = " | ".join(q["evidence"] for q in reqs if q["met"] != "not met" and q["evidence"])
-            verdicts[r["id"]] = {"verdict": verdict_from_checklist(reqs), "evidence": evidence,
+            verdicts[r["id"]] = {"verdict": verdict_from_checklist(reqs, version), "evidence": evidence,
                                  "reason": r.get("reason", ""), "requirements": reqs}
         else:
             verdicts[r["id"]] = {"verdict": FIXED if r["fixes"] else NOT_FIXED,
@@ -229,11 +248,11 @@ def log_failure(cfg: Config, entry: dict) -> None:
 
 
 def run_relevancy(cfg: Config, records: list[dict], method: str, client=None, tag: str | None = None,
-                  judge_version: str = "v2") -> StatusLog:
+                  judge_version: str = "v2.1") -> StatusLog:
     """Process every release in date order and append a tagged run to data/status/<method>.jsonl.
 
     `records` are store records (with vectors). `client` is only needed for llm and hybrid.
-    `judge_version` (v1 or v2) only matters for llm and hybrid.
+    `judge_version` (v1, v2, or v2.1) only matters for llm and hybrid.
     """
     if method not in METHODS:
         raise ValueError(f"method must be one of {METHODS}")
